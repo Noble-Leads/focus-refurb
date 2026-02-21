@@ -8,8 +8,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
-            <Link to="/" className="text-2xl font-heading font-extrabold text-section-dark-foreground tracking-tight">
-              FOCUS<span className="text-gold">.</span>
+            <Link to="/" className="flex items-center gap-3">
+              <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
+              <span className="text-2xl font-heading font-extrabold text-section-dark-foreground tracking-tight">
+                FOCUS<span className="text-gold">.</span>
+              </span>
             </Link>
             <p className="mt-4 text-hero-muted text-sm leading-relaxed">
               Transforming properties across London and the South East since 2000. Family-run, quality-driven, and built on trust.

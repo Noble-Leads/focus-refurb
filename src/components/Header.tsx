@@ -57,7 +57,8 @@ const Header = () => {
       {/* Main nav */}
       <div className="container flex items-center justify-between py-4">
         <Link to="/" className="flex items-center gap-3">
-          <span className="text-2xl font-heading font-extrabold text-hero-foreground tracking-tight">
+          <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
+          <span className="text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
             FOCUS<span className="text-gold">.</span>
           </span>
         </Link>
