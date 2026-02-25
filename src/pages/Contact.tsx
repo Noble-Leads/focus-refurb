@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const contactInfo = [
-{ icon: Phone, label: "Phone", values: ["020 8309 0437", "07778 737653"], links: ["tel:02083090437", "tel:07778737653"] },
+{ icon: Phone, label: "Phone", values: ["020 8309 0437", "07888 863670"], links: ["tel:02083090437", "tel:07888863670"] },
 { icon: Mail, label: "Email", values: ["office@focusrefurbishmentltd.com"], links: ["mailto:office@focusrefurbishmentltd.com"] },
 { icon: MapPin, label: "Service Areas", values: ["Central London, South London & the South East"], links: [] },
 { icon: Clock, label: "Working Hours", values: ["Mon–Sat: 7:00am – 6:00pm", "24/7 Emergency Maintenance"], links: [] }];

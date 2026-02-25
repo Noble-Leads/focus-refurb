@@ -44,8 +44,8 @@ const Header = () => {
               <Phone className="w-3.5 h-3.5" />
               020 8309 0437
             </a>
-            <a href="tel:07778737653" className="hover:text-gold transition-colors">
-              07778 737653
+            <a href="tel:07888863670" className="hover:text-gold transition-colors">
+              07888 863670
             </a>
             <a href="mailto:office@focusrefurbishmentltd.com" className="hover:text-gold transition-colors">
               office@focusrefurbishmentltd.com
