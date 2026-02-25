@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const contactInfo = [
-  { icon: Phone, label: "Phone", values: ["020 8309 0437", "07778 737653"], links: ["tel:02083090437", "tel:07778737653"] },
-  { icon: Mail, label: "Email", values: ["office@focusrefurbishmentltd.com"], links: ["mailto:office@focusrefurbishmentltd.com"] },
-  { icon: MapPin, label: "Service Areas", values: ["Central London, South London & the South East"], links: [] },
-  { icon: Clock, label: "Working Hours", values: ["Mon–Sat: 7:00am – 6:00pm", "24/7 Emergency Maintenance"], links: [] },
-];
+{ icon: Phone, label: "Phone", values: ["020 8309 0437", "07778 737653"], links: ["tel:02083090437", "tel:07778737653"] },
+{ icon: Mail, label: "Email", values: ["office@focusrefurbishmentltd.com"], links: ["mailto:office@focusrefurbishmentltd.com"] },
+{ icon: MapPin, label: "Service Areas", values: ["Central London, South London & the South East"], links: [] },
+{ icon: Clock, label: "Working Hours", values: ["Mon–Sat: 7:00am – 6:00pm", "24/7 Emergency Maintenance"], links: [] }];
+
 
 const ContactPage = () => {
   useEffect(() => {
@@ -16,7 +16,7 @@ const ContactPage = () => {
     script.src = "https://link.nobleleads.uk/js/form_embed.js";
     script.async = true;
     document.body.appendChild(script);
-    return () => { document.body.removeChild(script); };
+    return () => {document.body.removeChild(script);};
   }, []);
 
   return (
@@ -41,7 +41,7 @@ const ContactPage = () => {
             {/* Form */}
             <div className="lg:col-span-3">
               <ScrollReveal>
-                <div className="bg-card border border-border rounded-lg p-8 min-h-[600px]">
+                <div className="bg-card border border-border rounded-lg p-8 min-h-[600px] px-0 py-0">
                   <iframe
                     src="https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p"
                     style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px", minHeight: "500px" }}
@@ -57,8 +57,8 @@ const ContactPage = () => {
                     data-height="undefined"
                     data-layout-iframe-id="inline-MxMXNy7f1GiZCyhTuq2p"
                     data-form-id="MxMXNy7f1GiZCyhTuq2p"
-                    title="FR- Website Contact Us"
-                  />
+                    title="FR- Website Contact Us" />
+
                 </div>
               </ScrollReveal>
             </div>
@@ -67,23 +67,23 @@ const ContactPage = () => {
             <div className="lg:col-span-2">
               <ScrollReveal delay={150}>
                 <div className="space-y-8">
-                  {contactInfo.map((item) => (
-                    <div key={item.label} className="flex gap-4">
+                  {contactInfo.map((item) =>
+                  <div key={item.label} className="flex gap-4">
                       <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
                         <item.icon className="w-5 h-5 text-gold" />
                       </div>
                       <div>
                         <h3 className="font-heading font-bold text-foreground mb-1">{item.label}</h3>
-                        {item.values.map((val, i) => (
-                          <p key={val} className="text-muted-foreground text-sm">
-                            {item.links[i] ? (
-                              <a href={item.links[i]} className="hover:text-gold transition-colors">{val}</a>
-                            ) : val}
+                        {item.values.map((val, i) =>
+                      <p key={val} className="text-muted-foreground text-sm">
+                            {item.links[i] ?
+                        <a href={item.links[i]} className="hover:text-gold transition-colors">{val}</a> :
+                        val}
                           </p>
-                        ))}
+                      )}
                       </div>
                     </div>
-                  ))}
+                  )}
 
                   <div className="bg-section-dark rounded-lg p-8 mt-8">
                     <h3 className="font-heading font-bold text-section-dark-foreground mb-3">Prefer to Talk?</h3>
@@ -102,8 +102,8 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ContactPage;
