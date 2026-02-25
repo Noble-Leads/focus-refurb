@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", values: ["020 8309 0437", "07778 737653"], links: ["tel:02083090437", "tel:07778737653"] },
@@ -14,17 +11,13 @@ const contactInfo = [
 ];
 
 const ContactPage = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", service: "", message: "" });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Quote Request Sent",
-      description: "Thank you! We'll be in touch within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
-  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://link.nobleleads.uk/js/form_embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => { document.body.removeChild(script); };
+  }, []);
 
   return (
     <div>
@@ -48,62 +41,24 @@ const ContactPage = () => {
             {/* Form */}
             <div className="lg:col-span-3">
               <ScrollReveal>
-                <div className="bg-card border border-border rounded-lg p-8">
-                  <h2 className="text-2xl font-heading font-bold text-foreground mb-6">Request a Quote</h2>
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-1.5 block">Full Name *</label>
-                        <Input
-                          required
-                          placeholder="Your full name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-1.5 block">Email *</label>
-                        <Input
-                          required
-                          type="email"
-                          placeholder="your@email.com"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-1.5 block">Phone</label>
-                        <Input
-                          placeholder="Your phone number"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-1.5 block">Service Required</label>
-                        <Input
-                          placeholder="e.g. Loft Conversion"
-                          value={formData.service}
-                          onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-foreground mb-1.5 block">Project Details *</label>
-                      <Textarea
-                        required
-                        rows={5}
-                        placeholder="Tell us about your project — location, scope, timeline..."
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      />
-                    </div>
-                    <Button variant="gold" size="lg" type="submit" className="w-full sm:w-auto">
-                      Send Quote Request <Send className="w-4 h-4" />
-                    </Button>
-                  </form>
+                <div className="bg-card border border-border rounded-lg p-8 min-h-[600px]">
+                  <iframe
+                    src="https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p"
+                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px", minHeight: "500px" }}
+                    id="inline-MxMXNy7f1GiZCyhTuq2p"
+                    data-layout='{"id":"INLINE"}'
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="FR- Website Contact Us"
+                    data-height="undefined"
+                    data-layout-iframe-id="inline-MxMXNy7f1GiZCyhTuq2p"
+                    data-form-id="MxMXNy7f1GiZCyhTuq2p"
+                    title="FR- Website Contact Us"
+                  />
                 </div>
               </ScrollReveal>
             </div>
