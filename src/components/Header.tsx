@@ -38,14 +38,14 @@ const Header = () => {
       {/* Top bar */}
       <div className="hidden md:block border-b border-hero-foreground/10">
         <div className="container flex items-center justify-between py-2 text-sm text-hero-muted">
-          <span>London & South East's Trusted Refurbishment Specialists</span>
+          <span>London & South East's Trusted Commercial Contractors</span>
           <div className="flex items-center gap-6">
             <a href="tel:02083090437" className="flex items-center gap-1.5 hover:text-gold transition-colors">
               <Phone className="w-3.5 h-3.5" />
               020 8309 0437
             </a>
-            <a href="tel:07888863670" className="hover:text-gold transition-colors">
-              07888 863670
+            <a href="tel:07778737653" className="hover:text-gold transition-colors">
+              07778 737653
             </a>
             <a href="mailto:office@focusrefurbishmentltd.com" className="hover:text-gold transition-colors">
               office@focusrefurbishmentltd.com
@@ -59,7 +59,7 @@ const Header = () => {
         <Link to="/" className="flex items-center gap-3">
           <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
           <span className="text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
-            FOCUS<span className="text-gold">.</span>
+            Focus Group
           </span>
         </Link>
 

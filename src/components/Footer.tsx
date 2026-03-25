@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -11,11 +11,14 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-3">
               <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
               <span className="text-2xl font-heading font-extrabold text-section-dark-foreground tracking-tight">
-                FOCUS<span className="text-gold">.</span>
+                Focus Group
               </span>
             </Link>
             <p className="mt-4 text-hero-muted text-sm leading-relaxed">
-              Transforming properties across London and the South East since 2000. Family-run, quality-driven, and built on trust.
+              Focus Refurbishment Ltd · Company No. 04010469
+            </p>
+            <p className="mt-1 text-hero-muted text-sm leading-relaxed">
+              144 Hurst Road, Sidcup, Kent DA15 9AF
             </p>
           </div>
 
@@ -52,12 +55,9 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-bold text-section-dark-foreground mb-4">Contact Us</h4>
             <ul className="space-y-3 text-sm text-hero-muted">
-              <li className="flex items-start gap-2">
-                <Phone className="w-4 h-4 mt-0.5 text-gold shrink-0" />
-                <div>
-                  <a href="tel:02083090437" className="hover:text-gold transition-colors block">020 8309 0437</a>
-                  <a href="tel:07888863670" className="hover:text-gold transition-colors block">07888 863670</a>
-                </div>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-gold shrink-0" />
+                <a href="tel:02083090437" className="hover:text-gold transition-colors">020 8309 0437</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gold shrink-0" />
@@ -67,15 +67,19 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-gold shrink-0" />
-                <span>London & South East</span>
+                <span>144 Hurst Road, Sidcup, Kent DA15 9AF</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-gold shrink-0" />
+                <span>Mon–Sat 8am–5pm | 24hr emergency callouts</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-hero-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-hero-muted">
-          <p>&copy; {new Date().getFullYear()} Focus Refurbishment Ltd. All rights reserved.</p>
-          <p>Established 2000 · Family-Run Business</p>
+          <p>&copy; {new Date().getFullYear()} Focus Group (Focus Refurbishment Ltd). All rights reserved.</p>
+          <p>Company No. 04010469 · Established 2000</p>
         </div>
       </div>
     </footer>

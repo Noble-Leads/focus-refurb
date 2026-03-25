@@ -21,7 +21,7 @@ const AboutPage = () => {
               Building Trust Since 2000
             </h1>
             <p className="text-hero-muted text-lg max-w-2xl">
-              A family-run business delivering exceptional refurbishment and construction services across London and the South East for over 25 years.
+              A family-run business delivering exceptional refurbishment and construction services across London and the South East for over 20 years.
             </p>
           </ScrollReveal>
         </div>
@@ -103,7 +103,7 @@ const AboutPage = () => {
             <div className="text-center mb-14">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Our Leadership</p>
               <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground">
-                The People Behind Focus
+                The People Behind Focus Group
               </h2>
             </div>
           </ScrollReveal>

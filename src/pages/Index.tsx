@@ -1,22 +1,35 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight } from "lucide-react";
+import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2, Users, Briefcase, Home } from "lucide-react";
 
 const services = [
-  { title: "Full Refurbishment", desc: "Complete property transformations from top to bottom, delivering modern, functional spaces.", image: "/images/service-refurbishment.jpg", slug: "refurbishment" },
-  { title: "Extensions", desc: "Expertly designed and built extensions that seamlessly expand your living space.", image: "/images/service-extensions.jpg", slug: "extensions" },
-  { title: "Loft Conversions", desc: "Unlock hidden potential with stylish, functional loft conversions that add real value.", image: "/images/service-loft.jpg", slug: "loft-conversions" },
-  { title: "Kitchens & Bathrooms", desc: "Bespoke kitchen and bathroom installations designed for comfort, efficiency and style.", image: "/images/service-bathrooms.jpg", slug: "kitchens-bathrooms" },
-  { title: "Roofing & Brickwork", desc: "Expert roofing repairs and brickwork cleaning, repointing and restoration services.", image: "/images/service-roofing.jpg", slug: "roofing" },
-  { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations.", image: "/images/service-firedoors.jpg", slug: "fire-doors" },
+  { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations. Trusted by landlords, agents and facilities managers.", image: "/images/service-firedoors.jpg", featured: true },
+  { title: "Building Maintenance Contracts", desc: "Reliable 24/7 building maintenance to keep your properties safe, functional and well-presented.", image: "/images/service-maintenance.jpg" },
+  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment.jpg" },
+  { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes.", image: "/images/service-extensions.jpg" },
+  { title: "Loft Conversions", desc: "Transform unused roof space into stunning bedrooms, offices or living areas.", image: "/images/service-loft.jpg" },
+  { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions.", image: "/images/service-roofing.jpg" },
+  { title: "EWI & Render", desc: "Specialist External Wall Insulation with high-performance silicone render systems.", image: "/images/service-render.jpg" },
+  { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes with careful preparation and attention to detail.", image: "/images/service-painting.jpg" },
+  { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.jpg" },
+  { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.jpg" },
+  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-refurbishment.jpg" },
 ];
 
 const stats = [
-  { value: "25+", label: "Years Experience", icon: Clock },
-  { value: "500+", label: "Projects Completed", icon: Award },
-  { value: "100%", label: "Satisfaction Guarantee", icon: Shield },
-  { value: "24/7", label: "Maintenance Service", icon: Phone },
+  { value: "20+", label: "Years Trading", icon: Clock },
+  { value: "11", label: "Services", icon: Award },
+  { value: "20–30", label: "Jobs Per Month", icon: Shield },
+  { value: "24/7", label: "Emergency Response", icon: Phone },
+];
+
+const trustBar = [
+  "Est. 2000",
+  "Company No. 04010469",
+  "Approved Fire Door Installers",
+  "24hr Emergency Maintenance",
+  "Fully Insured",
 ];
 
 const projects = [
@@ -27,9 +40,16 @@ const projects = [
 ];
 
 const testimonials = [
-  { name: "Sarah M.", location: "Bromley", text: "Focus Refurbishment transformed our dated Victorian terrace into a modern family home. Craig and his team were professional, punctual and the quality of work was outstanding.", rating: 5 },
-  { name: "James T.", location: "Greenwich", text: "We had a loft conversion and rear extension done. The team managed the entire project brilliantly — on time and within budget. Highly recommend.", rating: 5 },
-  { name: "David & Lisa R.", location: "Lewisham", text: "From start to finish, the communication was excellent. Our full refurbishment exceeded expectations. You can tell they take real pride in their work.", rating: 5 },
+  { name: "Property Manager", location: "South London", text: "Focus Group have handled maintenance across several of our managed properties for the past two years. Reliable, professional, and always responsive.", rating: 5 },
+  { name: "Facilities Manager", location: "Central London", text: "The fire door installation was completed on time and fully compliant. No issues with the inspection whatsoever.", rating: 5 },
+  { name: "Landlord", location: "SE London", text: "From quote to completion, the whole process was smooth. Good communication throughout.", rating: 5 },
+];
+
+const clientTypes = [
+  { icon: Home, title: "Landlords" },
+  { icon: Users, title: "Estate Agents & Managing Agents" },
+  { icon: Briefcase, title: "Facilities Managers" },
+  { icon: Building2, title: "Commercial Property Owners" },
 ];
 
 const Index = () => {
@@ -40,7 +60,7 @@ const Index = () => {
         <div className="absolute inset-0">
           <img
             src="/images/hero-fleet.jpg"
-            alt="Focus Refurbishment fleet and team"
+            alt="Focus Group fleet and team"
             className="w-full h-full object-cover"
           />
           <div className="hero-overlay absolute inset-0" />
@@ -49,18 +69,18 @@ const Index = () => {
           <div className="max-w-2xl">
             <ScrollReveal>
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-4">
-                London's Trusted Builders Since 2000
+                Commercial Contractors — Trusted Since 2000
               </p>
             </ScrollReveal>
             <ScrollReveal delay={100}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground leading-tight mb-6">
-                Exceptional Builds.{" "}
-                <span className="text-gold-gradient">Lasting Quality.</span>
+                Reliable Contractors.{" "}
+                <span className="text-gold-gradient">Commercial Results.</span>
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={200}>
               <p className="text-lg text-hero-muted mb-8 max-w-lg leading-relaxed">
-                Full refurbishments, extensions, loft conversions and more — delivered by a family-run team with over 25 years of craftsmanship across London and the South East.
+                Fire door installation, building maintenance contracts, full refurbishments and more — delivered across London and the M25 by a multi-trade team with 20+ years of proven experience.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={300}>
@@ -82,20 +102,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* TRUST STATS */}
+      {/* TRUST BAR */}
       <section className="section-dark py-0">
         <div className="container">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-hero-foreground/10">
-            {stats.map((stat, i) => (
-              <ScrollReveal key={stat.label} delay={i * 100}>
-                <div className="py-10 px-6 text-center">
-                  <stat.icon className="w-6 h-6 text-gold mx-auto mb-3" />
-                  <div className="text-3xl md:text-4xl font-heading font-extrabold text-hero-foreground mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-hero-muted uppercase tracking-wider">{stat.label}</div>
-                </div>
-              </ScrollReveal>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-6 text-sm text-hero-muted">
+            {trustBar.map((item, i) => (
+              <span key={item} className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-gold" />
+                {item}
+              </span>
             ))}
           </div>
         </div>
@@ -117,8 +132,8 @@ const Index = () => {
           </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, i) => (
-              <ScrollReveal key={service.slug} delay={i * 80}>
+            {services.slice(0, 6).map((service, i) => (
+              <ScrollReveal key={service.title} delay={i * 80}>
                 <Link to="/services" className="group block relative rounded-lg overflow-hidden aspect-[4/5] cursor-pointer">
                   <img
                     src={service.image}
@@ -128,6 +143,11 @@ const Index = () => {
                   />
                   <div className="service-card-overlay absolute inset-0" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
+                    {service.featured && (
+                      <span className="inline-block bg-gold text-section-dark font-heading font-bold text-xs uppercase tracking-wider px-3 py-1 rounded mb-3">
+                        Featured
+                      </span>
+                    )}
                     <h3 className="text-xl font-heading font-bold text-section-dark-foreground mb-2">
                       {service.title}
                     </h3>
@@ -150,6 +170,55 @@ const Index = () => {
               </Link>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* WHO WE WORK WITH */}
+      <section className="section-dark py-20 md:py-28">
+        <div className="container">
+          <ScrollReveal>
+            <div className="text-center mb-14">
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Who We Work With</p>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground mb-4">
+                Built for Commercial Clients
+              </h2>
+              <p className="text-hero-muted text-lg max-w-2xl mx-auto">
+                We work primarily with commercial clients who need a contractor they can rely on — not just for one job, but long term.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {clientTypes.map((client, i) => (
+              <ScrollReveal key={client.title} delay={i * 100}>
+                <div className="bg-hero-foreground/5 border border-hero-foreground/10 rounded-lg p-8 text-center hover:border-gold/30 transition-colors">
+                  <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-4">
+                    <client.icon className="w-7 h-7 text-gold" />
+                  </div>
+                  <h3 className="text-lg font-heading font-bold text-section-dark-foreground">{client.title}</h3>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="bg-background py-0">
+        <div className="container">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
+            {stats.map((stat, i) => (
+              <ScrollReveal key={stat.label} delay={i * 100}>
+                <div className="py-10 px-6 text-center">
+                  <stat.icon className="w-6 h-6 text-gold mx-auto mb-3" />
+                  <div className="text-3xl md:text-4xl font-heading font-extrabold text-foreground mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -217,7 +286,7 @@ const Index = () => {
                   </div>
                   <p className="text-foreground leading-relaxed flex-1 mb-6">"{t.text}"</p>
                   <div>
-                    <p className="font-heading font-bold text-foreground">{t.name}</p>
+                    <p className="font-heading font-bold text-foreground">— {t.name}</p>
                     <p className="text-sm text-muted-foreground">{t.location}</p>
                   </div>
                 </div>
