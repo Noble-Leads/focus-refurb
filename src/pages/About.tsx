@@ -32,8 +32,10 @@ const AboutPage = () => {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
-              <div className="rounded-lg overflow-hidden">
-                <img src="/images/team-craig.jpg" alt="Focus Refurbishment team" className="w-full h-auto object-cover rounded-lg" />
+              <div className="flex justify-center">
+                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-gold/20 shadow-lg">
+                  <img src="/images/team-craig.jpg" alt="Focus Refurbishment team" className="w-full h-full object-cover" />
+                </div>
               </div>
             </ScrollReveal>
             <ScrollReveal delay={150}>
