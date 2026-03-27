@@ -118,7 +118,9 @@ const Index = () => {
       </section>
 
       {/* SERVICES */}
-      <section className="py-20 md:py-28 bg-background">
+      <section className="relative py-20 md:py-28 bg-background overflow-hidden">
+        <GeometricDecor variant="dots" className="top-10 right-10 text-gold" />
+        <GeometricDecor variant="lines" className="bottom-0 left-0 text-muted-foreground" />
         <div className="container">
           <ScrollReveal>
             <div className="text-center mb-14">
@@ -175,7 +177,9 @@ const Index = () => {
       </section>
 
       {/* WHO WE WORK WITH */}
-      <section className="section-dark py-20 md:py-28">
+      <section className="relative section-dark py-20 md:py-28 overflow-hidden">
+        <GeometricDecor variant="grid" className="top-10 left-10 text-hero-foreground" />
+        <GeometricDecor variant="corner" className="bottom-10 right-10 text-gold" />
         <div className="container">
           <ScrollReveal>
             <div className="text-center mb-14">
@@ -265,7 +269,9 @@ const Index = () => {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-20 md:py-28 bg-background">
+      <section className="relative py-20 md:py-28 bg-background overflow-hidden">
+        <GeometricDecor variant="dots" className="bottom-10 left-10 text-gold" />
+        <GeometricDecor variant="corner" className="top-10 right-10 text-muted-foreground rotate-180" />
         <div className="container">
           <ScrollReveal>
             <div className="text-center mb-14">
@@ -298,7 +304,9 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="section-dark py-20 md:py-28">
+      <section className="relative section-dark py-20 md:py-28 overflow-hidden">
+        <GeometricDecor variant="lines" className="top-0 right-0 text-hero-foreground rotate-90" />
+        <GeometricDecor variant="grid" className="bottom-0 left-0 text-gold" />
         <div className="container text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground mb-6">
