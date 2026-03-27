@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import GeometricDecor from "@/components/GeometricDecor";
 import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2, Users, Briefcase, Home } from "lucide-react";
 
 const services = [
