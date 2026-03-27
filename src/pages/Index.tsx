@@ -19,8 +19,8 @@ const services = [
 
 const stats = [
   { value: "20+", label: "Years Trading", icon: Clock },
-  { value: "11", label: "Services", icon: Award },
-  { value: "20–30", label: "Jobs Per Month", icon: Shield },
+  { value: "500+", label: "Projects Completed", icon: Award },
+  { value: "98%", label: "Client Retention", icon: Shield },
   { value: "24/7", label: "Emergency Response", icon: Phone },
 ];
 
