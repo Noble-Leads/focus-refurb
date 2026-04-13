@@ -9,6 +9,7 @@ import ServicesPage from "./pages/Services";
 import ProjectsPage from "./pages/Projects";
 import AboutPage from "./pages/About";
 import ContactPage from "./pages/Contact";
+import RubbishRemovalPage from "./pages/RubbishRemoval";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
