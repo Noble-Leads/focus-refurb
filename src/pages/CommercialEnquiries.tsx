@@ -45,7 +45,7 @@ const CommercialEnquiries = () => {
     <div className="overflow-hidden">
       {/* HERO */}
       <section className="relative bg-section-dark py-24 md:py-32">
-        <GeometricDecor variant="hero" />
+        <GeometricDecor variant="dots" />
         <div className="container relative z-10 text-center max-w-4xl mx-auto">
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground mb-6">
@@ -96,7 +96,7 @@ const CommercialEnquiries = () => {
 
       {/* SERVICES */}
       <section className="relative py-20 bg-background">
-        <GeometricDecor variant="about" />
+        <GeometricDecor variant="corner" />
         <div className="container relative z-10 max-w-4xl mx-auto">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground text-center mb-12">
@@ -189,7 +189,7 @@ const CommercialEnquiries = () => {
 
       {/* BOTTOM CTA */}
       <section className="relative py-20 bg-section-dark">
-        <GeometricDecor variant="cta" />
+        <GeometricDecor variant="lines" />
         <div className="container relative z-10 text-center max-w-3xl mx-auto">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-hero-foreground mb-4">
