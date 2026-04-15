@@ -1,4 +1,5 @@
 import { Shield, Clock, MapPin, Building2, Home, Landmark, HardHat, Briefcase, Store } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GeometricDecor from "@/components/GeometricDecor";
@@ -43,6 +44,11 @@ const trustSignals = [
 const CommercialEnquiries = () => {
   return (
     <div className="overflow-hidden">
+      <Helmet>
+        <title>Commercial Enquiries | Focus Refurbishment Ltd – London Contractors</title>
+        <meta name="description" content="Commercial building services for landlords, agents, councils and contractors. Refurbishment, fire doors, maintenance and more across London & South East. Enquire today." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/commercial-enquiries" />
+      </Helmet>
       {/* HERO */}
       <section className="relative bg-section-dark py-24 md:py-32">
         <GeometricDecor variant="dots" />

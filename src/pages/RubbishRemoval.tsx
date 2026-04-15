@@ -37,6 +37,11 @@ const WHATSAPP_URL = "https://wa.me/447407847399";
 const RubbishRemovalPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Rubbish Removal London | Fast & Affordable | Focus Refurbishment</title>
+        <meta name="description" content="Fast, affordable rubbish removal across London. General waste, builder's rubble, garden clearance, bulky items. Fully licensed. Call 07407 847399 for a free quote." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/rubbish-removal" />
+      </Helmet>
       {/* Hero */}
       <section className="section-dark pt-36 pb-20 relative overflow-hidden">
         <GeometricDecor variant="grid" className="top-20 right-0 text-gold opacity-40" />

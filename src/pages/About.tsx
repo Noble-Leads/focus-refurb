@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Users, Award, Clock, CheckCircle } from "lucide-react";
@@ -13,6 +14,11 @@ const values = [
 const AboutPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>About Us | Focus Refurbishment Ltd – Family-Run London Builders</title>
+        <meta name="description" content="Family-run building company established in 2000. Over 20 years delivering refurbishment, construction and maintenance services across London and the South East." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/about" />
+      </Helmet>
       <section className="section-dark pt-36 pb-20">
         <div className="container">
           <ScrollReveal>
