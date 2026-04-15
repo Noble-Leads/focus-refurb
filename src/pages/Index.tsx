@@ -17,6 +17,7 @@ const services = [
   { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.jpg" },
   { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.jpg" },
   { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-refurbishment.jpg" },
+  { title: "Summer Houses & Garden Rooms", desc: "Bespoke summer houses designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-extensions.jpg" },
 ];
 
 const stats = [
