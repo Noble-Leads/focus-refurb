@@ -1,4 +1,5 @@
 import { Phone, MessageCircle, Trash2, HardHat, TreePine, Axe, Sofa, Building2, ShieldCheck, CalendarCheck, Truck } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import GeometricDecor from "@/components/GeometricDecor";

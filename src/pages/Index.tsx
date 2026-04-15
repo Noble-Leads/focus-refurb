@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import GeometricDecor from "@/components/GeometricDecor";
@@ -56,6 +57,23 @@ const clientTypes = [
 const Index = () => {
   return (
     <div>
+      <Helmet>
+        <title>Focus Refurbishment Ltd | London Builders & Refurbishment Specialists</title>
+        <meta name="description" content="Premium refurbishment, extensions, loft conversions, fire door installation and building maintenance across London & South East. Family-run since 2000. Get a free quote today." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Focus Refurbishment Ltd",
+          "url": "https://focusrefurbishmentltd.com",
+          "telephone": "020 8309 0437",
+          "email": "office@focusrefurbishmentltd.com",
+          "address": { "@type": "PostalAddress", "streetAddress": "144 Hurst Road", "addressLocality": "Sidcup", "addressRegion": "Kent", "postalCode": "DA15 9AF", "addressCountry": "GB" },
+          "foundingDate": "2000",
+          "areaServed": "London and South East England",
+          "description": "Premium refurbishment, extensions, loft conversions, fire door installation and building maintenance across London & South East."
+        })}</script>
+      </Helmet>
       {/* HERO */}
       <section className="relative min-h-screen flex items-center">
         <div className="absolute inset-0">

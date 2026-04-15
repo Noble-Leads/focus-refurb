@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import { ArrowRight, Phone, ChevronRight } from "lucide-react";
@@ -15,11 +16,17 @@ const allServices = [
   { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations from layout and plumbing to fixtures and finishing. Designed for comfort, functionality and style.", image: "/images/service-bathrooms.jpg" },
   { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration. We remove dirt and stains, repair damage and apply durable finishes for a refreshed look.", image: "/images/service-brickwork.jpg" },
   { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal. We handle waste responsibly so your project stays clean and on schedule.", image: "/images/service-refurbishment.jpg" },
+  { title: "Summer Houses & Garden Rooms", desc: "Bespoke summer houses designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-extensions.jpg" },
 ];
 
 const ServicesPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Our Services | Focus Refurbishment Ltd – London Building & Refurbishment</title>
+        <meta name="description" content="Fire door installation, refurbishments, extensions, loft conversions, roofing, EWI render, summer houses and more. Comprehensive building services across London & the M25." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/services" />
+      </Helmet>
       {/* Hero */}
       <section className="section-dark pt-36 pb-20">
         <div className="container">
