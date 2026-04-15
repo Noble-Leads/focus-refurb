@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
@@ -21,6 +22,11 @@ const ContactPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Contact Us | Focus Refurbishment Ltd – Get a Free Quote</title>
+        <meta name="description" content="Contact Focus Refurbishment Ltd for a free, no-obligation quote. Call 020 8309 0437 or visit us at 144 Hurst Road, Sidcup, Kent. Mon–Sat 8am–5pm." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/contact" />
+      </Helmet>
       <section className="section-dark pt-36 pb-20">
         <div className="container">
           <ScrollReveal>

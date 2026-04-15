@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
@@ -21,6 +22,11 @@ const projects = [
 const ProjectsPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Our Projects | Focus Refurbishment Ltd – London Building Portfolio</title>
+        <meta name="description" content="View our portfolio of completed refurbishment, extension, roofing and restoration projects across London and the South East." />
+        <link rel="canonical" href="https://focusrefurbishmentltd.com/projects" />
+      </Helmet>
       <section className="section-dark pt-36 pb-20">
         <div className="container">
           <ScrollReveal>
