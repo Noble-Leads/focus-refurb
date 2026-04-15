@@ -165,18 +165,20 @@ const CommercialEnquiries = () => {
               Fill in the form below and we'll come back to you within 24 hours.
             </p>
 
-            <div className="bg-card rounded-xl border border-border p-8 md:p-12 min-h-[600px] flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto">
-                  <Briefcase className="w-8 h-8 text-accent" />
-                </div>
-                <p className="text-lg font-heading font-semibold text-foreground">
-                  [GHL FORM EMBED — INSERT IFRAME HERE]
-                </p>
-                <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  This placeholder will be replaced with the embedded enquiry form containing fields for contact details, service selection, project value, timeline, and more.
-                </p>
-              </div>
+            <div className="bg-card rounded-xl border border-border p-8 md:p-12 min-h-[600px]">
+              <iframe
+                src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
+                style={{ width: "100%", height: "800px", border: "none", borderRadius: "3px" }}
+                id="inline-e6NuUzUMAfN2MKNTqFnI"
+                data-layout='{"id":"INLINE"}'
+                data-trigger-type="alwaysShow"
+                data-activation-type="alwaysActivated"
+                data-deactivation-type="neverDeactivate"
+                data-form-name="FR Site- Commercial"
+                data-layout-iframe-id="inline-e6NuUzUMAfN2MKNTqFnI"
+                data-form-id="e6NuUzUMAfN2MKNTqFnI"
+                title="FR Site- Commercial"
+              />
             </div>
 
             <p className="text-center text-muted-foreground mt-8">
