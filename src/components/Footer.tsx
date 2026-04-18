@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -20,6 +20,26 @@ const Footer = () => {
             <p className="mt-1 text-hero-muted text-sm leading-relaxed">
               144 Hurst Road, Sidcup, Kent DA15 9AF
             </p>
+            <div className="mt-5 flex items-center gap-3">
+              <a
+                href="https://www.instagram.com/focus_refurbishment_ltd/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Focus Refurbishment on Instagram"
+                className="w-9 h-9 rounded-full border border-hero-foreground/20 flex items-center justify-center text-hero-muted hover:text-gold hover:border-gold transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href="https://www.facebook.com/p/Focus-Refurbishment-LTD-100063782545076/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Focus Refurbishment on Facebook"
+                className="w-9 h-9 rounded-full border border-hero-foreground/20 flex items-center justify-center text-hero-muted hover:text-gold hover:border-gold transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
           {/* Services */}
