@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import HomePage from "../site/pages/Index";
+---
+
+<Layout
+  title="Focus Refurbishment Ltd | Builders in London & Kent"
+  description="Premium refurbishment, extensions, loft conversions and building services across London & South East. Family-run since 2000. Get a free quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/"
+  includeLocalBusinessJsonLd={true}
+  ogTitle="Focus Refurbishment Ltd | Builders in London & Kent"
+  ogDescription="Premium refurbishment, extensions, loft conversions and building services across London & South East. Family-run since 2000. Get a free quote today."
+  twitterDescription="Premium refurbishment, extensions, loft conversions and building services across London & South East. Family-run since 2000."
+  ogUrl="https://focusrefurbishmentltd.com/"
+>
+  <PageShell client:load>
+    <HomePage />
+  </PageShell>
+</Layout>

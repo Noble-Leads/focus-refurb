@@ -1,39 +1,18 @@
-import { useEffect, useRef, useState, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
   className?: string;
+  /** Kept for API compatibility; entrance animation was removed so copy is never hidden before JS. */
   delay?: number;
 }
 
-const ScrollReveal = ({ children, className = "", delay = 0 }: ScrollRevealProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), delay);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [delay]);
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
+/**
+ * Wrapper for section blocks. Previously applied `opacity-0` until IntersectionObserver ran in
+ * `useEffect`, which made all copy invisible in static HTML and before hydration — empty site.
+ */
+const ScrollReveal = ({ children, className = "" }: ScrollRevealProps) => {
+  return <div className={className}>{children}</div>;
 };
 
 export default ScrollReveal;

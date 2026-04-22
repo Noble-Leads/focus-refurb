@@ -1,0 +1,157 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogUrl?: string;
+  ogImage?: string;
+  /** Defaults to ogDescription; homepage may use a shorter Twitter card blurb */
+  twitterDescription?: string;
+  robots?: string;
+  /** HomeAndConstructionBusiness JSON-LD on homepage only */
+  includeLocalBusinessJsonLd?: boolean;
+}
+
+const site = "https://focusrefurbishmentltd.com";
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogTitle = title,
+  ogDescription = description,
+  ogUrl = canonicalUrl,
+  ogImage = `${site}/images/og-image.jpg`,
+  twitterDescription,
+  robots,
+  includeLocalBusinessJsonLd = false,
+} = Astro.props;
+
+const twitterDesc = twitterDescription ?? ogDescription;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  name: "Focus Refurbishment Ltd",
+  alternateName: "Focus Group",
+  url: site,
+  logo: `${site}/images/logo.png`,
+  image: `${site}/images/og-image.jpg`,
+  description:
+    "Premium refurbishment, extensions, loft conversions, fire door installation, and building maintenance across London & South East. Family-run since 2000.",
+  telephone: "02083090437",
+  email: "office@focusrefurbishmentltd.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "144 Hurst Road",
+    addressLocality: "Sidcup",
+    addressRegion: "Kent",
+    postalCode: "DA15 9AF",
+    addressCountry: "GB",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 51.4279,
+    longitude: 0.105,
+  },
+  areaServed: ["South East London", "South West London", "Central London", "London", "Kent"],
+  foundingDate: "2000",
+  numberOfEmployees: { "@type": "QuantitativeValue", value: 22 },
+  sameAs: [
+    "https://www.instagram.com/focus_refurbishment_ltd/",
+    "https://www.facebook.com/p/Focus-Refurbishment-LTD-100063782545076/",
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "08:00",
+      closes: "17:00",
+    },
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Building & Refurbishment Services",
+    itemListElement: [
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fire Door Installation" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Property Refurbishment" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Loft Conversions" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "House Extensions" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Building Maintenance Contracts" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Rubbish Removal" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "EWI & Render" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Roofing" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Loft Conversions" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Painting & Decorating" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Custom Summer Houses" } },
+    ],
+  },
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta name="geo.region" content="GB-KEN" />
+    <meta name="geo.placename" content="Sidcup, London" />
+    <meta name="author" content="Focus Refurbishment Ltd" />
+
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Focus Refurbishment Ltd" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={twitterDesc} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta name="google-site-verification" content="U9LuqipEGS_gRz_Avcy6Vi_HFLGviDyWGv_OoQc9M8w" />
+
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5Y4789V5YK"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-5Y4789V5YK");
+    </script>
+
+    {
+      includeLocalBusinessJsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+  <body>
+    <slot />
+    <script
+      is:inline
+      src="https://beta.leadconnectorhq.com/loader.js"
+      data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js"
+      data-widget-id="699f1d835fe82b2a9d31b403"
+    ></script>
+    <script is:inline src="https://link.nobleleads.uk/js/form_embed.js"></script>
+  </body>
+</html>
