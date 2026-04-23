@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import NotFoundPage from "../site/pages/NotFoundPage";
+---
+
+<Layout
+  title="Page Not Found | Focus Refurbishment Ltd"
+  description="The page you requested could not be found."
+  canonicalUrl="https://focusrefurbishmentltd.com/404"
+  robots="noindex, nofollow"
+  ogTitle="Page Not Found | Focus Refurbishment Ltd"
+  ogDescription="The page you requested could not be found."
+  ogUrl="https://focusrefurbishmentltd.com/404"
+>
+  <PageShell client:load>
+    <NotFoundPage />
+  </PageShell>
+</Layout>

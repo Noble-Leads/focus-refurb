@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import AboutPage from "../site/pages/About";
+---
+
+<Layout
+  title="About Us | Focus Refurbishment Ltd"
+  description="Family-run building company established in 2000. Over 20 years delivering refurbishment, construction and maintenance services across London and the South East."
+  canonicalUrl="https://focusrefurbishmentltd.com/about"
+  ogTitle="About Us | Focus Refurbishment Ltd"
+  ogDescription="Family-run building company established in 2000. Over 20 years delivering refurbishment, construction and maintenance services across London and the South East."
+  ogUrl="https://focusrefurbishmentltd.com/about"
+>
+  <PageShell client:load>
+    <AboutPage />
+  </PageShell>
+</Layout>

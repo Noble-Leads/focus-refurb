@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import ProjectsPage from "../site/pages/Projects";
+---
+
+<Layout
+  title="Our Projects | Focus Refurbishment Ltd"
+  description="View our portfolio of completed refurbishment, extension, roofing and restoration projects across London and the South East."
+  canonicalUrl="https://focusrefurbishmentltd.com/projects"
+  ogTitle="Our Projects | Focus Refurbishment Ltd"
+  ogDescription="View our portfolio of completed refurbishment, extension, roofing and restoration projects across London and the South East."
+  ogUrl="https://focusrefurbishmentltd.com/projects"
+>
+  <PageShell client:load>
+    <ProjectsPage />
+  </PageShell>
+</Layout>

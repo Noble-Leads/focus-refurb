@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import ServicesPage from "../site/pages/Services";
+---
+
+<Layout
+  title="Our Services | Focus Refurbishment Ltd"
+  description="Fire doors, extensions, loft conversions, roofing, EWI render, kitchens, bathrooms and more — all in-house across London & the South East."
+  canonicalUrl="https://focusrefurbishmentltd.com/services"
+  ogTitle="Our Services | Focus Refurbishment Ltd"
+  ogDescription="Fire doors, extensions, loft conversions, roofing, EWI render, kitchens, bathrooms and more — all in-house across London & the South East."
+  ogUrl="https://focusrefurbishmentltd.com/services"
+>
+  <PageShell client:load>
+    <ServicesPage />
+  </PageShell>
+</Layout>

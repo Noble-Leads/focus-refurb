@@ -1,8 +1,9 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}"],
   prefix: "",
   theme: {
     container: {
@@ -14,8 +15,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
-        body: ['"DM Sans"', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', "sans-serif"],
+        body: ['"DM Sans"', "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -60,7 +61,7 @@ export default {
           DEFAULT: "hsl(var(--section-dark))",
           foreground: "hsl(var(--section-dark-foreground))",
         },
-        "hero": {
+        hero: {
           DEFAULT: "hsl(var(--hero-bg))",
           foreground: "hsl(var(--hero-foreground))",
           muted: "hsl(var(--hero-muted))",
@@ -112,5 +113,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
