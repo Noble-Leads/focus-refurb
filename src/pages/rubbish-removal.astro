@@ -2,15 +2,49 @@
 import Layout from "../layouts/Layout.astro";
 import PageShell from "../components/PageShell";
 import RubbishRemovalPage from "../site/pages/RubbishRemoval";
+
+const rubbishRemovalJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Rubbish Removal & Site Clearance London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "South West London", "Central London", "Kent"],
+    description:
+      "Fast, reliable rubbish removal, void property clearance and site clearance across London. Builders waste, garden waste, bulky items, and commercial site clearance. Fully licensed waste carrier.",
+    serviceType: "Rubbish Removal",
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "GBP",
+      lowPrice: "50",
+      highPrice: "325",
+      offerCount: "8",
+    },
+  },
+];
 ---
 
 <Layout
-  title="Rubbish Removal London | Focus Refurbishment Ltd"
+  title="Rubbish Removal & Site Clearance London | Focus Refurbishment Ltd"
   description="Fast, reliable rubbish removal and site clearance across London. Void property clearances, builders waste, and end-of-tenancy clearouts."
   canonicalUrl="https://focusrefurbishmentltd.com/rubbish-removal"
-  ogTitle="Rubbish Removal London | Focus Refurbishment Ltd"
+  ogTitle="Rubbish Removal & Site Clearance London | Focus Refurbishment Ltd"
   ogDescription="Fast, reliable rubbish removal and site clearance across London. Void property clearances, builders waste, and end-of-tenancy clearouts."
   ogUrl="https://focusrefurbishmentltd.com/rubbish-removal"
+  extraJsonLd={rubbishRemovalJsonLd}
 >
   <PageShell client:load>
     <RubbishRemovalPage />

@@ -58,8 +58,20 @@ const ServicesPage = () => {
                   <div className="p-6 flex flex-col justify-center">
                     <h3 className="text-xl font-heading font-bold text-foreground mb-2">{service.title}</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.desc}</p>
-                    <a href={service.title === "Fire Door Installation" ? "/fire-door-installation-london" : "/contact"} className="inline-flex items-center text-gold text-sm font-semibold uppercase tracking-wider hover:gap-2 transition-all">
-                      Get a Quote <ChevronRight className="w-4 h-4" />
+                    <a
+                      href={
+                        service.title === "Fire Door Installation"
+                          ? "/fire-door-installation-london"
+                          : service.title === "Rubbish Removal"
+                          ? "/rubbish-removal"
+                          : "/contact"
+                      }
+                      className="inline-flex items-center text-gold text-sm font-semibold uppercase tracking-wider hover:gap-2 transition-all"
+                    >
+                      {service.title === "Fire Door Installation" || service.title === "Rubbish Removal"
+                        ? "Learn More"
+                        : "Get a Quote"}{" "}
+                      <ChevronRight className="w-4 h-4" />
                     </a>
                   </div>
                 </div>

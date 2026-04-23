@@ -14,6 +14,8 @@ export interface Props {
   robots?: string;
   /** HomeAndConstructionBusiness JSON-LD on homepage only */
   includeLocalBusinessJsonLd?: boolean;
+  /** Additional JSON-LD objects to render in <head> — e.g. FAQPage, Service */
+  extraJsonLd?: object[];
 }
 
 const site = "https://focusrefurbishmentltd.com";
@@ -28,6 +30,7 @@ const {
   twitterDescription,
   robots,
   includeLocalBusinessJsonLd = false,
+  extraJsonLd,
 } = Astro.props;
 
 const twitterDesc = twitterDescription ?? ogDescription;
@@ -142,6 +145,11 @@ const jsonLd = {
       includeLocalBusinessJsonLd && (
         <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
       )
+    }
+    {
+      extraJsonLd && extraJsonLd.map((blob, i) => (
+        <script type="application/ld+json" set:html={JSON.stringify(blob)} />
+      ))
     }
   </head>
   <body>

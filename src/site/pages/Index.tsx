@@ -75,7 +75,7 @@ const Index = () => {
             </ScrollReveal>
             <ScrollReveal delay={100}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground leading-tight mb-6">
-                Reliable Contractors.{" "}
+                London's Reliable Contractors.{" "}
                 <span className="text-gold-gradient">Commercial Results.</span>
               </h1>
             </ScrollReveal>
