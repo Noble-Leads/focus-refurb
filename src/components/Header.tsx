@@ -56,7 +56,15 @@ const Header = () => {
 
       <div className="container flex items-center justify-between py-4">
         <a href="/" className="flex items-center gap-2 sm:gap-3">
-          <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
+          <img
+            src="/images/logo.png"
+            alt="Focus Refurbishment"
+            width={150}
+            height={150}
+            loading="eager"
+            decoding="async"
+            className="h-10 w-auto"
+          />
           <span className="hidden sm:inline text-xl font-heading font-extrabold text-hero-foreground tracking-tight">Focus Group</span>
         </a>
 

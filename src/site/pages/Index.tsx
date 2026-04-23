@@ -62,6 +62,11 @@ const Index = () => {
           <img
             src="/images/hero-fleet.jpg"
             alt="Focus Group fleet and team"
+            width={1024}
+            height={768}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover"
           />
           <div className="hero-overlay absolute inset-0" />

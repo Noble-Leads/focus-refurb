@@ -123,8 +123,14 @@ const jsonLd = {
     <meta name="twitter:description" content={twitterDesc} />
     <meta name="twitter:image" content={ogImage} />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -154,12 +160,30 @@ const jsonLd = {
   </head>
   <body>
     <slot />
-    <script
-      is:inline
-      src="https://beta.leadconnectorhq.com/loader.js"
-      data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js"
-      data-widget-id="699f1d835fe82b2a9d31b403"
-    ></script>
-    <script is:inline src="https://link.nobleleads.uk/js/form_embed.js"></script>
+    <script is:inline>
+      const loadThirdPartyScript = (src, attrs = {}) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.defer = true;
+        Object.entries(attrs).forEach(([key, value]) => {
+          script.setAttribute(key, String(value));
+        });
+        document.body.appendChild(script);
+      };
+
+      const bootThirdPartyScripts = () => {
+        loadThirdPartyScript("https://beta.leadconnectorhq.com/loader.js", {
+          "data-resources-url": "https://beta.leadconnectorhq.com/chat-widget/loader.js",
+          "data-widget-id": "699f1d835fe82b2a9d31b403",
+        });
+        loadThirdPartyScript("https://link.nobleleads.uk/js/form_embed.js");
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(bootThirdPartyScripts, { timeout: 3000 });
+      } else {
+        window.addEventListener("load", () => setTimeout(bootThirdPartyScripts, 500), { once: true });
+      }
+    </script>
   </body>
 </html>

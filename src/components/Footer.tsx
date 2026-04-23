@@ -7,7 +7,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <a href="/" className="flex items-center gap-3">
-              <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
+              <img
+                src="/images/logo.png"
+                alt="Focus Refurbishment"
+                width={150}
+                height={150}
+                loading="lazy"
+                decoding="async"
+                className="h-10 w-auto"
+              />
               <span className="text-2xl font-heading font-extrabold text-section-dark-foreground tracking-tight">
                 Focus Group
               </span>
