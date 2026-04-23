@@ -12,7 +12,7 @@ const projects = [
   { image: "/images/project-7.jpg", title: "Modern Kitchen Fit-Out", location: "Penge", category: "Kitchens" },
   { image: "/images/service-brickwork.jpg", title: "Brickwork Restoration", location: "Beckenham", category: "Brickwork" },
   { image: "/images/service-roofing.jpg", title: "Full Roof Replacement", location: "Sidcup", category: "Roofing" },
-  { image: "/images/service-render.jpg", title: "EWI Render System", location: "Eltham", category: "Render" },
+  { image: "/images/service-render-new.png", title: "EWI Render System", location: "Eltham", category: "Render" },
   { image: "/images/service-painting.jpg", title: "Interior Decoration", location: "Catford", category: "Decorating" },
   { image: "/images/service-firedoors.jpg", title: "Fire Door Installation", location: "Woolwich", category: "Fire Doors" },
 ];

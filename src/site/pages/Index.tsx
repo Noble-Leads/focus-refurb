@@ -10,12 +10,12 @@ const services = [
   { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes.", image: "/images/service-extensions.jpg" },
   { title: "Loft Conversions", desc: "Transform unused roof space into stunning bedrooms, offices or living areas.", image: "/images/service-loft-new.png" },
   { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions.", image: "/images/service-roofing.jpg" },
-  { title: "EWI & Render", desc: "Specialist External Wall Insulation with high-performance silicone render systems.", image: "/images/service-render.jpg" },
+  { title: "EWI & Render", desc: "Specialist External Wall Insulation with high-performance silicone render systems.", image: "/images/service-render-new.png" },
   { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes with careful preparation and attention to detail.", image: "/images/service-painting.jpg" },
   { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.jpg" },
   { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.jpg" },
-  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-refurbishment.jpg" },
-  { title: "Summer Houses & Garden Rooms", desc: "Bespoke summer houses designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-extensions.jpg" },
+  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-rubbish-removal-new.png" },
+  { title: "Summer Houses/Annexes", desc: "Bespoke summer houses/annexes designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-summer-house-new.png" },
 ];
 
 const stats = [
@@ -151,7 +151,7 @@ const Index = () => {
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     {service.featured && (
                       <span className="inline-block bg-gold text-section-dark font-heading font-bold text-xs uppercase tracking-wider px-3 py-1 rounded mb-3">
-                        Featured
+                        Specialist
                       </span>
                     )}
                     <h3 className="text-xl font-heading font-bold text-section-dark-foreground mb-2">
