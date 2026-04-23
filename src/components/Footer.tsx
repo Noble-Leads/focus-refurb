@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 
 const Footer = () => {
@@ -6,20 +5,15 @@ const Footer = () => {
     <footer className="section-dark">
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand */}
           <div>
-            <Link to="/" className="flex items-center gap-3">
+            <a href="/" className="flex items-center gap-3">
               <img src="/images/logo.png" alt="Focus Refurbishment" className="h-10 w-auto" />
               <span className="text-2xl font-heading font-extrabold text-section-dark-foreground tracking-tight">
                 Focus Group
               </span>
-            </Link>
-            <p className="mt-4 text-hero-muted text-sm leading-relaxed">
-              Focus Refurbishment Ltd · Company No. 04010469
-            </p>
-            <p className="mt-1 text-hero-muted text-sm leading-relaxed">
-              144 Hurst Road, Sidcup, Kent DA15 9AF
-            </p>
+            </a>
+            <p className="mt-4 text-hero-muted text-sm leading-relaxed">Focus Refurbishment Ltd · Company No. 04010469</p>
+            <p className="mt-1 text-hero-muted text-sm leading-relaxed">144 Hurst Road, Sidcup, Kent DA15 9AF</p>
             <div className="mt-5 flex items-center gap-3">
               <a
                 href="https://www.instagram.com/focus_refurbishment_ltd/"
@@ -42,19 +36,19 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Services */}
           <div>
             <h4 className="font-heading font-bold text-section-dark-foreground mb-4">Our Services</h4>
             <ul className="space-y-2.5 text-sm text-hero-muted">
               {["Full Refurbishment", "Extensions", "Loft Conversions", "Kitchens & Bathrooms", "Roofing & Brickwork", "Fire Door Installation"].map((s) => (
                 <li key={s}>
-                  <Link to="/services" className="hover:text-gold transition-colors">{s}</Link>
+                  <a href="/services" className="hover:text-gold transition-colors">
+                    {s}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="font-heading font-bold text-section-dark-foreground mb-4">Quick Links</h4>
             <ul className="space-y-2.5 text-sm text-hero-muted">
@@ -65,19 +59,22 @@ const Footer = () => {
                 { label: "Contact Us", path: "/contact" },
               ].map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="hover:text-gold transition-colors">{link.label}</Link>
+                  <a href={link.path} className="hover:text-gold transition-colors">
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4 className="font-heading font-bold text-section-dark-foreground mb-4">Contact Us</h4>
             <ul className="space-y-3 text-sm text-hero-muted">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gold shrink-0" />
-                <a href="tel:02083090437" className="hover:text-gold transition-colors">020 8309 0437</a>
+                <a href="tel:02046340020" className="hover:text-gold transition-colors">
+                  020 4634 0020
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gold shrink-0" />

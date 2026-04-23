@@ -2,37 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://focusrefurbishmentltd.com/</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <lastmod>2026-04-20</lastmod>
   </url>
   <url>
     <loc>https://focusrefurbishmentltd.com/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <lastmod>2026-04-20</lastmod>
+  </url>
+  <url>
+    <loc>https://focusrefurbishmentltd.com/projects</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-04-20</lastmod>
+  </url>
+  <url>
+    <loc>https://focusrefurbishmentltd.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-04-20</lastmod>
+  </url>
+  <url>
+    <loc>https://focusrefurbishmentltd.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-04-20</lastmod>
   </url>
   <url>
     <loc>https://focusrefurbishmentltd.com/rubbish-removal</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+    <lastmod>2026-04-20</lastmod>
   </url>
   <url>
     <loc>https://focusrefurbishmentltd.com/commercial-enquiries</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <lastmod>2026-04-20</lastmod>
   </url>
   <url>
-    <loc>https://focusrefurbishmentltd.com/projects</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://focusrefurbishmentltd.com/about</loc>
+    <loc>https://focusrefurbishmentltd.com/fire-door-installation-london</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://focusrefurbishmentltd.com/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
+    <lastmod>2026-04-20</lastmod>
   </url>
 </urlset>

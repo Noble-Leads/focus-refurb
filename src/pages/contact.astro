@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import ContactPage from "../site/pages/Contact";
+---
+
+<Layout
+  title="Contact Us | Focus Refurbishment Ltd"
+  description="Get in touch with Focus Refurbishment Ltd for a free quote. Call 020 4634 0020 or email us — covering London and the South East."
+  canonicalUrl="https://focusrefurbishmentltd.com/contact"
+  ogTitle="Contact Us | Focus Refurbishment Ltd"
+  ogDescription="Get in touch with Focus Refurbishment Ltd for a free quote. Call 020 4634 0020 or email us — covering London and the South East."
+  ogUrl="https://focusrefurbishmentltd.com/contact"
+>
+  <PageShell client:load>
+    <ContactPage />
+  </PageShell>
+</Layout>
