@@ -1,6 +1,6 @@
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle2 } from "lucide-react";
 
 const contactInfo = [
 { icon: Phone, label: "Phone", values: ["020 4634 0020"], links: ["tel:02046340020"] },
@@ -32,6 +32,23 @@ const ContactPage = () => {
             {/* Form */}
             <div className="lg:col-span-3">
               <ScrollReveal>
+                <div className="mb-6 rounded-lg border border-border bg-card p-5">
+                  <h2 className="text-base font-heading font-bold text-foreground mb-3">What happens next?</h2>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                      <span>We'll review your enquiry within 2 hours</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                      <span>You'll get a no-obligation quote - no pushy sales calls</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                      <span>If it's urgent, call us directly: 020 4634 0020</span>
+                    </li>
+                  </ul>
+                </div>
                 <div className="bg-card border border-border rounded-lg p-8 min-h-[600px] px-0 py-0">
                   <iframe
                     src="https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p"
@@ -50,6 +67,14 @@ const ContactPage = () => {
                     data-form-id="MxMXNy7f1GiZCyhTuq2p"
                     title="FR- Website Contact Us" />
 
+                </div>
+                <div className="mt-6 rounded-lg border border-amber-300 bg-amber-100/60 p-5">
+                  <p className="text-amber-900 font-medium">
+                    Need an emergency callout? We operate 24/7. Call{" "}
+                    <a href="tel:07888863670" className="underline font-semibold">
+                      07888 863670
+                    </a>
+                  </p>
                 </div>
               </ScrollReveal>
             </div>

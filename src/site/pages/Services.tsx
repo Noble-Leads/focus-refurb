@@ -5,7 +5,7 @@ import { ArrowRight, Phone, ChevronRight } from "lucide-react";
 const allServices = [
   { title: "Fire Door Installation", desc: "As approved fire door installers, we supply and fit fully compliant fire doors meeting current safety regulations, ensuring maximum protection and peace of mind.", image: "/images/service-firedoors.jpg", featured: true },
   { title: "Building Maintenance Contracts", desc: "Reliable 24/7 building maintenance to keep your property safe, functional and well-presented. We handle repairs, inspections and preventative upkeep.", image: "/images/service-maintenance.jpg" },
-  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations from planning through to flawless completion. We handle every aspect — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment.jpg" },
+  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations from planning through to flawless completion. We handle every aspect — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment-new.jpg" },
   { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes. Expert craftsmanship and meticulous attention to detail.", image: "/images/service-extensions.jpg" },
   { title: "Loft Conversions", desc: "Transform unused roof space into a stunning bedroom, office or living area. We handle planning, structural engineering, building regs and the complete build.", image: "/images/service-loft-new.png" },
   { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions built to protect your property for years to come.", image: "/images/service-roofing.jpg" },
@@ -64,13 +64,11 @@ const ServicesPage = () => {
                           ? "/fire-door-installation-london"
                           : service.title === "Rubbish Removal"
                           ? "/rubbish-removal"
-                          : "/contact"
+                          : `/contact?subject=${encodeURIComponent(`Enquiry: ${service.title}`)}`
                       }
                       className="inline-flex items-center text-gold text-sm font-semibold uppercase tracking-wider hover:gap-2 transition-all"
                     >
-                      {service.title === "Fire Door Installation" || service.title === "Rubbish Removal"
-                        ? "Learn More"
-                        : "Get a Quote"}{" "}
+                      Learn More{" "}
                       <ChevronRight className="w-4 h-4" />
                     </a>
                   </div>
@@ -86,21 +84,19 @@ const ServicesPage = () => {
         <div className="container text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground mb-6">
-              Need a Bespoke Solution?
+              Not sure which service you need?
             </h2>
-            <p className="text-hero-muted text-lg mb-8 max-w-xl mx-auto">
-              Every project is unique. Contact us to discuss your specific requirements and get a tailored quote.
+            <p className="text-hero-muted text-lg mb-8 max-w-2xl mx-auto">
+              Give us a call and we'll point you in the right direction - no hard sell.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="/contact">
-                <Button variant="hero" size="xl">
-                  Get a Free Quote <ArrowRight className="w-5 h-5" />
-                </Button>
-              </a>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <a href="tel:02046340020">
                 <Button variant="hero-outline" size="xl">
-                  <Phone className="w-5 h-5" /> Call Us
+                  <Phone className="w-5 h-5" /> Call 020 4634 0020
                 </Button>
+              </a>
+              <a href="/contact" className="inline-flex items-center text-gold font-semibold hover:underline">
+                Or send us a message <ArrowRight className="w-4 h-4 ml-1" />
               </a>
             </div>
           </ScrollReveal>

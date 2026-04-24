@@ -1,12 +1,25 @@
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Users, Award, Clock, CheckCircle } from "lucide-react";
+import { ArrowRight, Shield, Users, Award, Clock, CheckCircle, Star } from "lucide-react";
 
 const values = [
   { icon: Shield, title: "Quality Guaranteed", desc: "Every project backed by our craftsmanship guarantee and professional certifications." },
   { icon: Users, title: "Family-Run", desc: "A close-knit, dedicated team that treats every project as if it were our own home." },
   { icon: Award, title: "Fully Qualified", desc: "Skilled tradespeople with qualifications in carpentry, fire doors, gas and electrics." },
   { icon: Clock, title: "On Time, On Budget", desc: "Clear communication, honest pricing and reliable project timelines you can count on." },
+];
+
+const testimonials = [
+  {
+    text: "Focus Group have handled maintenance across several of our managed properties. Reliable, professional, and always responsive.",
+    name: "Daniel Whitmore",
+    role: "Property Manager",
+  },
+  {
+    text: "The fire door installation was completed on time and fully compliant. The paperwork was ready same day.",
+    name: "Anita Patel",
+    role: "Facilities Manager",
+  },
 ];
 
 const AboutPage = () => {
@@ -130,6 +143,37 @@ const AboutPage = () => {
                 </div>
               </div>
             </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background">
+        <div className="container">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Testimonials</p>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground">
+                What Our Clients Say
+              </h2>
+            </div>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, i) => (
+              <ScrollReveal key={testimonial.name} delay={i * 100}>
+                <div className="bg-card border border-border rounded-lg p-8 h-full flex flex-col">
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <Star key={idx} className="w-5 h-5 fill-gold text-gold" />
+                    ))}
+                  </div>
+                  <p className="text-foreground leading-relaxed flex-1 mb-6">"{testimonial.text}"</p>
+                  <div>
+                    <p className="font-heading font-bold text-foreground">— {testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>

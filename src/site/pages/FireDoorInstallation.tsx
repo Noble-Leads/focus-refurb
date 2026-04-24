@@ -51,24 +51,24 @@ const processSteps = [
 
 const faqs = [
   {
-    q: "How quickly can you survey?",
-    a: "In most cases we can get to you within the week. If you have an inspection coming up, tell us when you enquire and we'll prioritise.",
+    q: "How quickly can you carry out a survey?",
+    a: "We aim to carry out surveys within the week of your enquiry.",
   },
   {
-    q: "What's in the compliance documentation?",
-    a: "A full certification pack: installer certificate, product specs, door schedule and photographic evidence of each installation.",
+    q: "What documentation do I receive after installation?",
+    a: "You receive full compliance documentation including installer certificates and product data sheets.",
   },
   {
-    q: "Do you work on HMOs and blocks of flats?",
-    a: "Yes — we regularly handle HMOs, blocks of flats and commercial buildings, multiple doors in one visit with a single compliance pack.",
+    q: "Do you work on HMOs and multi-property portfolios?",
+    a: "Yes — we regularly work with landlords and estate agents managing multiple HMOs and can schedule across multiple properties efficiently.",
   },
   {
     q: "What areas do you cover?",
-    a: "South East, South West and Central London within the M25. Call 020 4634 0020 to confirm your postcode.",
+    a: "We cover London and the South East, including all areas within the M25.",
   },
   {
-    q: "What's the minimum job size?",
-    a: "Single door replacements up to full multi-property programmes. Minimum project value £300.",
+    q: "Is there a minimum job size?",
+    a: "Our minimum call-out is £300.",
   },
 ];
 
@@ -385,6 +385,13 @@ const FireDoorInstallationPage = () => {
       <section className="bg-gold/15 py-4 border-t border-gold/30">
         <div className="container text-center text-foreground font-heading font-semibold tracking-wide">
           Approved fire door installer - London & M25 - Free quotes - Compliance certification included
+        </div>
+      </section>
+      <section className="bg-background py-8">
+        <div className="container text-center">
+          <a href="/commercial-enquiries" className="text-gold font-semibold hover:underline">
+            Managing multiple properties? See our commercial enquiries page →
+          </a>
         </div>
       </section>
     </div>

@@ -6,7 +6,7 @@ import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2,
 const services = [
   { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations. Trusted by landlords, agents and facilities managers.", image: "/images/service-firedoors.jpg", featured: true },
   { title: "Building Maintenance Contracts", desc: "Reliable 24/7 building maintenance to keep your properties safe, functional and well-presented.", image: "/images/service-maintenance.jpg" },
-  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment.jpg" },
+  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment-new.jpg" },
   { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes.", image: "/images/service-extensions.jpg" },
   { title: "Loft Conversions", desc: "Transform unused roof space into stunning bedrooms, offices or living areas.", image: "/images/service-loft-new.png" },
   { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions.", image: "/images/service-roofing.jpg" },
@@ -36,14 +36,15 @@ const trustBar = [
 const projects = [
   { image: "/images/project-1.jpg", title: "Victorian Restoration", location: "South London" },
   { image: "/images/project-3.jpg", title: "Rear Extension", location: "Bromley" },
-  { image: "/images/project-5.jpg", title: "Loft Conversion", location: "Greenwich" },
-  { image: "/images/project-6.jpg", title: "Bathroom Refit", location: "Lewisham" },
+  { image: "/images/project-loft-conversion.jpg", title: "Loft Conversion", location: "Greenwich" },
+  { image: "/images/project-bathroom-refit.jpg", title: "Bathroom Refit", location: "Lewisham" },
 ];
 
 const testimonials = [
   { name: "Daniel Whitmore", location: "Property Manager, South London", text: "Focus Group have handled maintenance across several of our managed properties for the past two years. Reliable, professional, and always responsive.", rating: 5 },
   { name: "Anita Patel", location: "Facilities Manager, Central London", text: "The fire door installation was completed on time and fully compliant. No issues with the inspection whatsoever.", rating: 5 },
   { name: "James Walker", location: "Landlord, SE London", text: "From quote to completion, the whole process was smooth. Good communication throughout.", rating: 5 },
+  { name: "Bianca", location: "Local Guide · London", text: "Excellent work, fast and efficient, really helpful and polite guys with a can-do attitude. They helped me out in a pinch. I recommend!", rating: 5, source: "google" },
 ];
 
 const clientTypes = [
@@ -80,8 +81,7 @@ const Index = () => {
             </ScrollReveal>
             <ScrollReveal delay={100}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground leading-tight mb-6">
-                London's Reliable Contractors.{" "}
-                <span className="text-gold-gradient">Commercial Results.</span>
+                London's Trusted Commercial Contractors
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={200}>
@@ -91,17 +91,31 @@ const Index = () => {
             </ScrollReveal>
             <ScrollReveal delay={300}>
               <div className="flex flex-wrap gap-4">
-                <a href="/contact">
-                  <Button variant="hero" size="xl">
-                    Get a Free Quote
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </a>
+                <div>
+                  <a href="/contact">
+                    <Button variant="hero" size="xl">
+                      Get a Free Quote
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </a>
+                  <p className="mt-2 text-sm text-hero-muted">
+                    We typically respond within 2 hours - Mon-Sat, 8am-5pm
+                  </p>
+                </div>
                 <a href="/projects">
                   <Button variant="hero-outline" size="xl">
                     View Our Work
                   </Button>
                 </a>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={350}>
+              <div className="mt-5 w-full max-w-xl rounded-md bg-hero-foreground/10 border border-hero-foreground/20 px-4 py-2 text-xs text-hero-muted">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                  <span>⭐ 5.0 Google Rating</span>
+                  <span>🏆 500+ Projects Completed</span>
+                  <span>✅ Approved Fire Door Installers</span>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -290,14 +304,27 @@ const Index = () => {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {testimonials.map((t, i) => (
               <ScrollReveal key={t.name} delay={i * 100}>
                 <div className="bg-card border border-border rounded-lg p-8 h-full flex flex-col">
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} className="w-5 h-5 fill-gold text-gold" />
-                    ))}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex gap-1">
+                      {Array.from({ length: t.rating }).map((_, j) => (
+                        <Star key={j} className="w-5 h-5 fill-gold text-gold" />
+                      ))}
+                    </div>
+                    {t.source === "google" && (
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground border border-border rounded-full px-2 py-0.5">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Google review
+                      </span>
+                    )}
                   </div>
                   <p className="text-foreground leading-relaxed flex-1 mb-6">"{t.text}"</p>
                   <div>

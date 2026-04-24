@@ -1,20 +1,20 @@
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const projects = [
-  { image: "/images/project-1.jpg", title: "Full Property Restoration", location: "South London", category: "Restoration" },
-  { image: "/images/service-refurbishment.jpg", title: "Complete Home Refurbishment", location: "Bromley", category: "Refurbishment" },
-  { image: "/images/project-3.jpg", title: "Rear Extension Build", location: "Lewisham", category: "Extension" },
-  { image: "/images/project-4.jpg", title: "Maintenance & Repairs", location: "Greenwich", category: "Maintenance" },
-  { image: "/images/project-5.jpg", title: "Loft Conversion", location: "Croydon", category: "Loft Conversion" },
-  { image: "/images/project-6.jpg", title: "Luxury Bathroom Installation", location: "Dulwich", category: "Bathrooms" },
-  { image: "/images/project-7.jpg", title: "Modern Kitchen Fit-Out", location: "Penge", category: "Kitchens" },
-  { image: "/images/service-brickwork.jpg", title: "Brickwork Restoration", location: "Beckenham", category: "Brickwork" },
-  { image: "/images/service-roofing.jpg", title: "Full Roof Replacement", location: "Sidcup", category: "Roofing" },
-  { image: "/images/service-render-new.png", title: "EWI Render System", location: "Eltham", category: "Render" },
-  { image: "/images/service-painting.jpg", title: "Interior Decoration", location: "Catford", category: "Decorating" },
-  { image: "/images/service-firedoors.jpg", title: "Fire Door Installation", location: "Woolwich", category: "Fire Doors" },
+  { image: "/images/project-1.jpg", title: "Full Property Restoration", location: "South London", category: "Restoration", description: "Complete internal and external restoration of a period property in South London, including structural repairs, replastering and full redecoration throughout." },
+  { image: "/images/service-refurbishment-new.jpg", title: "Complete Home Refurbishment", location: "Bromley", category: "Refurbishment", description: "End-to-end refurbishment of a family home in Bromley, with updated layouts, modern finishes and coordinated multi-trade delivery." },
+  { image: "/images/project-3.jpg", title: "Rear Extension Build", location: "Lewisham", category: "Extension", description: "Single-storey rear extension in Lewisham with knock-through works, kitchen integration and final decorating ready for handover." },
+  { image: "/images/project-maintenance-repairs-2.jpg", title: "Maintenance & Repairs", location: "Greenwich", category: "Maintenance", description: "Planned and reactive maintenance package delivered across a managed property in Greenwich, covering repairs, safety checks and finishing works." },
+  { image: "/images/project-loft-conversion.jpg", title: "Loft Conversion", location: "Croydon", category: "Loft Conversion", description: "Loft conversion in Croydon creating an additional bedroom and shower room, including insulation upgrades and bespoke carpentry." },
+  { image: "/images/project-bathroom-installation-2.jpg", title: "Luxury Bathroom Installation", location: "Dulwich", category: "Bathrooms", description: "High-spec bathroom renovation in Dulwich with full strip-out, new plumbing layouts, premium fittings and tiled feature walls." },
+  { image: "/images/project-kitchen-fitout-2.jpg", title: "Modern Kitchen Fit-Out", location: "Penge", category: "Kitchens", description: "Modern kitchen fit-out in Penge including cabinetry installation, electrical updates, plumbing connections and final finish detailing." },
+  { image: "/images/service-brickwork.jpg", title: "Brickwork Restoration", location: "Beckenham", category: "Brickwork", description: "Brickwork cleaning and repointing project in Beckenham to restore facade condition, improve weather resistance and preserve appearance." },
+  { image: "/images/service-roofing.jpg", title: "Full Roof Replacement", location: "Sidcup", category: "Roofing", description: "Complete roof replacement in Sidcup with upgraded waterproofing, new tile system and associated guttering and flashing works." },
+  { image: "/images/service-render-new.png", title: "EWI Render System", location: "Eltham", category: "Render", description: "External wall insulation and render system installed in Eltham to improve thermal performance and deliver a durable modern exterior." },
+  { image: "/images/service-painting.jpg", title: "Interior Decoration", location: "Catford", category: "Decorating", description: "Interior redecoration in Catford across multiple rooms, including surface preparation, repairs and high-quality paint finishes." },
+  { image: "/images/service-firedoors.jpg", title: "Fire Door Installation", location: "Woolwich", category: "Fire Doors", description: "Supply and installation of compliant fire doors in Woolwich with full certification documentation for landlord compliance records." },
 ];
 
 const ProjectsPage = () => {
@@ -39,22 +39,24 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {projects.map((project, i) => (
               <ScrollReveal key={i} delay={i * 60}>
-                <div className="group relative rounded-lg overflow-hidden aspect-[4/3]">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="service-card-overlay absolute inset-0" />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-gold text-accent-foreground text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded">
-                      {project.category}
-                    </span>
+                <div className="group rounded-lg overflow-hidden border border-border bg-card">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-gold text-accent-foreground text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded">
+                        {project.category}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <h3 className="text-lg font-heading font-bold text-section-dark-foreground">{project.title}</h3>
-                    <p className="text-hero-muted text-sm">{project.location}</p>
+                  <div className="p-5">
+                    <h3 className="text-lg font-heading font-bold text-foreground">{project.title}</h3>
+                    <p className="text-muted-foreground text-sm mb-3">{project.location}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{project.description}</p>
                   </div>
                 </div>
               </ScrollReveal>
@@ -67,18 +69,13 @@ const ProjectsPage = () => {
         <div className="container text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground mb-6">
-              Have a Project in Mind?
+              Like what you see?
             </h2>
-            <p className="text-hero-muted text-lg mb-8 max-w-xl mx-auto">
-              Let's discuss how we can bring your vision to life. Get in touch for a free consultation.
-            </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="/contact">
                 <Button variant="hero" size="xl">Get a Free Quote <ArrowRight className="w-5 h-5" /></Button>
               </a>
-              <a href="tel:02046340020">
-                <Button variant="hero-outline" size="xl"><Phone className="w-5 h-5" /> 020 4634 0020</Button>
-              </a>
+              <p className="text-hero-muted text-lg self-center">Or call us: 020 4634 0020</p>
             </div>
           </ScrollReveal>
         </div>
