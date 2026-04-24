@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Phone, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,13 +16,30 @@ const navLinks = [
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const tickingRef = useRef(false);
+  const lastScrolledRef = useRef(false);
   const [pathname, setPathname] = useState(() =>
     typeof window !== "undefined" ? window.location.pathname : ""
   );
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const updateScrolledState = () => {
+      const nextScrolled = window.scrollY > 20;
+      if (nextScrolled !== lastScrolledRef.current) {
+        lastScrolledRef.current = nextScrolled;
+        setScrolled(nextScrolled);
+      }
+      tickingRef.current = false;
+    };
+
+    const onScroll = () => {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      window.requestAnimationFrame(updateScrolledState);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -32,8 +49,8 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-section-dark/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300 ${
+        scrolled ? "bg-section-dark/95 shadow-lg" : "bg-transparent shadow-none"
       }`}
     >
       <div className="hidden md:block border-b border-hero-foreground/10">
