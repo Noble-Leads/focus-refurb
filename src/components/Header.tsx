@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Phone, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -82,7 +82,9 @@ const Header = () => {
             decoding="async"
             className="h-10 w-auto"
           />
-          <span className="hidden sm:inline text-xl font-heading font-extrabold text-hero-foreground tracking-tight">Focus Group</span>
+          <span className="text-sm sm:text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
+            Focus Refurbishment
+          </span>
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -105,12 +107,6 @@ const Header = () => {
         </nav>
 
         <div className="flex md:hidden items-center gap-3">
-          <a href="tel:02046340020">
-            <Button variant="gold" size="sm">
-              <Phone className="w-4 h-4" />
-              Call
-            </Button>
-          </a>
           <button type="button" onClick={() => setMobileOpen(!mobileOpen)} className="text-hero-foreground p-2">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

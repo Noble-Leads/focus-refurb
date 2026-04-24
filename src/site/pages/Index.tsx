@@ -85,7 +85,7 @@ const Index = () => {
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={200}>
-              <p className="text-lg text-hero-muted mb-8 max-w-lg leading-relaxed">
+              <p className="text-base md:text-lg text-hero-muted mb-6 md:mb-8 max-w-lg leading-relaxed">
                 Fire door installation, building maintenance contracts, full refurbishments and more — delivered across London and the M25 by a multi-trade team with 20+ years of proven experience.
               </p>
             </ScrollReveal>
@@ -125,9 +125,9 @@ const Index = () => {
       {/* TRUST BAR */}
       <section className="section-dark py-0">
         <div className="container">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-6 text-sm text-hero-muted">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-4 md:py-6 text-xs md:text-sm text-hero-muted">
             {trustBar.map((item, i) => (
-              <span key={item} className="flex items-center gap-2">
+              <span key={item} className={`flex items-center gap-2 ${i > 2 ? "hidden sm:inline-flex" : ""}`}>
                 <Shield className="w-4 h-4 text-gold" />
                 {item}
               </span>
@@ -176,7 +176,7 @@ const Index = () => {
                     <h3 className="text-xl font-heading font-bold text-section-dark-foreground mb-2">
                       {service.title}
                     </h3>
-                    <p className="text-hero-muted text-sm leading-relaxed mb-3">{service.desc}</p>
+                    <p className="hidden sm:block text-hero-muted text-sm leading-relaxed mb-3">{service.desc}</p>
                     <span className="inline-flex items-center text-gold text-sm font-semibold uppercase tracking-wider group-hover:gap-2 transition-all">
                       Learn More <ChevronRight className="w-4 h-4" />
                     </span>
@@ -304,10 +304,10 @@ const Index = () => {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {testimonials.map((t, i) => (
               <ScrollReveal key={t.name} delay={i * 100}>
-                <div className="bg-card border border-border rounded-lg p-8 h-full flex flex-col">
+                <div className={`bg-card border border-border rounded-lg p-6 md:p-8 h-full flex flex-col ${i > 1 ? "hidden md:flex" : ""}`}>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex gap-1">
                       {Array.from({ length: t.rating }).map((_, j) => (
