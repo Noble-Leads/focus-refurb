@@ -1,5 +1,6 @@
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import GhlFormEmbed from "@/components/GhlFormEmbed";
 import { Phone, Mail, MapPin, Clock, CheckCircle2 } from "lucide-react";
 
 const contactInfo = [
@@ -50,23 +51,16 @@ const ContactPage = () => {
                   </ul>
                 </div>
                 <div className="bg-card border border-border rounded-lg p-8 min-h-[600px] px-0 py-0">
-                  <iframe
+                  <GhlFormEmbed
                     src="https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p"
-                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "3px", minHeight: "500px" }}
-                    id="inline-MxMXNy7f1GiZCyhTuq2p"
-                    data-layout='{"id":"INLINE"}'
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="FR- Website Contact Us"
-                    data-height="undefined"
-                    data-layout-iframe-id="inline-MxMXNy7f1GiZCyhTuq2p"
-                    data-form-id="MxMXNy7f1GiZCyhTuq2p"
-                    title="FR- Website Contact Us" />
-
+                    title="FR- Website Contact Us"
+                    iframeId="inline-MxMXNy7f1GiZCyhTuq2p"
+                    formName="FR- Website Contact Us"
+                    formId="MxMXNy7f1GiZCyhTuq2p"
+                    phoneDisplay="020 4634 0020"
+                    phoneHref="tel:02046340020"
+                    minHeightClassName="min-h-[500px]"
+                  />
                 </div>
                 <div className="mt-6 rounded-lg border border-amber-300 bg-amber-100/60 p-5">
                   <p className="text-amber-900 font-medium">

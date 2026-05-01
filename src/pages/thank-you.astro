@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import ThankYouPage from "../site/pages/ThankYou";
+---
+
+<Layout
+  title="Thank You | Focus Refurbishment Ltd"
+  description="Thank you for your enquiry. Focus Refurbishment Ltd has received your details and will be in touch shortly."
+  canonicalUrl="https://focusrefurbishmentltd.com/thank-you"
+  ogTitle="Thank You | Focus Refurbishment Ltd"
+  ogDescription="Thank you for your enquiry. Focus Refurbishment Ltd has received your details and will be in touch shortly."
+  ogUrl="https://focusrefurbishmentltd.com/thank-you"
+  robots="noindex,follow"
+>
+  <PageShell client:idle>
+    <ThankYouPage />
+  </PageShell>
+
+  <script is:inline>
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", "generate_lead", {
+        source: "website_enquiry_form",
+        destination: "/thank-you",
+      });
+    }
+  </script>
+</Layout>

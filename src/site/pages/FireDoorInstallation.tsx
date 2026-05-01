@@ -1,6 +1,7 @@
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, ShieldCheck, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import GhlFormEmbed from "@/components/GhlFormEmbed";
 
 const LANDLINE_DISPLAY = "020 4634 0020";
 const LANDLINE_TEL = "02046340020";
@@ -16,7 +17,7 @@ const heroPoints = [
 ];
 
 const trustStats = [
-  { value: "20+", label: "Years Trading" },
+  { value: "25+", label: "Years Trading" },
   { value: "500+", label: "Projects" },
   { value: "FD30-FD60", label: "Rated Doors" },
   { value: "100%", label: "Certified" },
@@ -156,25 +157,16 @@ const FireDoorInstallationPage = () => {
                 <h2 className="text-2xl font-heading font-bold text-foreground mb-1">Get a Free Fire Door Quote</h2>
                 <p className="text-muted-foreground text-sm mb-6">Tell us about your property and we will respond within hours.</p>
 
-                <div className="min-h-[640px] sm:min-h-[749px]">
-                  <iframe
-                    src="https://link.nobleleads.uk/widget/form/LsQfA3LgiKr1TIsl3JSq"
-                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
-                    id="inline-LsQfA3LgiKr1TIsl3JSq"
-                    data-layout="{'id':'INLINE'}"
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="FR - Fire Doors"
-                    data-height="749"
-                    data-layout-iframe-id="inline-LsQfA3LgiKr1TIsl3JSq"
-                    data-form-id="LsQfA3LgiKr1TIsl3JSq"
-                    title="FR - Fire Doors"
-                  />
-                </div>
+                <GhlFormEmbed
+                  src="https://link.nobleleads.uk/widget/form/LsQfA3LgiKr1TIsl3JSq"
+                  title="FR - Fire Doors"
+                  iframeId="inline-LsQfA3LgiKr1TIsl3JSq"
+                  formName="FR - Fire Doors"
+                  formId="LsQfA3LgiKr1TIsl3JSq"
+                  phoneDisplay={LANDLINE_DISPLAY}
+                  phoneHref={`tel:${LANDLINE_TEL}`}
+                  minHeightClassName="min-h-[640px] sm:min-h-[749px]"
+                />
 
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                   Or call us:{" "}

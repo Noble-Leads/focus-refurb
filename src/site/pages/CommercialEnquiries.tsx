@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GeometricDecor from "@/components/GeometricDecor";
 import ScrollReveal from "@/components/ScrollReveal";
+import GhlFormEmbed from "@/components/GhlFormEmbed";
 
 const PHONE = "02046340020";
 const EMAIL = "office@focusrefurbishmentltd.com";
@@ -35,7 +36,7 @@ const servicesRight = [
 ];
 
 const trustSignals = [
-  { icon: Shield, title: "20+ Years Experience", desc: "Established in 2000. Family-run, professionally operated." },
+  { icon: Shield, title: "25+ Years Experience", desc: "Established in 2000. Family-run, professionally operated." },
   { icon: MapPin, title: "London & South East Coverage", desc: "Central London, South London, South East and surrounding areas." },
   { icon: Clock, title: "Approved & Accredited", desc: "Approved fire door installers. Guarantees and certification provided on completed works." },
 ];
@@ -160,18 +161,15 @@ const CommercialEnquiries = () => {
             </p>
 
             <div className="bg-card rounded-xl border border-border p-8 md:p-12 min-h-[600px]">
-              <iframe
+              <GhlFormEmbed
                 src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
-                style={{ width: "100%", height: "800px", border: "none", borderRadius: "3px" }}
-                id="inline-e6NuUzUMAfN2MKNTqFnI"
-                data-layout='{"id":"INLINE"}'
-                data-trigger-type="alwaysShow"
-                data-activation-type="alwaysActivated"
-                data-deactivation-type="neverDeactivate"
-                data-form-name="FR Site- Commercial"
-                data-layout-iframe-id="inline-e6NuUzUMAfN2MKNTqFnI"
-                data-form-id="e6NuUzUMAfN2MKNTqFnI"
                 title="FR Site- Commercial"
+                iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
+                formName="FR Site- Commercial"
+                formId="e6NuUzUMAfN2MKNTqFnI"
+                phoneDisplay="020 4634 0020"
+                phoneHref={`tel:${PHONE}`}
+                iframeHeight="800px"
               />
             </div>
 

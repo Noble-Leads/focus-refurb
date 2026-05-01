@@ -19,7 +19,7 @@ const services = [
 ];
 
 const stats = [
-  { value: "20+", label: "Years Trading", icon: Clock },
+  { value: "25+", label: "Years Trading", icon: Clock },
   { value: "500+", label: "Projects Completed", icon: Award },
   { value: "98%", label: "Client Retention", icon: Shield },
   { value: "24/7", label: "Emergency Response", icon: Phone },
@@ -86,7 +86,7 @@ const Index = () => {
             </ScrollReveal>
             <ScrollReveal delay={200}>
               <p className="text-base md:text-lg text-hero-muted mb-6 md:mb-8 max-w-lg leading-relaxed">
-                Fire door installation, building maintenance contracts, full refurbishments and more — delivered across London and the M25 by a multi-trade team with 20+ years of proven experience.
+                Fire door installation, building maintenance contracts, full refurbishments and more — delivered across London and the M25 by a multi-trade team with 25+ years of proven experience.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={300}>
