@@ -143,6 +143,29 @@ const jsonLd = {
       function gtag() {
         dataLayer.push(arguments);
       }
+      window.gtag = gtag;
+
+      window.gtag_report_conversion = function (url) {
+        var navigated = false;
+        var callback = function () {
+          if (navigated) return;
+          navigated = true;
+          if (typeof url !== "undefined") {
+            window.location = url;
+          }
+        };
+
+        gtag("event", "conversion", {
+          send_to: "AW-18087305153/rm49CJr556UcEMG_2bBD",
+          value: 1.0,
+          currency: "GBP",
+          event_callback: callback,
+        });
+
+        window.setTimeout(callback, 1200);
+        return false;
+      };
+
       gtag("js", new Date());
       gtag("config", "G-5Y4789V5YK");
       gtag("config", "AW-18087305153");
@@ -162,6 +185,20 @@ const jsonLd = {
   <body>
     <slot />
     <script is:inline>
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const link = target.closest('a[href^="tel:"]');
+        if (!(link instanceof HTMLAnchorElement)) return;
+
+        const href = link.getAttribute("href");
+        if (!href || typeof window.gtag_report_conversion !== "function") return;
+
+        event.preventDefault();
+        window.gtag_report_conversion(href);
+      });
+
       const loadThirdPartyScript = (src, attrs = {}) => {
         const script = document.createElement("script");
         script.src = src;
