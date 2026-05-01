@@ -144,31 +144,29 @@ const jsonLd = {
         dataLayer.push(arguments);
       }
       window.gtag = gtag;
+      gtag("js", new Date());
+      gtag("config", "G-5Y4789V5YK");
+      gtag("config", "AW-18087305153");
 
-      window.gtag_report_conversion = function (url) {
-        var navigated = false;
+      // Helper to delay navigation until phone_call event is sent.
+      window.gtagSendEvent = function (url) {
         var callback = function () {
-          if (navigated) return;
-          navigated = true;
-          if (typeof url !== "undefined") {
+          if (typeof url === "string") {
             window.location = url;
           }
         };
 
-        gtag("event", "conversion", {
-          send_to: "AW-18087305153/rm49CJr556UcEMG_2bBD",
-          value: 1.0,
-          currency: "GBP",
-          event_callback: callback,
-        });
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "phone_call", {
+            event_callback: callback,
+            event_timeout: 2000,
+          });
+        } else {
+          callback();
+        }
 
-        window.setTimeout(callback, 1200);
         return false;
       };
-
-      gtag("js", new Date());
-      gtag("config", "G-5Y4789V5YK");
-      gtag("config", "AW-18087305153");
     </script>
 
     {
@@ -191,12 +189,16 @@ const jsonLd = {
 
         const link = target.closest('a[href^="tel:"]');
         if (!(link instanceof HTMLAnchorElement)) return;
-
-        const href = link.getAttribute("href");
-        if (!href || typeof window.gtag_report_conversion !== "function") return;
+        if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
         event.preventDefault();
-        window.gtag_report_conversion(href);
+
+        if (typeof window.gtagSendEvent === "function") {
+          window.gtagSendEvent(link.href);
+          return;
+        }
+
+        window.location.href = link.href;
       });
 
       const loadThirdPartyScript = (src, attrs = {}) => {
