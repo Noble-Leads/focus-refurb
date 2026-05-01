@@ -2,6 +2,7 @@ import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, ShieldCheck, Sta
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
+import HeroBackdrop from "@/components/HeroBackdrop";
 
 const LANDLINE_DISPLAY = "020 4634 0020";
 const LANDLINE_TEL = "02046340020";
@@ -122,40 +123,41 @@ const workCards = [
 const FireDoorInstallationPage = () => {
   return (
     <div className="overflow-hidden">
-      <section className="section-dark pt-36 pb-20">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <ScrollReveal>
+      <section className="section-dark pt-28 md:pt-32 pb-10 md:pb-12 relative overflow-hidden">
+        <HeroBackdrop />
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-12 gap-10 items-start">
+            <ScrollReveal className="lg:col-span-6">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
                 Approved Fire Door Installers
               </p>
-              <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-section-dark-foreground mb-5 max-w-2xl">
+              <h1 className="text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
                 Fire Door Installation London - Certified, Compliant & Done Right
               </h1>
-              <p className="text-hero-muted text-lg mb-8 max-w-xl">
+              <p className="text-hero-muted text-base md:text-lg mb-6 max-w-xl">
                 We support landlords, estate agents and commercial clients across London and the M25 with compliant FD30 and FD60 fire door installation.
               </p>
 
-              <div className="border border-gold/30 bg-primary/30 rounded-lg p-5 mb-8">
+              <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-6">
                 <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">
                   <strong>Compliance Warning:</strong> Under the Regulatory Reform Fire Safety Order 2005, landlords are legally required to ensure fire doors are compliant - non-compliance can result in unlimited fines.
                 </p>
               </div>
 
-              <ul className="space-y-3">
+              <ul className="grid gap-x-4 gap-y-2 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {heroPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-3 text-hero-muted">
-                    <CheckCircle2 className="w-5 h-5 text-gold mt-0.5 shrink-0" />
-                    <span>{point}</span>
+                  <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                    <span className="leading-snug">{point}</span>
                   </li>
                 ))}
               </ul>
             </ScrollReveal>
 
-            <ScrollReveal>
-              <div id="fire-door-enquiry-form" className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-6 md:p-8">
+            <ScrollReveal className="lg:col-span-6">
+              <div id="fire-door-enquiry-form" className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto">
                 <h2 className="text-2xl font-heading font-bold text-foreground mb-1">Get a Free Fire Door Quote</h2>
-                <p className="text-muted-foreground text-sm mb-6">Tell us about your property and we will respond within hours.</p>
+                <p className="text-muted-foreground text-sm mb-3">Tell us about your property and we will respond within hours.</p>
 
                 <GhlFormEmbed
                   src="https://link.nobleleads.uk/widget/form/LsQfA3LgiKr1TIsl3JSq"
@@ -165,10 +167,11 @@ const FireDoorInstallationPage = () => {
                   formId="LsQfA3LgiKr1TIsl3JSq"
                   phoneDisplay={LANDLINE_DISPLAY}
                   phoneHref={`tel:${LANDLINE_TEL}`}
-                  minHeightClassName="min-h-[640px] sm:min-h-[749px]"
+                  minHeightClassName="min-h-[470px]"
+                  iframeHeight="470px"
                 />
 
-                <p className="mt-4 text-center text-sm text-muted-foreground">
+                <p className="mt-1 text-center text-xs text-muted-foreground">
                   Or call us:{" "}
                   <a href={`tel:${LANDLINE_TEL}`} className="text-gold font-semibold hover:underline">
                     {LANDLINE_DISPLAY}
@@ -180,7 +183,7 @@ const FireDoorInstallationPage = () => {
         </div>
       </section>
 
-      <section className="bg-section-dark py-8 border-t border-b border-hero-foreground/10">
+      <section className="bg-section-dark py-6 border-t border-b border-hero-foreground/10">
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
             {trustStats.map((stat) => (

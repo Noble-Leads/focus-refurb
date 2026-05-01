@@ -2,6 +2,7 @@ import { Shield, Clock, MapPin, Building2, Home, Landmark, HardHat, Briefcase, S
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GeometricDecor from "@/components/GeometricDecor";
+import HeroBackdrop from "@/components/HeroBackdrop";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
 
@@ -46,6 +47,7 @@ const CommercialEnquiries = () => {
     <div className="overflow-hidden">
       {/* HERO */}
       <section className="relative bg-section-dark py-24 md:py-32">
+        <HeroBackdrop />
         <GeometricDecor variant="dots" />
         <div className="container relative z-10 text-center max-w-4xl mx-auto">
           <ScrollReveal>
@@ -131,7 +133,7 @@ const CommercialEnquiries = () => {
       </section>
 
       {/* TRUST SIGNALS */}
-      <section className="py-20 bg-secondary">
+      <section className="py-14 bg-secondary">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8">
             {trustSignals.map((item, i) => (
@@ -150,17 +152,16 @@ const CommercialEnquiries = () => {
       </section>
 
       {/* ENQUIRY FORM */}
-      <section id="enquiry-form" className="py-20 bg-muted">
-        <div className="container max-w-[700px] mx-auto">
+      <section id="enquiry-form" className="py-12 bg-muted">
+        <div className="container max-w-[980px] mx-auto">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-accent text-center mb-3">
-              Make a Commercial Enquiry
-            </h2>
-            <p className="text-center text-muted-foreground mb-10">
-              Fill in the form below and we'll come back to you within 24 hours.
-            </p>
-
-            <div className="bg-card rounded-xl border border-border p-8 md:p-12 min-h-[600px]">
+            <div className="bg-card rounded-xl border border-border p-6 md:p-10 min-h-[600px]">
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-accent text-center mb-3">
+                Make a Commercial Enquiry
+              </h2>
+              <p className="text-center text-muted-foreground mb-6">
+                Fill in the form below and we'll come back to you within 24 hours.
+              </p>
               <GhlFormEmbed
                 src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
                 title="FR Site- Commercial"

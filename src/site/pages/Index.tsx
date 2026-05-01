@@ -58,7 +58,7 @@ const Index = () => {
   return (
     <div>
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center">
+      <section className="relative min-h-[86vh] md:min-h-[88vh] flex items-center">
         <div className="absolute inset-0">
           <img
             src="/images/hero-fleet.jpg"
@@ -72,7 +72,7 @@ const Index = () => {
           />
           <div className="hero-overlay absolute inset-0" />
         </div>
-        <div className="container relative z-10 pt-32 pb-20">
+        <div className="container relative z-10 pt-28 md:pt-30 pb-14 md:pb-16">
           <div className="max-w-2xl">
             <ScrollReveal>
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-4">

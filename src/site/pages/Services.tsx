@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import HeroBackdrop from "@/components/HeroBackdrop";
 import { ArrowRight, Phone, ChevronRight } from "lucide-react";
 
 const allServices = [
@@ -21,8 +22,9 @@ const ServicesPage = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="section-dark pt-36 pb-20">
-        <div className="container">
+      <section className="section-dark pt-36 pb-20 relative overflow-hidden">
+        <HeroBackdrop />
+        <div className="container relative z-10">
           <ScrollReveal>
             <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Our Services</p>
             <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-section-dark-foreground mb-4">
