@@ -87,6 +87,12 @@ const testimonialCards = [
     name: "Rajiv Sharma",
     role: "Landlord, Greenwich SE10",
   },
+  {
+    quote:
+      "Had Craig and his team at Focus install fire doors for me. The work was spot on — they know what they're doing, kept tidy and got it all done without any hassle, which is rare from contractors in London. The relevant paperwork was provided too, which is great. Will be using them again. Highly recommend if you're a landlord needing an efficient and professional service.",
+    name: "Landlord",
+    role: "London · Google review",
+  },
 ];
 
 const workCards = [
@@ -305,18 +311,18 @@ const FireDoorInstallationPage = () => {
       </section>
 
       <section className="py-20 bg-secondary">
-        <div className="container max-w-5xl">
+        <div className="container max-w-7xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
               Trusted by Landlords Across London
             </h2>
           </ScrollReveal>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 lg:gap-8 items-stretch">
             {testimonialCards.map((testimonial) => (
               <ScrollReveal key={testimonial.name + testimonial.role}>
-                <div className="bg-card border border-border rounded-lg p-8 h-full">
-                  <Quote className="w-10 h-10 text-gold mb-4" />
-                  <p className="text-foreground italic leading-relaxed mb-6">"{testimonial.quote}"</p>
+                <div className="bg-card border border-border rounded-lg p-5 md:p-6 lg:p-8 h-full flex flex-col">
+                  <Quote className="w-9 h-9 md:w-10 md:h-10 text-gold mb-3 md:mb-4 shrink-0" />
+                  <p className="text-foreground italic leading-relaxed mb-4 md:mb-6 text-sm md:text-base flex-1">"{testimonial.quote}"</p>
                   <div className="flex gap-1 mb-3">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} className="w-4 h-4 text-gold fill-gold" />
