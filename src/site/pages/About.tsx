@@ -49,7 +49,7 @@ const AboutPage = () => {
               <div className="flex justify-center">
                 <div className="rounded-lg overflow-hidden">
                   <img
-                    src="/images/team-vans.jpg"
+                    src="/images/team-vans.png"
                     alt="Focus Refurbishment vans"
                     width={1200}
                     height={800}
@@ -139,7 +139,7 @@ const AboutPage = () => {
                 <div className="flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-32 h-32 rounded-full overflow-hidden shrink-0 border-4 border-gold/20">
                     <img
-                      src="/images/craig-headshot.jpg"
+                      src="/images/craig-headshot.png"
                       alt="Craig Hilder"
                       width={512}
                       height={512}

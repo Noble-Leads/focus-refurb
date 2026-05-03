@@ -4,16 +4,16 @@ import GeometricDecor from "@/components/GeometricDecor";
 import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2, Users, Briefcase, Home } from "lucide-react";
 
 const services = [
-  { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations. Trusted by landlords, agents and facilities managers.", image: "/images/service-firedoors.jpg", featured: true },
-  { title: "Building Maintenance Contracts", desc: "Reliable 24/7 building maintenance to keep your properties safe, functional and well-presented.", image: "/images/service-maintenance.jpg" },
-  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment-new.jpg" },
-  { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes.", image: "/images/service-extensions.jpg" },
+  { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations. Trusted by landlords, agents and facilities managers.", image: "/images/service-firedoors.png", featured: true },
+  { title: "Building Maintenance Contracts", desc: "Reliable 24/7 building maintenance to keep your properties safe, functional and well-presented.", image: "/images/service-maintenance.png" },
+  { title: "Full Refurbishment & Restoration", desc: "Complete property transformations and restorations — structural work, plastering, flooring, electrics, plumbing and decorating.", image: "/images/service-refurbishment-new.png" },
+  { title: "Extensions & New Builds", desc: "Expertly designed and built extensions and new builds managed from foundations to final finishes.", image: "/images/service-extensions.png" },
   { title: "Loft Conversions", desc: "Transform unused roof space into stunning bedrooms, offices or living areas.", image: "/images/service-loft-new.png" },
-  { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions.", image: "/images/service-roofing.jpg" },
+  { title: "Roofing", desc: "Expert roofing services from repairs to complete installations. Durable, weather-resistant solutions.", image: "/images/service-roofing.png" },
   { title: "EWI & Render", desc: "Specialist External Wall Insulation with high-performance silicone render systems.", image: "/images/service-render-new.png" },
-  { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes with careful preparation and attention to detail.", image: "/images/service-painting.jpg" },
-  { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.jpg" },
-  { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.jpg" },
+  { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes with careful preparation and attention to detail.", image: "/images/service-painting.png" },
+  { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.png" },
+  { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.png" },
   { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-rubbish-removal-new.png" },
   { title: "Summer Houses/Annexes", desc: "Bespoke summer houses/annexes designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-summer-house-new.png" },
 ];
@@ -36,10 +36,10 @@ const trustBar = [
 ];
 
 const projects = [
-  { image: "/images/project-1.jpg", title: "Victorian Restoration", location: "South London" },
-  { image: "/images/project-3.jpg", title: "Rear Extension", location: "Bromley" },
-  { image: "/images/project-loft-conversion.jpg", title: "Loft Conversion", location: "Greenwich" },
-  { image: "/images/project-bathroom-refit.jpg", title: "Bathroom Refit", location: "Lewisham" },
+  { image: "/images/project-1.png", title: "Victorian Restoration", location: "South London" },
+  { image: "/images/project-3.png", title: "Rear Extension", location: "Bromley" },
+  { image: "/images/project-loft-conversion.png", title: "Loft Conversion", location: "Greenwich" },
+  { image: "/images/project-bathroom-refit.png", title: "Bathroom Refit", location: "Lewisham" },
 ];
 
 const testimonials = [
@@ -119,7 +119,7 @@ const Index = () => {
       <section className="relative min-h-[86vh] md:min-h-[88vh] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="/images/hero-fleet.jpg"
+            src="/images/hero-fleet.png"
             alt="Focus Group fleet and team"
             width={1024}
             height={768}
