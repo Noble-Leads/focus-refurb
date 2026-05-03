@@ -48,8 +48,12 @@ const ServicesPage = () => {
                     <img
                       src={service.image}
                       alt={service.title}
+                      width={384}
+                      height={256}
+                      sizes="(max-width: 640px) 100vw, 192px"
                       className="w-full h-48 sm:h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                     {service.featured && (
                       <span className="absolute top-3 left-3 bg-gold text-section-dark font-heading font-bold text-xs uppercase tracking-wider px-3 py-1 rounded">

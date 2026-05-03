@@ -123,6 +123,7 @@ const Index = () => {
             alt="Focus Group fleet and team"
             width={1024}
             height={768}
+            sizes="100vw"
             fetchPriority="high"
             loading="eager"
             decoding="async"
@@ -228,8 +229,12 @@ const Index = () => {
                   <img
                     src={service.image}
                     alt={service.title}
+                    width={800}
+                    height={1000}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="service-card-overlay absolute inset-0" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -340,8 +345,12 @@ const Index = () => {
                   <img
                     src={project.image}
                     alt={project.title}
+                    width={900}
+                    height={1200}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="service-card-overlay absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

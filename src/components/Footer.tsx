@@ -10,8 +10,8 @@ const Footer = () => {
               <img
                 src="/images/logo.png"
                 alt="Focus Refurbishment"
-                width={150}
-                height={150}
+                width={200}
+                height={48}
                 loading="lazy"
                 decoding="async"
                 className="h-10 w-auto"

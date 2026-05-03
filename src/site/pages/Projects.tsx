@@ -46,8 +46,12 @@ const ProjectsPage = () => {
                     <img
                       src={project.image}
                       alt={project.title}
+                      width={800}
+                      height={600}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-gold text-accent-foreground text-xs font-heading font-bold uppercase tracking-wider px-3 py-1 rounded">

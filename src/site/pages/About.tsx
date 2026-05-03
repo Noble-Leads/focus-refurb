@@ -48,7 +48,16 @@ const AboutPage = () => {
             <ScrollReveal>
               <div className="flex justify-center">
                 <div className="rounded-lg overflow-hidden">
-                  <img src="/images/team-vans.jpg" alt="Focus Refurbishment vans" className="w-full h-auto object-cover rounded-lg" />
+                  <img
+                    src="/images/team-vans.jpg"
+                    alt="Focus Refurbishment vans"
+                    width={1200}
+                    height={800}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="w-full h-auto object-cover rounded-lg"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </div>
             </ScrollReveal>
@@ -129,7 +138,16 @@ const AboutPage = () => {
               <div className="bg-card border border-border rounded-lg p-8 md:p-10">
                 <div className="flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-32 h-32 rounded-full overflow-hidden shrink-0 border-4 border-gold/20">
-                    <img src="/images/craig-headshot.jpg" alt="Craig Hilder" className="w-full h-full object-cover" />
+                    <img
+                      src="/images/craig-headshot.jpg"
+                      alt="Craig Hilder"
+                      width={512}
+                      height={512}
+                      sizes="128px"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xl font-heading font-bold text-foreground">Craig Hilder</h3>

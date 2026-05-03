@@ -296,8 +296,12 @@ const FireDoorInstallationPage = () => {
                   <img
                     src={card.image}
                     alt={card.alt}
+                    width={900}
+                    height={1200}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="w-full aspect-[3/4] object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="p-4">
                     <p className={`font-heading font-semibold text-sm ${card.accent}`}>{card.title}</p>

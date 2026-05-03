@@ -16,6 +16,8 @@ export interface Props {
   includeLocalBusinessJsonLd?: boolean;
   /** Additional JSON-LD objects to render in <head> — e.g. FAQPage, Service */
   extraJsonLd?: object[];
+  /** Optional LCP image URL for homepage hero preload */
+  preloadLcpImage?: string;
 }
 
 const site = "https://focusrefurbishmentltd.com";
@@ -31,6 +33,7 @@ const {
   robots,
   includeLocalBusinessJsonLd = false,
   extraJsonLd,
+  preloadLcpImage,
 } = Astro.props;
 
 const twitterDesc = twitterDescription ?? ogDescription;
@@ -123,12 +126,9 @@ const jsonLd = {
     <meta name="twitter:description" content={twitterDesc} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-    />
+    {preloadLcpImage && <link rel="preload" as="image" href={preloadLcpImage} fetchpriority="high" />}
+
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
@@ -136,38 +136,6 @@ const jsonLd = {
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta name="google-site-verification" content="U9LuqipEGS_gRz_Avcy6Vi_HFLGviDyWGv_OoQc9M8w" />
-
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5Y4789V5YK"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      window.gtag = gtag;
-      gtag("js", new Date());
-      gtag("config", "G-5Y4789V5YK");
-      gtag("config", "AW-18087305153");
-
-      // Helper to delay navigation until phone_call event is sent.
-      window.gtagSendEvent = function (url) {
-        var callback = function () {
-          if (typeof url === "string") {
-            window.location = url;
-          }
-        };
-
-        if (typeof window.gtag === "function") {
-          window.gtag("event", "phone_call", {
-            event_callback: callback,
-            event_timeout: 2000,
-          });
-        } else {
-          callback();
-        }
-
-        return false;
-      };
-    </script>
 
     {
       includeLocalBusinessJsonLd && (
@@ -183,6 +151,52 @@ const jsonLd = {
   <body>
     <slot />
     <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+
+      window.gtagSendEvent = function (url) {
+        var callback = function () {
+          if (typeof url === "string") {
+            window.location = url;
+          }
+        };
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "phone_call", {
+            event_callback: callback,
+            event_timeout: 2000,
+          });
+        } else {
+          callback();
+        }
+        return false;
+      };
+
+      function loadGtag() {
+        var s = document.createElement("script");
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-5Y4789V5YK";
+        s.async = true;
+        s.onload = function () {
+          gtag("js", new Date());
+          gtag("config", "G-5Y4789V5YK");
+          gtag("config", "AW-18087305153");
+        };
+        document.head.appendChild(s);
+      }
+
+      function scheduleGtag() {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(loadGtag, { timeout: 3500 });
+        } else {
+          window.addEventListener("load", function () {
+            setTimeout(loadGtag, 2000);
+          }, { once: true });
+        }
+      }
+      scheduleGtag();
+
       document.addEventListener("click", (event) => {
         const target = event.target;
         if (!(target instanceof Element)) return;
