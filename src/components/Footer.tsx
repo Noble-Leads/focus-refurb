@@ -6,10 +6,10 @@ const Footer = () => {
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
-            <a href="/" className="flex items-center gap-3">
+            <a href="/" className="flex items-center gap-3" aria-label="Focus Group, home">
               <img
                 src="/images/logo.png"
-                alt="Focus Refurbishment"
+                alt=""
                 width={200}
                 height={48}
                 loading="lazy"

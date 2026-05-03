@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,14 +13,23 @@ const navLinks = [
   { label: "Contact", path: "/contact" },
 ];
 
+const MOBILE_MENU_ID = "primary-menu-mobile";
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const tickingRef = useRef(false);
   const lastScrolledRef = useRef(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLElement>(null);
   const [pathname, setPathname] = useState(() =>
     typeof window !== "undefined" ? window.location.pathname : ""
   );
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false);
+    queueMicrotask(() => menuButtonRef.current?.focus());
+  }, []);
 
   useEffect(() => {
     const updateScrolledState = () => {
@@ -47,18 +56,47 @@ const Header = () => {
     setMobileOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeMobileMenu();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen, closeMobileMenu]);
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
+    const t = window.requestAnimationFrame(() => {
+      const first = mobileMenuRef.current?.querySelector<HTMLElement>("a[href]");
+      first?.focus();
+    });
+    return () => {
+      window.cancelAnimationFrame(t);
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <header
+      role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300 ${
         scrolled ? "bg-section-dark/95 shadow-lg" : "bg-transparent shadow-none"
       }`}
     >
       <div className="hidden md:block border-b border-hero-foreground/10">
         <div className="container flex items-center justify-between py-2 text-sm text-hero-muted">
-          <span>London & South East's Trusted Commercial Contractors</span>
-          <div className="flex items-center gap-6">
+          <p className="m-0">London & South East's Trusted Commercial Contractors</p>
+          <div className="flex items-center gap-6" role="group" aria-label="Office contact details">
             <a href="tel:02046340020" className="flex items-center gap-1.5 hover:text-gold transition-colors">
-              <Phone className="w-3.5 h-3.5" />
+              <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               020 4634 0020
             </a>
             <a href="tel:07888863670" className="hover:text-gold transition-colors">
@@ -72,10 +110,10 @@ const Header = () => {
       </div>
 
       <div className="container flex items-center justify-between py-4">
-        <a href="/" className="flex items-center gap-2 sm:gap-3">
+        <a href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Focus Refurbishment, home">
           <img
             src="/images/logo.png"
-            alt="Focus Refurbishment"
+            alt=""
             width={200}
             height={48}
             loading="eager"
@@ -87,11 +125,12 @@ const Header = () => {
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
           {navLinks.map((link) => (
             <a
               key={link.path}
               href={link.path}
+              aria-current={pathname === link.path ? "page" : undefined}
               className={`text-sm font-medium uppercase tracking-wider transition-colors hover:text-gold ${
                 pathname === link.path ? "text-gold" : "text-hero-foreground/80"
               }`}
@@ -107,8 +146,17 @@ const Header = () => {
         </nav>
 
         <div className="flex md:hidden items-center gap-3">
-          <button type="button" onClick={() => setMobileOpen(!mobileOpen)} className="text-hero-foreground p-2">
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          <button
+            ref={menuButtonRef}
+            type="button"
+            id="mobile-menu-button"
+            aria-expanded={mobileOpen}
+            aria-controls={MOBILE_MENU_ID}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            onClick={() => setMobileOpen((o) => !o)}
+            className="rounded-md text-hero-foreground p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-section-dark"
+          >
+            {mobileOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
           </button>
         </div>
       </div>
@@ -121,11 +169,17 @@ const Header = () => {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-section-dark border-t border-hero-foreground/10 overflow-hidden"
           >
-            <nav className="container flex flex-col gap-1 py-4">
+            <nav
+              ref={mobileMenuRef}
+              id={MOBILE_MENU_ID}
+              className="container flex flex-col gap-1 py-4"
+              aria-label="Primary navigation"
+            >
               {navLinks.map((link) => (
                 <a
                   key={link.path}
                   href={link.path}
+                  aria-current={pathname === link.path ? "page" : undefined}
                   className={`py-3 px-4 rounded-md text-sm font-medium uppercase tracking-wider transition-colors ${
                     pathname === link.path ? "text-gold bg-hero-foreground/5" : "text-hero-foreground/80 hover:text-gold"
                   }`}

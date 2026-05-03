@@ -120,6 +120,7 @@ const GhlFormEmbed = ({
         src={src}
         style={{ width: "100%", height: iframeHeight, border: "none", borderRadius: "8px" }}
         id={iframeId}
+        loading="lazy"
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"
         data-trigger-value=""

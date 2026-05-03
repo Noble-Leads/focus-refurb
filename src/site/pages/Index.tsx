@@ -177,10 +177,17 @@ const Index = () => {
                     rel="noopener noreferrer"
                     className="underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero-foreground"
                   >
-                    ⭐ 5.0 Google Rating
+                    <span aria-hidden="true">⭐ </span>
+                    5.0 Google rating
                   </a>
-                  <span>🏆 500+ Projects Completed</span>
-                  <span>✅ Approved Fire Door Installers</span>
+                  <span>
+                    <span aria-hidden="true">🏆 </span>
+                    500+ projects completed
+                  </span>
+                  <span>
+                    <span aria-hidden="true">✅ </span>
+                    Approved fire door installers
+                  </span>
                 </div>
               </div>
             </ScrollReveal>
@@ -194,7 +201,7 @@ const Index = () => {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-4 md:py-6 text-xs md:text-sm text-hero-muted">
             {trustBar.map((item, i) => (
               <span key={item} className={`flex items-center gap-2 ${i > 2 ? "hidden sm:inline-flex" : ""}`}>
-                <Shield className="w-4 h-4 text-gold" />
+                <Shield className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
                 {item}
               </span>
             ))}
