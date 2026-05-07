@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { FileText, Phone } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
+import CookieConsent from "./CookieConsent";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const [pathname, setPathname] = useState(() =>
@@ -60,6 +61,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       <Footer />
+      <CookieConsent />
     </div>
   );
 };

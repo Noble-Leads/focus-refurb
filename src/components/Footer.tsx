@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
+import { openCookiePreferences } from "./CookieConsent";
 
 const Footer = () => {
   return (
@@ -102,9 +103,29 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-hero-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-hero-muted">
-          <p>&copy; {new Date().getFullYear()} Focus Group (Focus Refurbishment Ltd). All rights reserved.</p>
-          <p>Company No. 04010469 · Established 2000</p>
+        <div className="mt-12 pt-8 border-t border-hero-foreground/10 flex flex-col gap-6 text-sm text-hero-muted">
+          <nav
+            aria-label="Legal"
+            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:justify-start"
+          >
+            <a href="/privacy" className="hover:text-gold transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/cookie-policy" className="hover:text-gold transition-colors">
+              Cookie Policy
+            </a>
+            <button
+              type="button"
+              onClick={openCookiePreferences}
+              className="hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-section-dark rounded"
+            >
+              Cookie Preferences
+            </button>
+          </nav>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>&copy; {new Date().getFullYear()} Focus Group (Focus Refurbishment Ltd). All rights reserved.</p>
+            <p>Company No. 04010469 · Established 2000</p>
+          </div>
         </div>
       </div>
     </footer>

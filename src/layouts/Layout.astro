@@ -151,11 +151,50 @@ const jsonLd = {
   <body>
     <slot />
     <script is:inline>
+      // Google Consent Mode v2 — set defaults BEFORE any tag fires so we
+      // never store ad/analytics cookies until the user has consented.
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       window.gtag = gtag;
+
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 500,
+      });
+
+      var CONSENT_KEY = "focus-cookie-consent-v1";
+      var CONSENT_VERSION = 1;
+
+      function readStoredConsent() {
+        try {
+          var raw = window.localStorage.getItem(CONSENT_KEY);
+          if (!raw) return null;
+          var parsed = JSON.parse(raw);
+          if (!parsed || parsed.version !== CONSENT_VERSION) return null;
+          return {
+            analytics: !!parsed.analytics,
+            marketing: !!parsed.marketing,
+          };
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function applyConsentSignal(consent) {
+        gtag("consent", "update", {
+          ad_storage: consent.marketing ? "granted" : "denied",
+          ad_user_data: consent.marketing ? "granted" : "denied",
+          ad_personalization: consent.marketing ? "granted" : "denied",
+          analytics_storage: consent.analytics ? "granted" : "denied",
+        });
+      }
 
       window.gtagSendEvent = function (url) {
         var callback = function () {
@@ -163,7 +202,7 @@ const jsonLd = {
             window.location = url;
           }
         };
-        if (typeof window.gtag === "function") {
+        if (typeof window.gtag === "function" && window.__gtagLoaded) {
           window.gtag("event", "phone_call", {
             event_callback: callback,
             event_timeout: 2000,
@@ -175,12 +214,15 @@ const jsonLd = {
       };
 
       function loadGtag() {
+        if (window.__gtagLoaded || window.__gtagLoading) return;
+        window.__gtagLoading = true;
         var s = document.createElement("script");
         s.src = "https://www.googletagmanager.com/gtag/js?id=G-5Y4789V5YK";
         s.async = true;
         s.onload = function () {
+          window.__gtagLoaded = true;
           gtag("js", new Date());
-          gtag("config", "G-5Y4789V5YK");
+          gtag("config", "G-5Y4789V5YK", { anonymize_ip: true });
           gtag("config", "AW-18087305153");
         };
         document.head.appendChild(s);
@@ -195,7 +237,76 @@ const jsonLd = {
           }, { once: true });
         }
       }
-      scheduleGtag();
+
+      var loadedScripts = {};
+      function loadThirdPartyScript(key, src, attrs) {
+        if (loadedScripts[key]) return;
+        loadedScripts[key] = true;
+        var script = document.createElement("script");
+        script.src = src;
+        script.defer = true;
+        if (attrs) {
+          Object.keys(attrs).forEach(function (k) {
+            script.setAttribute(k, String(attrs[k]));
+          });
+        }
+        document.body.appendChild(script);
+      }
+
+      function loadChatWidget() {
+        loadThirdPartyScript(
+          "ghl-chat",
+          "https://beta.leadconnectorhq.com/loader.js",
+          {
+            "data-resources-url": "https://beta.leadconnectorhq.com/chat-widget/loader.js",
+            "data-widget-id": "699f1d835fe82b2a9d31b403",
+          }
+        );
+      }
+
+      function loadFormEmbed() {
+        // form_embed.js is required for the contact / quote iframes to
+        // post back to the page. It is treated as strictly necessary
+        // because users actively choose to engage with the form.
+        loadThirdPartyScript("ghl-form", "https://link.nobleleads.uk/js/form_embed.js");
+      }
+
+      function applyAndLoad(consent) {
+        if (!consent) return;
+        applyConsentSignal(consent);
+        if (consent.analytics || consent.marketing) {
+          scheduleGtag();
+        }
+        if (consent.marketing) {
+          loadChatWidget();
+        }
+      }
+
+      // On first paint: if the user previously consented, replay their
+      // choice. Otherwise we wait for the React banner to fire the
+      // `focus:consentupdate` event.
+      var stored = readStoredConsent();
+      if (stored) {
+        applyAndLoad(stored);
+      }
+
+      // Always load the form embed (essential for quote / contact pages).
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(loadFormEmbed, { timeout: 3000 });
+      } else {
+        window.addEventListener("load", function () {
+          setTimeout(loadFormEmbed, 500);
+        }, { once: true });
+      }
+
+      window.addEventListener("focus:consentupdate", function (event) {
+        var detail = event && event.detail ? event.detail : null;
+        if (!detail) return;
+        applyAndLoad({
+          analytics: !!detail.analytics,
+          marketing: !!detail.marketing,
+        });
+      });
 
       document.addEventListener("click", (event) => {
         const target = event.target;
@@ -214,30 +325,6 @@ const jsonLd = {
 
         window.location.href = link.href;
       });
-
-      const loadThirdPartyScript = (src, attrs = {}) => {
-        const script = document.createElement("script");
-        script.src = src;
-        script.defer = true;
-        Object.entries(attrs).forEach(([key, value]) => {
-          script.setAttribute(key, String(value));
-        });
-        document.body.appendChild(script);
-      };
-
-      const bootThirdPartyScripts = () => {
-        loadThirdPartyScript("https://beta.leadconnectorhq.com/loader.js", {
-          "data-resources-url": "https://beta.leadconnectorhq.com/chat-widget/loader.js",
-          "data-widget-id": "699f1d835fe82b2a9d31b403",
-        });
-        loadThirdPartyScript("https://link.nobleleads.uk/js/form_embed.js");
-      };
-
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(bootThirdPartyScripts, { timeout: 3000 });
-      } else {
-        window.addEventListener("load", () => setTimeout(bootThirdPartyScripts, 500), { once: true });
-      }
     </script>
   </body>
 </html>

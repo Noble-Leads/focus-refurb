@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import CookiePolicyPage from "../site/pages/CookiePolicy";
+---
+
+<Layout
+  title="Cookie Policy | Focus Refurbishment Ltd"
+  description="The cookies and similar technologies we use on focusrefurbishmentltd.com, what they do, and how to control them."
+  canonicalUrl="https://focusrefurbishmentltd.com/cookie-policy"
+  ogTitle="Cookie Policy | Focus Refurbishment Ltd"
+  ogDescription="The cookies and similar technologies we use on focusrefurbishmentltd.com, what they do, and how to control them."
+  ogUrl="https://focusrefurbishmentltd.com/cookie-policy"
+>
+  <PageShell client:idle>
+    <CookiePolicyPage />
+  </PageShell>
+</Layout>
