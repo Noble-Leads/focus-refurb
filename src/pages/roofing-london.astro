@@ -1,0 +1,91 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import RoofingLondonPage from "../site/pages/RoofingLondon";
+
+const roofingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Roof Repair & Replacement London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Expert roof repair and replacement across London and Kent. Same-day emergency callouts. Flat roofs, pitched roofs. 25+ years experience. Free inspection.",
+    serviceType: "Roofing",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How quickly can you respond to an emergency roof repair?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "For emergency repairs — active leaks, storm damage or tenant safety issues — Craig offers same-day callouts where possible across London and Kent. For non-urgent enquiries, we aim to be on site within 48 hours. We'll assess the situation and get the roof made watertight as quickly as possible.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you work on both flat and pitched roofs?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes — we work on all roof types including felt flat roofs, EPDM rubber roofing, GRP fibreglass, pitched tile roofs, slate roofs, and all associated flashing, guttering and chimney work.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How do I know if I need a repair or a full replacement?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We'll tell you honestly after our free inspection. If a repair will do the job properly, that's what we'll recommend. We won't push for a full replacement unless it's genuinely needed.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What areas do you cover?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We cover all of Greater London (within the M25) and Kent. Based in Sidcup, we're well placed for South and South East London, and across into Kent.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you work on HMOs and multi-unit properties?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We regularly work with landlords and property managers on portfolios of properties. Ongoing maintenance relationships available.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Roof Repair & Replacement London | Focus Refurbishment"
+  description="Expert roof repair and replacement across London and Kent. Flat roofs, pitched roofs, emergency callouts. 25+ years experience. Free inspection — call today."
+  canonicalUrl="https://focusrefurbishmentltd.com/roofing-london"
+  ogTitle="Roof Repair & Replacement London | Focus Refurbishment"
+  ogDescription="Expert roof repair and replacement across London and Kent. Flat roofs, pitched roofs, emergency callouts. 25+ years experience. Free inspection — call today."
+  ogUrl="https://focusrefurbishmentltd.com/roofing-london"
+  extraJsonLd={roofingJsonLd}
+>
+  <PageShell client:idle>
+    <RoofingLondonPage client:idle />
+  </PageShell>
+</Layout>

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import { ArrowRight, Phone, ChevronRight } from "lucide-react";
+import { getServiceLearnMoreHref } from "@/lib/serviceLinks";
 
 const allServices = [
   { title: "Fire Door Installation", desc: "As approved fire door installers, we supply and fit fully compliant fire doors meeting current safety regulations, ensuring maximum protection and peace of mind.", image: "/images/service-firedoors.png", featured: true },
@@ -65,13 +66,7 @@ const ServicesPage = () => {
                     <h3 className="text-xl font-heading font-bold text-foreground mb-2">{service.title}</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed mb-4">{service.desc}</p>
                     <a
-                      href={
-                        service.title === "Fire Door Installation"
-                          ? "/fire-door-installation-london"
-                          : service.title === "Rubbish Removal"
-                          ? "/rubbish-removal"
-                          : `/contact?subject=${encodeURIComponent(`Enquiry: ${service.title}`)}`
-                      }
+                      href={getServiceLearnMoreHref(service.title)}
                       className="inline-flex items-center text-gold text-sm font-semibold uppercase tracking-wider hover:gap-2 transition-all"
                     >
                       Learn More{" "}

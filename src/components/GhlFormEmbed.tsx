@@ -12,6 +12,7 @@ type GhlFormEmbedProps = {
   iframeHeight?: string;
   wrapperClassName?: string;
   successRedirectPath?: string;
+  embedScriptSrc?: string;
 };
 
 const FALLBACK_TIMEOUT_MS = 12000;
@@ -63,9 +64,26 @@ const GhlFormEmbed = ({
   iframeHeight = "100%",
   wrapperClassName = "",
   successRedirectPath = "/thank-you",
+  embedScriptSrc,
 }: GhlFormEmbedProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
+
+  useEffect(() => {
+    if (!embedScriptSrc) {
+      return;
+    }
+
+    const existingScript = document.querySelector(`script[src="${embedScriptSrc}"]`);
+    if (existingScript) {
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = embedScriptSrc;
+    script.defer = true;
+    document.body.appendChild(script);
+  }, [embedScriptSrc]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -99,7 +117,8 @@ const GhlFormEmbed = ({
       const trustedOrigin =
         event.origin.includes("nobleleads.uk") ||
         event.origin.includes("leadconnectorhq.com") ||
-        event.origin.includes("gohighlevel.com");
+        event.origin.includes("gohighlevel.com") ||
+        event.origin.includes("focusrefurbishmentltd.com");
 
       if (!hasSuccess || (!hasFormId && !trustedOrigin)) {
         return;

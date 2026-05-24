@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import GeometricDecor from "@/components/GeometricDecor";
 import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2, Users, Briefcase, Home } from "lucide-react";
+import { getHomeServiceCardHref } from "@/lib/serviceLinks";
 
 const services = [
   { title: "Fire Door Installation", desc: "Approved fire door installers ensuring full compliance with current safety regulations. Trusted by landlords, agents and facilities managers.", image: "/images/service-firedoors.png", featured: true },
@@ -230,7 +231,7 @@ const Index = () => {
             {services.slice(0, 6).map((service, i) => (
               <ScrollReveal key={service.title} delay={i * 80}>
                 <a
-                  href={service.title === "Fire Door Installation" ? "/fire-door-installation-london" : "/services"}
+                  href={getHomeServiceCardHref(service.title)}
                   className="group block relative rounded-lg overflow-hidden aspect-[4/5] cursor-pointer"
                 >
                   <img

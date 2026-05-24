@@ -16,7 +16,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const isFormPage =
     pathname === "/contact" ||
     pathname === "/commercial-enquiries" ||
-    pathname === "/fire-door-installation-london";
+    pathname === "/fire-door-installation-london" ||
+    pathname === "/roofing-london" ||
+    pathname === "/painting-decorating-london";
 
   return (
     <div className="min-h-screen flex flex-col relative">

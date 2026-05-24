@@ -1,0 +1,91 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import PaintingDecoratingLondonPage from "../site/pages/PaintingDecoratingLondon";
+
+const paintingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Commercial Painting & Decorating London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Multi-property painting and decorating contracts for landlords and property managers in London and Kent. Void properties, HMOs, commercial spaces.",
+    serviceType: "Painting & Decorating",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Do you take on single-room residential painting jobs?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No — we specialise in commercial and multi-property work. If you manage a portfolio, have void properties to refresh, or need ongoing decorating support, we're the right fit. Single-room residential jobs aren't something we take on.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can you handle multiple properties at the same time?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We have an experienced team that can work across multiple properties simultaneously. Tell us your timeline and portfolio size and we'll structure the work accordingly.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How quickly can you turn around a void property?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "It depends on the size and scope, but we work quickly and understand that empty properties cost you money. We'll give you a realistic timeline upfront and stick to it.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you offer ongoing maintenance contracts?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We work with several landlords and property managers on regular painting and decorating maintenance contracts. These typically work out more cost-effective than booking jobs individually.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What areas do you cover?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All of Greater London (within the M25) and Kent. We're based in Sidcup — well placed for South and South East London and across into Kent.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Commercial Painting & Decorating London | Focus Refurbishment"
+  description="Multi-property painting and decorating contracts for landlords and property managers in London and Kent. Void properties, HMOs, commercial spaces. Get a quote."
+  canonicalUrl="https://focusrefurbishmentltd.com/painting-decorating-london"
+  ogTitle="Commercial Painting & Decorating London | Focus Refurbishment"
+  ogDescription="Multi-property painting and decorating contracts for landlords and property managers in London and Kent. Void properties, HMOs, commercial spaces. Get a quote."
+  ogUrl="https://focusrefurbishmentltd.com/painting-decorating-london"
+  extraJsonLd={paintingJsonLd}
+>
+  <PageShell client:idle>
+    <PaintingDecoratingLondonPage client:idle />
+  </PageShell>
+</Layout>
