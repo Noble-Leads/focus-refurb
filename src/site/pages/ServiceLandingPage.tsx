@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -52,10 +53,210 @@ export type ServiceLandingConfig = {
   finalCtaLabel: string;
   bottomStrip: string;
   positiveProblemBullets?: boolean;
+  caseStudy?: {
+    label: string;
+    title: string;
+    intro?: string;
+    bulletsHeading?: string;
+    bullets: string[];
+    scopeNote?: string;
+    quote: string;
+    quoteAttribution: string;
+    ctaLabel: string;
+    vimeoVideoId: string;
+    iframeTitle: string;
+  };
 };
 
 type ServiceLandingPageProps = {
   config: ServiceLandingConfig;
+};
+
+const VIMEO_PLAYER_SCRIPT = "https://player.vimeo.com/api/player.js";
+
+type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
+
+const CaseStudyVimeoEmbed = ({
+  videoId,
+  title,
+  fixedSize,
+}: {
+  videoId: string;
+  title: string;
+  fixedSize?: { width: number; height: number };
+}) => {
+  useEffect(() => {
+    if (document.querySelector(`script[src="${VIMEO_PLAYER_SCRIPT}"]`)) {
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = VIMEO_PLAYER_SCRIPT;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  const src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+
+  if (fixedSize) {
+    return (
+      <div
+        className="relative"
+        style={{ width: fixedSize.width, height: fixedSize.height }}
+      >
+        <iframe
+          src={src}
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+          title={title}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
+      <iframe
+        src={src}
+        frameBorder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+        title={title}
+      />
+    </div>
+  );
+};
+
+const CaseStudySection = ({
+  caseStudy,
+  formAnchorId,
+}: {
+  caseStudy: CaseStudyConfig;
+  formAnchorId: string;
+}) => {
+  const columnRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [videoSize, setVideoSize] = useState<{ width: number; height: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const contentEl = contentRef.current;
+    const columnEl = columnRef.current;
+    if (!contentEl || !columnEl) {
+      return;
+    }
+
+    const updateVideoSize = () => {
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      if (!isDesktop) {
+        setVideoSize(null);
+        return;
+      }
+
+      const contentHeight = contentEl.getBoundingClientRect().height;
+      const columnWidth = columnEl.getBoundingClientRect().width;
+      let width = columnWidth;
+      let height = width * (16 / 9);
+
+      if (height > contentHeight) {
+        height = contentHeight;
+        width = height * (9 / 16);
+      }
+
+      setVideoSize({ width: Math.round(width), height: Math.round(height) });
+    };
+
+    updateVideoSize();
+
+    const observer = new ResizeObserver(updateVideoSize);
+    observer.observe(contentEl);
+    observer.observe(columnEl);
+    window.addEventListener("resize", updateVideoSize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateVideoSize);
+    };
+  }, []);
+
+  return (
+    <section className="py-20 bg-secondary">
+      <div className="container max-w-6xl">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <ScrollReveal>
+            <div ref={columnRef} className="flex justify-center md:justify-start">
+              <div className="w-full md:w-auto rounded-lg overflow-hidden border border-border shadow-md">
+                <div className="md:hidden">
+                  <CaseStudyVimeoEmbed
+                    videoId={caseStudy.vimeoVideoId}
+                    title={caseStudy.iframeTitle}
+                  />
+                </div>
+                <div className="hidden md:block">
+                  {videoSize && (
+                    <CaseStudyVimeoEmbed
+                      videoId={caseStudy.vimeoVideoId}
+                      title={caseStudy.iframeTitle}
+                      fixedSize={videoSize}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div ref={contentRef}>
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
+                {caseStudy.label}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground mb-4">
+                {caseStudy.title}
+              </h2>
+              {caseStudy.intro && (
+                <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
+                  {caseStudy.intro}
+                </p>
+              )}
+              {caseStudy.bulletsHeading && (
+                <h3 className="font-heading font-bold text-foreground text-lg mb-4">
+                  {caseStudy.bulletsHeading}
+                </h3>
+              )}
+              <ul className="space-y-3 mb-6">
+                {caseStudy.bullets.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-muted-foreground">
+                    <CheckCircle2 className="w-5 h-5 text-gold mt-0.5 shrink-0" />
+                    <span className="leading-relaxed text-sm md:text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {caseStudy.scopeNote && (
+                <div className="bg-card border border-border rounded-lg p-5 mb-8">
+                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                    {caseStudy.scopeNote}
+                  </p>
+                </div>
+              )}
+              <blockquote className="border-l-4 border-gold pl-5 mb-8">
+                <p className="text-foreground italic leading-relaxed text-lg mb-3">
+                  &ldquo;{caseStudy.quote}&rdquo;
+                </p>
+                <footer className="text-muted-foreground text-sm font-heading font-semibold">
+                  — {caseStudy.quoteAttribution}
+                </footer>
+              </blockquote>
+              <a href={`#${formAnchorId}`}>
+                <Button variant="gold" size="xl" className="w-full sm:w-auto">
+                  {caseStudy.ctaLabel} <ArrowRight className="w-5 h-5" />
+                </Button>
+              </a>
+            </div>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
@@ -88,6 +289,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     finalCtaLabel,
     bottomStrip,
     positiveProblemBullets = false,
+    caseStudy,
   } = config;
 
   return (
@@ -247,6 +449,8 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
           </div>
         </div>
       </section>
+
+      {caseStudy && <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />}
 
       {showVideoSection && videoHeading && (
       <section className="py-20 bg-secondary">
