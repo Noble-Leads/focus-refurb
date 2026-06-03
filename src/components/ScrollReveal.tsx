@@ -5,17 +5,19 @@ interface ScrollRevealProps {
   className?: string;
   /** Delay in milliseconds for subtle entrance stagger. */
   delay?: number;
+  /** Skip entrance animation — use for above-the-fold / LCP content */
+  instant?: boolean;
 }
 
 /**
  * Wrapper for section blocks. Previously applied `opacity-0` until IntersectionObserver ran in
  * `useEffect`, which made all copy invisible in static HTML and before hydration — empty site.
  */
-const ScrollReveal = ({ children, className = "", delay = 0 }: ScrollRevealProps) => {
+const ScrollReveal = ({ children, className = "", delay = 0, instant = false }: ScrollRevealProps) => {
   return (
     <div
-      className={`reveal-in ${className}`.trim()}
-      style={{ animationDelay: `${Math.max(0, delay)}ms` }}
+      className={`${instant ? "" : "reveal-in"} ${className}`.trim()}
+      style={instant ? undefined : { animationDelay: `${Math.max(0, delay)}ms` }}
     >
       {children}
     </div>

@@ -84,8 +84,13 @@ const paintingJsonLd = [
   ogDescription="Multi-property painting and decorating contracts for landlords and property managers in London and Kent. Void properties, HMOs, commercial spaces. Get a quote."
   ogUrl="https://focusrefurbishmentltd.com/painting-decorating-london"
   extraJsonLd={paintingJsonLd}
+  preconnectOrigins={[
+    "https://app.focusrefurbishmentltd.com",
+    "https://player.vimeo.com",
+    "https://i.vimeocdn.com",
+  ]}
 >
   <PageShell client:idle>
-    <PaintingDecoratingLondonPage client:idle />
+    <PaintingDecoratingLondonPage />
   </PageShell>
 </Layout>

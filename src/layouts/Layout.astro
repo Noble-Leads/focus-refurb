@@ -18,6 +18,8 @@ export interface Props {
   extraJsonLd?: object[];
   /** Optional LCP image URL for homepage hero preload */
   preloadLcpImage?: string;
+  /** Origins to preconnect before third-party embeds (forms, video, etc.) */
+  preconnectOrigins?: string[];
 }
 
 const site = "https://focusrefurbishmentltd.com";
@@ -34,6 +36,7 @@ const {
   includeLocalBusinessJsonLd = false,
   extraJsonLd,
   preloadLcpImage,
+  preconnectOrigins = [],
 } = Astro.props;
 
 const twitterDesc = twitterDescription ?? ogDescription;
@@ -129,6 +132,14 @@ const jsonLd = {
     {preloadLcpImage && <link rel="preload" as="image" href={preloadLcpImage} fetchpriority="high" />}
 
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    {
+      preconnectOrigins.map((origin) => (
+        <>
+          <link rel="preconnect" href={origin} crossorigin="anonymous" />
+          <link rel="dns-prefetch" href={origin} />
+        </>
+      ))
+    }
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />

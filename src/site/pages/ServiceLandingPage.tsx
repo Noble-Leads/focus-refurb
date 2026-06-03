@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import LazyVimeoEmbed from "@/components/LazyVimeoEmbed";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
@@ -44,6 +44,7 @@ export type ServiceLandingConfig = {
     iframeHeight?: string;
     minHeightClassName?: string;
     embedScriptSrc?: string;
+    deferLoad?: boolean;
   };
   processSteps: { number: string; title: string; desc: string }[];
   testimonials: { quote: string; name: string; role: string }[];
@@ -72,62 +73,9 @@ type ServiceLandingPageProps = {
   config: ServiceLandingConfig;
 };
 
-const VIMEO_PLAYER_SCRIPT = "https://player.vimeo.com/api/player.js";
-
 type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
 
-const CaseStudyVimeoEmbed = ({
-  videoId,
-  title,
-  fixedSize,
-}: {
-  videoId: string;
-  title: string;
-  fixedSize?: { width: number; height: number };
-}) => {
-  useEffect(() => {
-    if (document.querySelector(`script[src="${VIMEO_PLAYER_SCRIPT}"]`)) {
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = VIMEO_PLAYER_SCRIPT;
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
-
-  const src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
-
-  if (fixedSize) {
-    return (
-      <div
-        className="relative"
-        style={{ width: fixedSize.width, height: fixedSize.height }}
-      >
-        <iframe
-          src={src}
-          frameBorder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-          title={title}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
-      <iframe
-        src={src}
-        frameBorder="0"
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-        title={title}
-      />
-    </div>
-  );
-};
+const LANDING_SECTION = "py-12 md:py-20";
 
 const CaseStudySection = ({
   caseStudy,
@@ -136,77 +84,20 @@ const CaseStudySection = ({
   caseStudy: CaseStudyConfig;
   formAnchorId: string;
 }) => {
-  const columnRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [videoSize, setVideoSize] = useState<{ width: number; height: number } | null>(null);
-
-  useLayoutEffect(() => {
-    const contentEl = contentRef.current;
-    const columnEl = columnRef.current;
-    if (!contentEl || !columnEl) {
-      return;
-    }
-
-    const updateVideoSize = () => {
-      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-      if (!isDesktop) {
-        setVideoSize(null);
-        return;
-      }
-
-      const contentHeight = contentEl.getBoundingClientRect().height;
-      const columnWidth = columnEl.getBoundingClientRect().width;
-      let width = columnWidth;
-      let height = width * (16 / 9);
-
-      if (height > contentHeight) {
-        height = contentHeight;
-        width = height * (9 / 16);
-      }
-
-      setVideoSize({ width: Math.round(width), height: Math.round(height) });
-    };
-
-    updateVideoSize();
-
-    const observer = new ResizeObserver(updateVideoSize);
-    observer.observe(contentEl);
-    observer.observe(columnEl);
-    window.addEventListener("resize", updateVideoSize);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateVideoSize);
-    };
-  }, []);
-
   return (
-    <section className="py-20 bg-secondary">
+    <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
       <div className="container max-w-6xl">
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
           <ScrollReveal>
-            <div ref={columnRef} className="flex justify-center md:justify-start">
-              <div className="w-full md:w-auto rounded-lg overflow-hidden border border-border shadow-md">
-                <div className="md:hidden">
-                  <CaseStudyVimeoEmbed
-                    videoId={caseStudy.vimeoVideoId}
-                    title={caseStudy.iframeTitle}
-                  />
-                </div>
-                <div className="hidden md:block">
-                  {videoSize && (
-                    <CaseStudyVimeoEmbed
-                      videoId={caseStudy.vimeoVideoId}
-                      title={caseStudy.iframeTitle}
-                      fixedSize={videoSize}
-                    />
-                  )}
-                </div>
-              </div>
+            <div className="w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md">
+              <LazyVimeoEmbed
+                videoId={caseStudy.vimeoVideoId}
+                title={caseStudy.iframeTitle}
+              />
             </div>
           </ScrollReveal>
           <ScrollReveal>
-            <div ref={contentRef}>
+            <div>
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
                 {caseStudy.label}
               </p>
@@ -294,18 +185,18 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
 
   return (
     <div className="overflow-hidden">
-      <section className="section-dark pt-28 md:pt-32 pb-10 md:pb-12 relative overflow-hidden">
+      <section className="section-dark pt-24 md:pt-32 pb-8 md:pb-12 relative overflow-hidden">
         <HeroBackdrop />
         <div className="container relative z-10">
-          <div className="grid lg:grid-cols-12 gap-10 items-start">
-            <ScrollReveal className="lg:col-span-6">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            <ScrollReveal instant className="lg:col-span-6">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
                 {heroEyebrow}
               </p>
-              <h1 className="text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
                 {heroHeadline}
               </h1>
-              <p className="text-hero-muted text-base md:text-lg mb-6 max-w-xl">{heroSubheading}</p>
+              <p className="text-hero-muted text-base md:text-lg mb-5 md:mb-6 max-w-xl">{heroSubheading}</p>
 
               <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-6">
                 <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">{alertBox}</p>
@@ -327,10 +218,10 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
               </a>
             </ScrollReveal>
 
-            <ScrollReveal className="lg:col-span-6">
+            <ScrollReveal instant className="lg:col-span-6">
               <div
                 id={formAnchorId}
-                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto"
+                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto scroll-mt-28"
               >
                 <h2 className="text-2xl font-heading font-bold text-foreground mb-1">{heroFormTitle}</h2>
                 <p className="text-muted-foreground text-sm mb-3">{heroFormSubtitle}</p>
@@ -347,6 +238,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
                     embedScriptSrc={formEmbed.embedScriptSrc}
+                    deferLoad={formEmbed.deferLoad}
                   />
                 ) : (
                   <>
@@ -380,7 +272,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className={`${LANDING_SECTION} bg-background content-auto`}>
         <div className="container">
           <div className="grid md:grid-cols-2 gap-6">
             {valueCards.map((card) => (
@@ -395,7 +287,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="py-20 bg-secondary">
+      <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
         <div className="container max-w-4xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-4">
@@ -420,7 +312,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className={`${LANDING_SECTION} bg-background content-auto`}>
         <div className="container">
           <ScrollReveal>
             {servicesSubheading && (
@@ -453,7 +345,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
       {caseStudy && <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />}
 
       {showVideoSection && videoHeading && (
-      <section className="py-20 bg-secondary">
+      <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
         <div className="container max-w-4xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-4">
@@ -473,7 +365,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
       </section>
       )}
 
-      <section className="section-dark py-20">
+      <section className={`section-dark ${LANDING_SECTION} content-auto`}>
         <div className="container">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground text-center mb-12">
@@ -496,7 +388,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="py-20 bg-secondary">
+      <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
         <div className="container max-w-7xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
@@ -525,7 +417,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className={`${LANDING_SECTION} bg-background content-auto`}>
         <div className="container max-w-4xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-10">
@@ -549,7 +441,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="bg-accent py-20">
+      <section className={`bg-accent ${LANDING_SECTION} content-auto`}>
         <div className="container text-center max-w-4xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white mb-4">

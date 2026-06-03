@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type GhlFormEmbedProps = {
   src: string;
@@ -13,6 +13,8 @@ type GhlFormEmbedProps = {
   wrapperClassName?: string;
   successRedirectPath?: string;
   embedScriptSrc?: string;
+  /** Defer iframe src until idle / near-viewport — improves LCP on landing pages */
+  deferLoad?: boolean;
 };
 
 const FALLBACK_TIMEOUT_MS = 12000;
@@ -65,12 +67,49 @@ const GhlFormEmbed = ({
   wrapperClassName = "",
   successRedirectPath = "/thank-you",
   embedScriptSrc,
+  deferLoad = false,
 }: GhlFormEmbedProps) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [shouldLoadFrame, setShouldLoadFrame] = useState(!deferLoad);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
 
   useEffect(() => {
-    if (!embedScriptSrc) {
+    if (!deferLoad || shouldLoadFrame) {
+      return;
+    }
+
+    const activate = () => setShouldLoadFrame(true);
+    const wrapper = wrapperRef.current;
+
+    const onIdle = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(activate, { timeout: 2800 });
+      } else {
+        window.setTimeout(activate, 1800);
+      }
+    };
+
+    if (wrapper && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            activate();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "80px 0px", threshold: 0.01 }
+      );
+      observer.observe(wrapper);
+      onIdle();
+      return () => observer.disconnect();
+    }
+
+    onIdle();
+  }, [deferLoad, shouldLoadFrame]);
+
+  useEffect(() => {
+    if (!embedScriptSrc || !shouldLoadFrame) {
       return;
     }
 
@@ -83,7 +122,7 @@ const GhlFormEmbed = ({
     script.src = embedScriptSrc;
     script.defer = true;
     document.body.appendChild(script);
-  }, [embedScriptSrc]);
+  }, [embedScriptSrc, shouldLoadFrame]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -134,7 +173,31 @@ const GhlFormEmbed = ({
   }, [formId, successRedirectPath]);
 
   return (
-    <div className={`relative ${minHeightClassName} ${wrapperClassName}`.trim()}>
+    <div
+      ref={wrapperRef}
+      className={`relative ${minHeightClassName} ${wrapperClassName}`.trim()}
+      onPointerDown={() => {
+        if (deferLoad && !shouldLoadFrame) {
+          setShouldLoadFrame(true);
+        }
+      }}
+    >
+      {!shouldLoadFrame && (
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-4 text-center"
+          aria-hidden={false}
+        >
+          <p className="text-sm text-muted-foreground mb-3">Quote form loads in a moment…</p>
+          <button
+            type="button"
+            className="text-sm font-semibold text-gold underline underline-offset-2"
+            onClick={() => setShouldLoadFrame(true)}
+          >
+            Load form now
+          </button>
+        </div>
+      )}
+      {shouldLoadFrame && (
       <iframe
         src={src}
         style={{ width: "100%", height: iframeHeight, border: "none", borderRadius: "8px" }}
@@ -154,8 +217,9 @@ const GhlFormEmbed = ({
         onLoad={handleLoad}
         onError={handleError}
       />
+      )}
 
-      {showFallback && !isLoaded && (
+      {showFallback && !isLoaded && shouldLoadFrame && (
         <div className="absolute inset-0 flex items-center justify-center rounded-lg border border-amber-300 bg-amber-100/95 p-6 text-center">
           <p className="text-amber-900 font-medium leading-relaxed">
             Our quote form is taking longer than expected to load. Please call us on{" "}
