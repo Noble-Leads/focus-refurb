@@ -93,6 +93,7 @@ const CaseStudySection = ({
               <LazyVimeoEmbed
                 videoId={caseStudy.vimeoVideoId}
                 title={caseStudy.iframeTitle}
+                eager
               />
             </div>
           </ScrollReveal>

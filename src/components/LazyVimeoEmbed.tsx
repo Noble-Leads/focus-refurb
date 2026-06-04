@@ -5,22 +5,42 @@ type LazyVimeoEmbedProps = {
   title: string;
   /** Vimeo oEmbed thumbnail; avoids extra API calls */
   posterUrl?: string;
+  /** Render the player in page HTML immediately (recommended for hero / case-study videos) */
+  eager?: boolean;
 };
 
-const buildEmbedSrc = (videoId: string) =>
-  `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+const buildEmbedSrc = (videoId: string, autoplay = false) => {
+  const params = new URLSearchParams({
+    badge: "0",
+    autopause: "0",
+    player_id: "0",
+    app_id: "58479",
+    playsinline: "1",
+  });
+  if (autoplay) {
+    params.set("autoplay", "1");
+  }
+  return `https://player.vimeo.com/video/${videoId}?${params.toString()}`;
+};
 
 const LazyVimeoEmbed = ({
   videoId,
   title,
   posterUrl,
+  eager = false,
 }: LazyVimeoEmbedProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(eager);
+  const [autoplay, setAutoplay] = useState(false);
+
+  const handlePlayClick = () => {
+    setAutoplay(true);
+    setIsActive(true);
+  };
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root || isActive) {
+    if (!root || isActive || eager) {
       return;
     }
 
@@ -41,7 +61,7 @@ const LazyVimeoEmbed = ({
     }
 
     activate();
-  }, [isActive]);
+  }, [eager, isActive]);
 
   const poster = posterUrl ?? `https://vumbnail.com/${videoId}.jpg`;
 
@@ -50,18 +70,18 @@ const LazyVimeoEmbed = ({
       <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
         {isActive ? (
           <iframe
-            src={buildEmbedSrc(videoId)}
-            frameBorder="0"
+            src={buildEmbedSrc(videoId, autoplay)}
+            className="absolute inset-0 h-full w-full border-0"
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
             title={title}
-            loading="lazy"
+            loading={eager ? "eager" : "lazy"}
           />
         ) : (
           <button
             type="button"
-            onClick={() => setIsActive(true)}
+            onClick={handlePlayClick}
             className="absolute inset-0 w-full h-full border-0 p-0 cursor-pointer bg-muted group"
             aria-label={`Play video: ${title}`}
           >
