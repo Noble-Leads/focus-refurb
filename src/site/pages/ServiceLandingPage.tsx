@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import LazyVimeoEmbed from "@/components/LazyVimeoEmbed";
+import VimeoEmbed from "@/components/VimeoEmbed";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
@@ -85,16 +85,12 @@ const CaseStudySection = ({
   formAnchorId: string;
 }) => {
   return (
-    <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
+    <section className={`${LANDING_SECTION} bg-secondary`}>
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
-          <ScrollReveal>
-            <div className="w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md">
-              <LazyVimeoEmbed
-                videoId={caseStudy.vimeoVideoId}
-                title={caseStudy.iframeTitle}
-                eager
-              />
+          <ScrollReveal instant>
+            <div className="w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible]">
+              <VimeoEmbed videoId={caseStudy.vimeoVideoId} title={caseStudy.iframeTitle} />
             </div>
           </ScrollReveal>
           <ScrollReveal>

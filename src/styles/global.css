@@ -163,6 +163,12 @@
     content-visibility: auto;
     contain-intrinsic-size: auto 480px;
   }
+
+  /* Embedded players must not sit inside skipped content-visibility subtrees */
+  .case-study-video,
+  .case-study-video iframe {
+    content-visibility: visible;
+  }
 }
 
 @keyframes reveal-in {
