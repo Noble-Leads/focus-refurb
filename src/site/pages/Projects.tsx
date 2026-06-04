@@ -1,6 +1,8 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import CaseStudyBlock from "@/components/CaseStudyBlock";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
+import { projectsPageCaseStudies } from "@/lib/caseStudies";
 import { ArrowRight } from "lucide-react";
 
 const projects = [
@@ -27,17 +29,42 @@ const ProjectsPage = () => {
           <ScrollReveal>
             <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Our Portfolio</p>
             <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-section-dark-foreground mb-4">
-              Projects We're Proud Of
+              Projects We&apos;re Proud Of
             </h1>
             <p className="text-hero-muted text-lg max-w-2xl">
-              Explore a selection of our recent work across London and the South East — from complete refurbishments to precision installations.
+              Watch recent projects in detail, then browse more of our work across London and the South East — from complete refurbishments to precision installations.
             </p>
           </ScrollReveal>
         </div>
       </section>
 
+      <section className="py-16 md:py-20 bg-secondary">
+        <div className="container max-w-6xl">
+          <ScrollReveal>
+            <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3 text-center md:text-left">
+              Recent projects
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center md:text-left mb-10 md:mb-14">
+              See the work for yourself
+            </h2>
+          </ScrollReveal>
+          <div className="space-y-16 md:space-y-24">
+            {projectsPageCaseStudies.map((caseStudy, index) => (
+              <ScrollReveal key={caseStudy.id}>
+                <CaseStudyBlock caseStudy={caseStudy} reverse={index % 2 === 1} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-background">
         <div className="container">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-10">
+              More from our portfolio
+            </h2>
+          </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {projects.map((project, i) => (
               <ScrollReveal key={i} delay={i * 60}>

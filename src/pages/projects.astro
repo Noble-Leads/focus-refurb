@@ -11,8 +11,12 @@ import ProjectsPage from "../site/pages/Projects";
   ogTitle="Our Projects | Focus Refurbishment Ltd"
   ogDescription="View our portfolio of completed refurbishment, extension, roofing and restoration projects across London and the South East."
   ogUrl="https://focusrefurbishmentltd.com/projects"
+  preconnectOrigins={[
+    "https://player.vimeo.com",
+    "https://i.vimeocdn.com",
+  ]}
 >
-  <PageShell client:idle>
+  <PageShell client:load>
     <ProjectsPage />
   </PageShell>
 </Layout>

@@ -7,6 +7,7 @@ import {
   Paintbrush,
   Users,
 } from "lucide-react";
+import { gradeIiCaseStudy } from "@/lib/caseStudies";
 import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingPage";
 
 const paintingConfig: ServiceLandingConfig = {
@@ -94,28 +95,10 @@ const paintingConfig: ServiceLandingConfig = {
   ],
   showVideoSection: false,
   caseStudy: {
+    ...gradeIiCaseStudy,
     anchorId: "painting-our-work",
     label: "Real Project",
-    title: "Grade II Building Refurbishment, London",
-    intro:
-      "This Grade II listed property was dated and in poor condition when we took it on. We transformed it into something the owners are proud of — keeping the charm of the building while bringing every room up to a modern, professional standard.",
-    bulletsHeading: "What we delivered",
-    bullets: [
-      "Full repaint and wallpaper throughout",
-      "Plaster cornice installed all the way around the room",
-      "Original fireplaces restored — blacked out with tiles chosen to suit the period character",
-      "Built-in wardrobes from IKEA packs, finished with MDF doors and wooden moulding for a bespoke look",
-      "Designed and built in-house to maximise space with a sleek, professional finish",
-      "Plumbing, electrics, curtain tracks, and in-house curtain alterations",
-    ],
-    scopeNote:
-      "Everything in this room was designed and fitted by our team — from the wallpaper and carpentry to the plumbing and electrics. One contractor, one standard, so you do not have to coordinate multiple trades yourself.",
-    quote:
-      "This is the standard we bring to every job — whatever the property, whatever the scope.",
-    quoteAttribution: "Focus Refurbishment Team",
     ctaLabel: "Get a Free Quote",
-    vimeoVideoId: "1198024690",
-    iframeTitle: "Focus Refurbishment - Grade II Building Refurb",
   },
   formEmbed: {
     src: "https://app.focusrefurbishmentltd.com/widget/form/aGIxGyqzSaQuYMOOZijO",
