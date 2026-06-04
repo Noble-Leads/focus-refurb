@@ -89,15 +89,20 @@ const CaseStudySection = ({
   caseStudy: CaseStudyConfig;
   formAnchorId: string;
 }) => {
-  const sectionId = caseStudy.anchorId ?? "case-study";
   const caseStudyCtaTarget = caseStudy.ctaAnchorId ?? formAnchorId;
+  const videoAnchorId = caseStudy.anchorId;
 
   return (
-    <section id={sectionId} className={`${LANDING_SECTION} bg-secondary scroll-mt-28`}>
+    <section className={`${LANDING_SECTION} bg-secondary`}>
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
           <ScrollReveal instant>
-            <div className="w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible]">
+            <div
+              id={videoAnchorId}
+              className={`w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible] ${
+                videoAnchorId ? "scroll-mt-24" : ""
+              }`.trim()}
+            >
               <VimeoEmbed videoId={caseStudy.vimeoVideoId} title={caseStudy.iframeTitle} />
             </div>
           </ScrollReveal>
