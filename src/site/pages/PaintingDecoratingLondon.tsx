@@ -124,7 +124,6 @@ const paintingConfig: ServiceLandingConfig = {
     iframeHeight: "502px",
     minHeightClassName: "min-h-[502px]",
     embedScriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
-    deferLoad: true,
   },
   videoHeading: "Recent Painting & Decorating Project",
   videoCaption: "A commercial decorating contract completed by the Focus Refurbishment team.",
