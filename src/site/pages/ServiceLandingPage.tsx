@@ -23,6 +23,8 @@ export type ServiceLandingConfig = {
   alertBox: string;
   heroBullets: string[];
   heroCtaLabel: string;
+  /** Scroll target for the hero CTA; defaults to the enquiry form */
+  heroCtaAnchorId?: string;
   heroFormTitle: string;
   heroFormSubtitle: string;
   trustStats: { value: string; label: string }[];
@@ -64,8 +66,11 @@ export type ServiceLandingConfig = {
     quote: string;
     quoteAttribution: string;
     ctaLabel: string;
+    ctaAnchorId?: string;
     vimeoVideoId: string;
     iframeTitle: string;
+    /** Section id for in-page links (e.g. hero “See our work”) */
+    anchorId?: string;
   };
 };
 
@@ -84,8 +89,11 @@ const CaseStudySection = ({
   caseStudy: CaseStudyConfig;
   formAnchorId: string;
 }) => {
+  const sectionId = caseStudy.anchorId ?? "case-study";
+  const caseStudyCtaTarget = caseStudy.ctaAnchorId ?? formAnchorId;
+
   return (
-    <section className={`${LANDING_SECTION} bg-secondary`}>
+    <section id={sectionId} className={`${LANDING_SECTION} bg-secondary scroll-mt-28`}>
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
           <ScrollReveal instant>
@@ -134,7 +142,7 @@ const CaseStudySection = ({
                   — {caseStudy.quoteAttribution}
                 </footer>
               </blockquote>
-              <a href={`#${formAnchorId}`}>
+              <a href={`#${caseStudyCtaTarget}`}>
                 <Button variant="gold" size="xl" className="w-full sm:w-auto">
                   {caseStudy.ctaLabel} <ArrowRight className="w-5 h-5" />
                 </Button>
@@ -156,6 +164,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     alertBox,
     heroBullets,
     heroCtaLabel,
+    heroCtaAnchorId,
     heroFormTitle,
     heroFormSubtitle,
     trustStats,
@@ -179,6 +188,8 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     positiveProblemBullets = false,
     caseStudy,
   } = config;
+
+  const heroCtaTarget = heroCtaAnchorId ?? formAnchorId;
 
   return (
     <div className="overflow-hidden">
@@ -208,7 +219,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                 ))}
               </ul>
 
-              <a href={`#${formAnchorId}`}>
+              <a href={`#${heroCtaTarget}`}>
                 <Button variant="gold" size="xl" className="w-full sm:w-auto">
                   {heroCtaLabel} <ArrowRight className="w-5 h-5" />
                 </Button>

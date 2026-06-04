@@ -24,7 +24,8 @@ const paintingConfig: ServiceLandingConfig = {
     "Full interiors and exteriors",
     "Ongoing maintenance contracts available",
   ],
-  heroCtaLabel: "Get a Painting Quote",
+  heroCtaLabel: "See Our Work",
+  heroCtaAnchorId: "painting-our-work",
   heroFormTitle: "Get a Painting Quote",
   heroFormSubtitle: "Tell us about your properties and we will respond within hours.",
   trustStats: [
@@ -93,6 +94,7 @@ const paintingConfig: ServiceLandingConfig = {
   ],
   showVideoSection: false,
   caseStudy: {
+    anchorId: "painting-our-work",
     label: "Real Project",
     title: "Grade II Building Refurbishment, London",
     intro:
