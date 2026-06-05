@@ -174,8 +174,6 @@ const refurbishmentConfig: ServiceLandingConfig = {
     "25 years' experience, fully insured",
   ],
   finalCtaLabel: "Get a Free Quote",
-  finalCtaShowForm: true,
-  finalCtaHideFormOnMobile: true,
   finalCtaBulletsAsList: true,
   showBottomStrip: false,
 };
