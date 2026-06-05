@@ -109,8 +109,8 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="container flex items-center justify-between py-4">
-        <a href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Focus Refurbishment, home">
+      <div className="container flex items-center justify-between gap-3 py-4 min-w-0">
+        <a href="/" className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3 md:flex-initial" aria-label="Focus Refurbishment, home">
           <img
             src="/images/logo.png"
             alt=""
@@ -118,9 +118,9 @@ const Header = () => {
             height={48}
             loading="eager"
             decoding="async"
-            className="h-10 w-auto"
+            className="h-10 w-auto shrink-0"
           />
-          <span className="text-sm sm:text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
+          <span className="truncate text-sm sm:text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
             Focus Refurbishment
           </span>
         </a>
@@ -145,7 +145,7 @@ const Header = () => {
           </a>
         </nav>
 
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex shrink-0 md:hidden items-center gap-3">
           <button
             ref={menuButtonRef}
             type="button"

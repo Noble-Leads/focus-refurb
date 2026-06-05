@@ -22,7 +22,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     pathname === "/refurbishment-london";
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="min-h-screen flex flex-col relative overflow-x-hidden max-w-full">
       <a
         href="#main-content"
         className="absolute left-4 top-0 z-[100] -translate-y-full rounded-b-md bg-gold px-4 py-3 text-sm font-semibold text-section-dark shadow-md outline-none ring-2 ring-section-dark ring-offset-2 ring-offset-background transition-transform focus:translate-y-0 focus-visible:translate-y-0"
@@ -33,7 +33,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <main
         id="main-content"
         tabIndex={-1}
-        className="flex-1 pb-20 md:pb-0 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="flex-1 pb-20 md:pb-0 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background overflow-x-hidden max-w-full min-w-0"
       >
         {children}
       </main>

@@ -196,7 +196,7 @@ const GhlFormEmbed = ({
   return (
     <div
       ref={wrapperRef}
-      className={`relative ${resolvedMinHeightClass} ${wrapperClassName}`.trim()}
+      className={`relative max-w-full min-w-0 overflow-hidden ${resolvedMinHeightClass} ${wrapperClassName}`.trim()}
       onPointerDown={() => {
         if (deferLoad && !shouldLoadFrame) {
           setShouldLoadFrame(true);
@@ -221,7 +221,7 @@ const GhlFormEmbed = ({
       {shouldLoadFrame && (
       <iframe
         src={src}
-        style={{ width: "100%", height: resolvedIframeHeight, border: "none", borderRadius: "8px" }}
+        style={{ width: "100%", maxWidth: "100%", height: resolvedIframeHeight, border: "none", borderRadius: "8px" }}
         id={iframeId}
         loading="lazy"
         data-layout='{"id":"INLINE"}'

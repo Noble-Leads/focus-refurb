@@ -312,25 +312,29 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-x-hidden max-w-full min-w-0">
       <section
         className={`section-dark relative overflow-hidden ${
           mobileOptimizations ? "pt-28 md:pt-32 pb-10 md:pb-12" : "pt-24 md:pt-32 pb-8 md:pb-12"
         }`}
       >
         <HeroBackdrop />
-        <div className="container relative z-10">
+        <div className="container relative z-10 min-w-0 max-w-full">
           <div
-            className={`grid lg:grid-cols-12 items-start ${
+            className={`grid lg:grid-cols-12 items-start min-w-0 ${
               mobileOptimizations ? "gap-6 lg:gap-10" : "gap-8 lg:gap-10"
             }`}
           >
-            <ScrollReveal instant className="lg:col-span-6">
-              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-2 sm:mb-3">
+            <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
+              <p
+                className={`text-gold font-heading font-semibold uppercase text-xs sm:text-sm mb-2 sm:mb-3 ${
+                  mobileOptimizations ? "tracking-wide sm:tracking-widest" : "tracking-widest"
+                }`}
+              >
                 {heroEyebrow}
               </p>
               <h1
-                className={`font-heading font-extrabold text-section-dark-foreground mb-3 sm:mb-4 max-w-2xl ${
+                className={`font-heading font-extrabold text-section-dark-foreground mb-3 sm:mb-4 max-w-2xl break-words ${
                   mobileOptimizations
                     ? "text-[1.65rem] leading-[1.2] sm:text-3xl md:text-5xl lg:text-[3rem] lg:leading-tight"
                     : "text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight"
@@ -372,22 +376,30 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                 ))}
               </ul>
 
-              <a href={`#${heroCtaTarget}`}>
-                <Button variant="gold" size="xl" className="w-full sm:w-auto">
-                  {heroCtaLabel} <ArrowRight className="w-5 h-5" />
+              <a href={`#${heroCtaTarget}`} className="block w-full max-w-full min-w-0">
+                <Button
+                  variant="gold"
+                  size="xl"
+                  className={`w-full max-w-full min-w-0 ${
+                    mobileOptimizations
+                      ? "h-auto min-h-14 whitespace-normal px-4 py-3 text-sm leading-snug sm:whitespace-nowrap sm:px-10 sm:text-lg"
+                      : "sm:w-auto"
+                  }`}
+                >
+                  {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
                 </Button>
               </a>
             </ScrollReveal>
 
-            <ScrollReveal instant className="lg:col-span-6">
+            <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
               <div
                 id={formAnchorId}
-                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto ${
+                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto overflow-hidden ${
                   mobileOptimizations ? "scroll-mt-32 md:scroll-mt-28" : "scroll-mt-28"
                 }`}
               >
                 <h2
-                  className={`font-heading font-bold text-foreground mb-1 ${
+                  className={`font-heading font-bold text-foreground mb-1 break-words ${
                     mobileOptimizations ? "text-xl sm:text-2xl" : "text-2xl"
                   }`}
                 >
@@ -794,7 +806,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             {finalCtaShowForm && (
               <div
                 id={`${formAnchorId}-bottom`}
-                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 ${
+                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 md:max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 overflow-hidden ${
                   finalCtaHideFormOnMobile ? "hidden md:block" : ""
                 }`}
               >

@@ -26,7 +26,7 @@ const CaseStudyBlock = ({
       }`}
     >
       <div
-        className={`w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible] ${
+        className={`w-full max-w-full sm:max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible] ${
           reverse ? "md:order-2" : ""
         }`}
       >
