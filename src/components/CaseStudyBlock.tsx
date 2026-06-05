@@ -9,6 +9,7 @@ type CaseStudyBlockProps = {
   reverse?: boolean;
   ctaHref?: string;
   ctaLabel?: string;
+  compactOnMobile?: boolean;
 };
 
 const CaseStudyBlock = ({
@@ -16,9 +17,14 @@ const CaseStudyBlock = ({
   reverse = false,
   ctaHref = "/contact",
   ctaLabel = "Get a Free Quote",
+  compactOnMobile = false,
 }: CaseStudyBlockProps) => {
   return (
-    <article className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
+    <article
+      className={`grid md:grid-cols-2 items-start ${
+        compactOnMobile ? "gap-4 sm:gap-6 md:gap-8 lg:gap-12" : "gap-6 md:gap-8 lg:gap-12"
+      }`}
+    >
       <div
         className={`w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible] ${
           reverse ? "md:order-2" : ""
@@ -31,17 +37,25 @@ const CaseStudyBlock = ({
         <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
           {caseStudy.label}
         </p>
-        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-foreground mb-2">
+        <h2
+          className={`font-heading font-extrabold text-foreground mb-2 ${
+            compactOnMobile ? "text-xl sm:text-2xl md:text-3xl" : "text-2xl md:text-3xl"
+          }`}
+        >
           {caseStudy.title}
         </h2>
         {caseStudy.location && (
           <p className="text-muted-foreground text-sm mb-4">{caseStudy.location}</p>
         )}
-        <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
+        <p
+          className={`text-muted-foreground leading-relaxed mb-6 ${
+            compactOnMobile ? "text-sm sm:text-base md:text-lg" : "text-base md:text-lg"
+          }`}
+        >
           {caseStudy.intro}
         </p>
         {caseStudy.bulletsHeading && (
-          <h3 className="font-heading font-bold text-foreground text-lg mb-4">
+          <h3 className={`font-heading font-bold text-foreground mb-4 ${compactOnMobile ? "text-base md:text-lg" : "text-lg"}`}>
             {caseStudy.bulletsHeading}
           </h3>
         )}
@@ -54,14 +68,22 @@ const CaseStudyBlock = ({
           ))}
         </ul>
         {caseStudy.scopeNote && (
-          <div className="bg-card border border-border rounded-lg p-5 mb-6">
+          <div
+            className={`bg-card border border-border rounded-lg p-5 mb-6 ${
+              compactOnMobile ? "hidden md:block" : ""
+            }`}
+          >
             <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
               {caseStudy.scopeNote}
             </p>
           </div>
         )}
         {caseStudy.quote && (
-          <blockquote className="border-l-4 border-gold pl-5 mb-6">
+          <blockquote
+            className={`border-l-4 border-gold pl-5 mb-6 ${
+              compactOnMobile ? "hidden md:block" : ""
+            }`}
+          >
             <p className="text-foreground italic leading-relaxed text-lg mb-3">
               &ldquo;{caseStudy.quote}&rdquo;
             </p>

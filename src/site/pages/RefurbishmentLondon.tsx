@@ -13,9 +13,11 @@ import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingP
 
 const refurbishmentConfig: ServiceLandingConfig = {
   formAnchorId: "refurbishment-enquiry-form",
+  mobileOptimizations: true,
   heroEyebrow: "Full Property Refurbishment",
   heroHeadline:
     "Full Property Refurbishment in London & Kent — Design, Build & Fit-Out Under One Roof",
+  heroHeadlineMobile: "Full Property Refurbishment in London & Kent",
   heroSubheading:
     "From HMOs and flats to full house renovations and listed buildings. Focus Refurbishment manage everything start to finish — one team, one point of contact, zero stress.",
   alertBox:
@@ -26,7 +28,8 @@ const refurbishmentConfig: ServiceLandingConfig = {
     "Single point of contact start to finish",
     "Free callout across London & Kent",
   ],
-  heroCtaLabel: "Get a Free Refurbishment Quote",
+  heroCtaLabel: "See the Quality of Our Work",
+  heroCtaAnchorId: "refurbishment-recent-projects",
   heroFormTitle: "Get a Free Refurbishment Quote",
   heroFormSubtitle: "Tell us about your property and we will respond within hours.",
   trustStats: [
@@ -78,6 +81,8 @@ const refurbishmentConfig: ServiceLandingConfig = {
   ],
   showVideoSection: false,
   caseStudies: {
+    anchorId: "refurbishment-recent-projects",
+    placement: "afterValueCards",
     eyebrow: "Recent projects",
     heading: "Recent Projects",
     subheading:
@@ -93,7 +98,9 @@ const refurbishmentConfig: ServiceLandingConfig = {
     formName: "FR - Refurb",
     formId: "SXKJ1hbNc4q8oilhBk7Q",
     iframeHeight: "609px",
+    mobileIframeHeight: "520px",
     minHeightClassName: "min-h-[609px]",
+    mobileMinHeightClassName: "min-h-[520px]",
     embedScriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
   },
   processSteps: [
@@ -168,6 +175,7 @@ const refurbishmentConfig: ServiceLandingConfig = {
   ],
   finalCtaLabel: "Get a Free Quote",
   finalCtaShowForm: true,
+  finalCtaHideFormOnMobile: true,
   finalCtaBulletsAsList: true,
   showBottomStrip: false,
 };

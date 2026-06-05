@@ -9,7 +9,11 @@ type GhlFormEmbedProps = {
   phoneDisplay: string;
   phoneHref: string;
   minHeightClassName?: string;
+  /** Used below the md breakpoint when set */
+  mobileMinHeightClassName?: string;
   iframeHeight?: string;
+  /** Used below the md breakpoint when set */
+  mobileIframeHeight?: string;
   wrapperClassName?: string;
   successRedirectPath?: string;
   embedScriptSrc?: string;
@@ -63,7 +67,9 @@ const GhlFormEmbed = ({
   phoneDisplay,
   phoneHref,
   minHeightClassName = "min-h-[600px]",
+  mobileMinHeightClassName,
   iframeHeight = "100%",
+  mobileIframeHeight,
   wrapperClassName = "",
   successRedirectPath = "/thank-you",
   embedScriptSrc,
@@ -73,6 +79,21 @@ const GhlFormEmbed = ({
   const [shouldLoadFrame, setShouldLoadFrame] = useState(!deferLoad);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
+  const [resolvedIframeHeight, setResolvedIframeHeight] = useState(iframeHeight);
+  const [resolvedMinHeightClass, setResolvedMinHeightClass] = useState(minHeightClassName);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateSizing = () => {
+      const isDesktop = mediaQuery.matches;
+      setResolvedIframeHeight(!isDesktop && mobileIframeHeight ? mobileIframeHeight : iframeHeight);
+      setResolvedMinHeightClass(!isDesktop && mobileMinHeightClassName ? mobileMinHeightClassName : minHeightClassName);
+    };
+
+    updateSizing();
+    mediaQuery.addEventListener("change", updateSizing);
+    return () => mediaQuery.removeEventListener("change", updateSizing);
+  }, [iframeHeight, mobileIframeHeight, minHeightClassName, mobileMinHeightClassName]);
 
   useEffect(() => {
     if (!deferLoad || shouldLoadFrame) {
@@ -175,7 +196,7 @@ const GhlFormEmbed = ({
   return (
     <div
       ref={wrapperRef}
-      className={`relative ${minHeightClassName} ${wrapperClassName}`.trim()}
+      className={`relative ${resolvedMinHeightClass} ${wrapperClassName}`.trim()}
       onPointerDown={() => {
         if (deferLoad && !shouldLoadFrame) {
           setShouldLoadFrame(true);
@@ -200,7 +221,7 @@ const GhlFormEmbed = ({
       {shouldLoadFrame && (
       <iframe
         src={src}
-        style={{ width: "100%", height: iframeHeight, border: "none", borderRadius: "8px" }}
+        style={{ width: "100%", height: resolvedIframeHeight, border: "none", borderRadius: "8px" }}
         id={iframeId}
         loading="lazy"
         data-layout='{"id":"INLINE"}'

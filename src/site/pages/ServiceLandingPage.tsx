@@ -51,6 +51,10 @@ export type ServiceLandingConfig = {
     studies: CaseStudy[];
     ctaHref?: string;
     ctaLabel?: string;
+    /** Section id for in-page anchor links (e.g. hero “See our work”) */
+    anchorId?: string;
+    /** Where to render in page flow — default is after services */
+    placement?: "default" | "afterValueCards";
   };
   videoHeading?: string;
   videoCaption?: string;
@@ -63,9 +67,15 @@ export type ServiceLandingConfig = {
     formId: string;
     iframeHeight?: string;
     minHeightClassName?: string;
+    mobileIframeHeight?: string;
+    mobileMinHeightClassName?: string;
     embedScriptSrc?: string;
     deferLoad?: boolean;
   };
+  /** Shorter hero headline shown below the md breakpoint */
+  heroHeadlineMobile?: string;
+  mobileOptimizations?: boolean;
+  finalCtaHideFormOnMobile?: boolean;
   processSteps: { number: string; title: string; desc: string }[];
   testimonials: { quote: string; name: string; role: string }[];
   faqs: { q: string; a: string }[];
@@ -102,8 +112,67 @@ type ServiceLandingPageProps = {
 };
 
 type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
+type CaseStudiesConfig = NonNullable<ServiceLandingConfig["caseStudies"]>;
 
 const LANDING_SECTION = "py-12 md:py-20";
+
+const CaseStudiesSection = ({
+  caseStudies,
+  formAnchorId,
+  mobileOptimizations,
+}: {
+  caseStudies: CaseStudiesConfig;
+  formAnchorId: string;
+  mobileOptimizations: boolean;
+}) => {
+  const sectionId = caseStudies.anchorId ?? "recent-projects";
+
+  return (
+    <section
+      id={sectionId}
+      className={`${LANDING_SECTION} bg-secondary content-auto scroll-mt-32 md:scroll-mt-36`}
+    >
+      <div className="container max-w-6xl">
+        <ScrollReveal>
+          {caseStudies.eyebrow && (
+            <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3 text-center md:text-left">
+              {caseStudies.eyebrow}
+            </p>
+          )}
+          <h2
+            className={`font-heading font-extrabold text-foreground text-center md:text-left mb-4 ${
+              mobileOptimizations ? "text-2xl md:text-4xl" : "text-3xl md:text-4xl"
+            }`}
+          >
+            {caseStudies.heading}
+          </h2>
+          {caseStudies.subheading && (
+            <p
+              className={`text-muted-foreground mb-8 md:mb-14 max-w-3xl text-center md:text-left mx-auto md:mx-0 ${
+                mobileOptimizations ? "text-base md:text-lg" : "text-lg"
+              }`}
+            >
+              {caseStudies.subheading}
+            </p>
+          )}
+        </ScrollReveal>
+        <div className={mobileOptimizations ? "space-y-12 md:space-y-24" : "space-y-16 md:space-y-24"}>
+          {caseStudies.studies.map((study, index) => (
+            <ScrollReveal key={study.id}>
+              <CaseStudyBlock
+                caseStudy={study}
+                reverse={index % 2 === 1}
+                ctaHref={caseStudies.ctaHref ?? `#${formAnchorId}`}
+                ctaLabel={caseStudies.ctaLabel ?? "Get a Free Quote"}
+                compactOnMobile={mobileOptimizations}
+              />
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const CaseStudySection = ({
   caseStudy,
@@ -188,6 +257,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     formAnchorId,
     heroEyebrow,
     heroHeadline,
+    heroHeadlineMobile,
     heroSubheading,
     alertBox,
     heroBullets,
@@ -218,9 +288,11 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     finalCtaBullets,
     finalCtaLabel,
     finalCtaShowForm = false,
+    finalCtaHideFormOnMobile = false,
     finalCtaFormTitle,
     finalCtaFormSubtitle,
     finalCtaBulletsAsList = false,
+    mobileOptimizations = false,
     bottomStrip,
     showBottomStrip = true,
     positiveProblemBullets = false,
@@ -229,33 +301,69 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
 
   const servicesGridCols =
     servicesColumns === 4
-      ? "md:grid-cols-2 lg:grid-cols-4"
+      ? mobileOptimizations
+        ? "grid-cols-2 md:grid-cols-2 lg:grid-cols-4"
+        : "md:grid-cols-2 lg:grid-cols-4"
       : servicesColumns === 2
         ? "md:grid-cols-2"
         : "md:grid-cols-2 lg:grid-cols-3";
 
   const heroCtaTarget = heroCtaAnchorId ?? formAnchorId;
+  const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
 
   return (
     <div className="overflow-hidden">
-      <section className="section-dark pt-24 md:pt-32 pb-8 md:pb-12 relative overflow-hidden">
+      <section
+        className={`section-dark relative overflow-hidden ${
+          mobileOptimizations ? "pt-28 md:pt-32 pb-10 md:pb-12" : "pt-24 md:pt-32 pb-8 md:pb-12"
+        }`}
+      >
         <HeroBackdrop />
         <div className="container relative z-10">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          <div
+            className={`grid lg:grid-cols-12 items-start ${
+              mobileOptimizations ? "gap-6 lg:gap-10" : "gap-8 lg:gap-10"
+            }`}
+          >
             <ScrollReveal instant className="lg:col-span-6">
-              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-2 sm:mb-3">
                 {heroEyebrow}
               </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
-                {heroHeadline}
+              <h1
+                className={`font-heading font-extrabold text-section-dark-foreground mb-3 sm:mb-4 max-w-2xl ${
+                  mobileOptimizations
+                    ? "text-[1.65rem] leading-[1.2] sm:text-3xl md:text-5xl lg:text-[3rem] lg:leading-tight"
+                    : "text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight"
+                }`}
+              >
+                {heroHeadlineMobile ? (
+                  <>
+                    <span className="md:hidden">{heroHeadlineMobile}</span>
+                    <span className="hidden md:inline">{heroHeadline}</span>
+                  </>
+                ) : (
+                  heroHeadline
+                )}
               </h1>
-              <p className="text-hero-muted text-base md:text-lg mb-5 md:mb-6 max-w-xl">{heroSubheading}</p>
+              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-4 sm:mb-5 md:mb-6 max-w-xl">
+                {heroSubheading}
+              </p>
 
-              <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-6">
+              <div
+                className={`border border-gold/30 bg-primary/30 rounded-lg mb-5 sm:mb-6 ${
+                  mobileOptimizations ? "p-3 sm:p-4" : "p-4"
+                }`}
+              >
                 <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">{alertBox}</p>
               </div>
 
-              <ul className="grid gap-x-4 gap-y-2 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 mb-8">
+              <ul
+                className={`grid gap-x-4 gap-y-2 mb-6 sm:mb-8 ${
+                  mobileOptimizations
+                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+                    : "md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+                }`}
+              >
                 {heroBullets.map((point) => (
                   <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
                     <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
@@ -274,9 +382,17 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             <ScrollReveal instant className="lg:col-span-6">
               <div
                 id={formAnchorId}
-                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto scroll-mt-28"
+                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto ${
+                  mobileOptimizations ? "scroll-mt-32 md:scroll-mt-28" : "scroll-mt-28"
+                }`}
               >
-                <h2 className="text-2xl font-heading font-bold text-foreground mb-1">{heroFormTitle}</h2>
+                <h2
+                  className={`font-heading font-bold text-foreground mb-1 ${
+                    mobileOptimizations ? "text-xl sm:text-2xl" : "text-2xl"
+                  }`}
+                >
+                  {heroFormTitle}
+                </h2>
                 <p className="text-muted-foreground text-sm mb-3">{heroFormSubtitle}</p>
 
                 {formEmbed ? (
@@ -289,7 +405,9 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     phoneDisplay={LANDLINE_DISPLAY}
                     phoneHref={`tel:${LANDLINE_TEL}`}
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
+                    mobileMinHeightClassName={formEmbed.mobileMinHeightClassName}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
+                    mobileIframeHeight={formEmbed.mobileIframeHeight}
                     embedScriptSrc={formEmbed.embedScriptSrc}
                     deferLoad={formEmbed.deferLoad}
                   />
@@ -312,13 +430,35 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="bg-section-dark py-6 border-t border-b border-hero-foreground/10">
+      <section
+        className={`bg-section-dark border-t border-b border-hero-foreground/10 ${
+          mobileOptimizations ? "py-5 md:py-6" : "py-6"
+        }`}
+      >
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div
+            className={`grid grid-cols-2 md:grid-cols-4 text-center ${
+              mobileOptimizations ? "gap-4 md:gap-6" : "gap-6"
+            }`}
+          >
             {trustStats.map((stat) => (
               <div key={stat.label}>
-                <p className="text-gold font-heading font-extrabold text-2xl md:text-3xl">{stat.value}</p>
-                <p className="text-hero-muted uppercase tracking-wider text-xs mt-1">{stat.label}</p>
+                <p
+                  className={`text-gold font-heading font-extrabold ${
+                    mobileOptimizations ? "text-xl sm:text-2xl md:text-3xl" : "text-2xl md:text-3xl"
+                  }`}
+                >
+                  {stat.value}
+                </p>
+                <p
+                  className={`text-hero-muted uppercase mt-1 ${
+                    mobileOptimizations
+                      ? "text-[0.65rem] leading-tight sm:text-xs tracking-wide"
+                      : "tracking-wider text-xs"
+                  }`}
+                >
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
@@ -327,12 +467,28 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
 
       <section className={`${LANDING_SECTION} bg-background content-auto`}>
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className={`grid md:grid-cols-2 ${mobileOptimizations ? "gap-4 md:gap-6" : "gap-6"}`}>
             {valueCards.map((card) => (
               <ScrollReveal key={card.title}>
-                <div className="bg-card rounded-lg border border-border border-t-4 border-t-gold p-6 h-full">
-                  <h3 className="text-xl font-heading font-bold text-foreground mb-3">{card.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{card.desc}</p>
+                <div
+                  className={`bg-card rounded-lg border border-border border-t-4 border-t-gold h-full ${
+                    mobileOptimizations ? "p-4 md:p-6" : "p-6"
+                  }`}
+                >
+                  <h3
+                    className={`font-heading font-bold text-foreground mb-2 md:mb-3 ${
+                      mobileOptimizations ? "text-lg md:text-xl" : "text-xl"
+                    }`}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    className={`text-muted-foreground leading-relaxed ${
+                      mobileOptimizations ? "text-sm md:text-base" : ""
+                    }`}
+                  >
+                    {card.desc}
+                  </p>
                 </div>
               </ScrollReveal>
             ))}
@@ -340,13 +496,31 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
+      {caseStudiesAfterValueCards && caseStudies && (
+        <CaseStudiesSection
+          caseStudies={caseStudies}
+          formAnchorId={formAnchorId}
+          mobileOptimizations={mobileOptimizations}
+        />
+      )}
+
       <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
         <div className="container max-w-4xl">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-4">
+            <h2
+              className={`font-heading font-extrabold text-foreground text-center mb-4 ${
+                mobileOptimizations ? "text-2xl md:text-4xl" : "text-3xl md:text-4xl"
+              }`}
+            >
               {problemHeading}
             </h2>
-            <p className="text-muted-foreground text-center text-lg mb-10">{problemBody}</p>
+            <p
+              className={`text-muted-foreground text-center mb-8 md:mb-10 ${
+                mobileOptimizations ? "text-base md:text-lg px-1" : "text-lg"
+              }`}
+            >
+              {problemBody}
+            </p>
           </ScrollReveal>
           <ul className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {problemBullets.map((bullet) => (
@@ -380,18 +554,42 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                 {servicesSubheading}
               </p>
             )}
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
+            <h2
+              className={`font-heading font-extrabold text-foreground text-center ${
+                mobileOptimizations ? "text-2xl md:text-4xl mb-8 md:mb-12" : "text-3xl md:text-4xl mb-12"
+              }`}
+            >
               {servicesHeading}
             </h2>
           </ScrollReveal>
-          <div className={`grid ${servicesGridCols} gap-6 max-w-6xl mx-auto`}>
+          <div
+            className={`grid ${servicesGridCols} max-w-6xl mx-auto ${
+              mobileOptimizations ? "gap-3 sm:gap-4 md:gap-6" : "gap-6"
+            }`}
+          >
             {services.map((service) => (
               <ScrollReveal key={service.title}>
-                <div className="bg-card rounded-lg border border-border p-6 h-full hover:shadow-lg transition-shadow">
-                  <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-4">
-                    <service.icon className="text-gold w-6 h-6" />
+                <div
+                  className={`bg-card rounded-lg border border-border h-full hover:shadow-lg transition-shadow ${
+                    mobileOptimizations ? "p-3 sm:p-4 md:p-6" : "p-6"
+                  }`}
+                >
+                  <div
+                    className={`rounded-lg bg-gold/10 flex items-center justify-center ${
+                      mobileOptimizations ? "w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 mb-2 sm:mb-3 md:mb-4" : "w-12 h-12 mb-4"
+                    }`}
+                  >
+                    <service.icon
+                      className={`text-gold ${mobileOptimizations ? "w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" : "w-6 h-6"}`}
+                    />
                   </div>
-                  <h3 className="font-heading font-bold text-lg text-foreground mb-1">{service.title}</h3>
+                  <h3
+                    className={`font-heading font-bold text-foreground mb-1 ${
+                      mobileOptimizations ? "text-sm sm:text-base md:text-lg leading-snug" : "text-lg"
+                    }`}
+                  >
+                    {service.title}
+                  </h3>
                   {service.subtitle && (
                     <p className="text-muted-foreground text-sm leading-relaxed">{service.subtitle}</p>
                   )}
@@ -404,38 +602,12 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
 
       {caseStudy && <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />}
 
-      {caseStudies && (
-        <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
-          <div className="container max-w-6xl">
-            <ScrollReveal>
-              {caseStudies.eyebrow && (
-                <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3 text-center md:text-left">
-                  {caseStudies.eyebrow}
-                </p>
-              )}
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center md:text-left mb-4">
-                {caseStudies.heading}
-              </h2>
-              {caseStudies.subheading && (
-                <p className="text-muted-foreground text-lg mb-10 md:mb-14 max-w-3xl text-center md:text-left mx-auto md:mx-0">
-                  {caseStudies.subheading}
-                </p>
-              )}
-            </ScrollReveal>
-            <div className="space-y-16 md:space-y-24">
-              {caseStudies.studies.map((study, index) => (
-                <ScrollReveal key={study.id}>
-                  <CaseStudyBlock
-                    caseStudy={study}
-                    reverse={index % 2 === 1}
-                    ctaHref={caseStudies.ctaHref ?? `#${formAnchorId}`}
-                    ctaLabel={caseStudies.ctaLabel ?? "Get a Free Quote"}
-                  />
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </section>
+      {caseStudies && !caseStudiesAfterValueCards && (
+        <CaseStudiesSection
+          caseStudies={caseStudies}
+          formAnchorId={formAnchorId}
+          mobileOptimizations={mobileOptimizations}
+        />
       )}
 
       {dualVideos && (
@@ -491,19 +663,39 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
       <section className={`section-dark ${LANDING_SECTION} content-auto`}>
         <div className="container">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground text-center mb-12">
+            <h2
+              className={`font-heading font-extrabold text-section-dark-foreground text-center ${
+                mobileOptimizations ? "text-2xl md:text-4xl mb-8 md:mb-12" : "text-3xl md:text-4xl mb-12"
+              }`}
+            >
               Simple Process. Fast Turnaround.
             </h2>
           </ScrollReveal>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div
+            className={`grid gap-6 ${
+              mobileOptimizations ? "grid-cols-2 md:grid-cols-4 md:gap-8" : "md:grid-cols-4 gap-8"
+            }`}
+          >
             {processSteps.map((step) => (
               <ScrollReveal key={step.number}>
                 <div className="text-center">
                   <div className="mx-auto mb-4 w-14 h-14 rounded-full border-2 border-gold text-gold flex items-center justify-center font-heading font-extrabold text-xl">
                     {step.number}
                   </div>
-                  <h3 className="text-section-dark-foreground text-lg font-heading font-bold mb-2">{step.title}</h3>
-                  <p className="text-hero-muted text-sm leading-relaxed">{step.desc}</p>
+                  <h3
+                    className={`text-section-dark-foreground font-heading font-bold mb-2 ${
+                      mobileOptimizations ? "text-sm sm:text-base md:text-lg leading-snug" : "text-lg"
+                    }`}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    className={`text-hero-muted leading-relaxed ${
+                      mobileOptimizations ? "text-xs sm:text-sm" : "text-sm"
+                    }`}
+                  >
+                    {step.desc}
+                  </p>
                 </div>
               </ScrollReveal>
             ))}
@@ -548,13 +740,27 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             </h2>
           </ScrollReveal>
           <ScrollReveal>
-            <Accordion type="single" collapsible className="bg-card rounded-lg border border-border px-6">
+            <Accordion
+              type="single"
+              collapsible
+              className={`bg-card rounded-lg border border-border ${
+                mobileOptimizations ? "px-4 md:px-6" : "px-6"
+              }`}
+            >
               {faqs.map((faq, index) => (
                 <AccordionItem key={faq.q} value={`faq-${index}`} className="border-border">
-                  <AccordionTrigger className="text-left font-heading font-bold text-foreground hover:no-underline py-5">
+                  <AccordionTrigger
+                    className={`text-left font-heading font-bold text-foreground hover:no-underline gap-3 ${
+                      mobileOptimizations ? "py-4 text-sm md:text-base md:py-5" : "py-5"
+                    }`}
+                  >
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                  <AccordionContent
+                    className={`text-muted-foreground leading-relaxed pb-4 md:pb-5 ${
+                      mobileOptimizations ? "text-sm md:text-base" : ""
+                    }`}
+                  >
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -588,7 +794,9 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             {finalCtaShowForm && (
               <div
                 id={`${formAnchorId}-bottom`}
-                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] mx-auto mb-8 text-left scroll-mt-28"
+                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 ${
+                  finalCtaHideFormOnMobile ? "hidden md:block" : ""
+                }`}
               >
                 <h3 className="text-2xl font-heading font-bold text-foreground mb-1">
                   {finalCtaFormTitle ?? heroFormTitle}
@@ -607,7 +815,9 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     phoneDisplay={LANDLINE_DISPLAY}
                     phoneHref={`tel:${LANDLINE_TEL}`}
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
+                    mobileMinHeightClassName={formEmbed.mobileMinHeightClassName}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
+                    mobileIframeHeight={formEmbed.mobileIframeHeight}
                     embedScriptSrc={formEmbed.embedScriptSrc}
                     deferLoad={formEmbed.deferLoad}
                   />
@@ -627,7 +837,11 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <div
+              className={`flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 ${
+                mobileOptimizations ? "px-1" : ""
+              }`}
+            >
               <a href={`#${formAnchorId}`} className="w-full sm:w-auto">
                 <Button variant="gold" size="xl" className="w-full sm:w-auto">
                   {finalCtaLabel} <ArrowRight className="w-5 h-5" />
