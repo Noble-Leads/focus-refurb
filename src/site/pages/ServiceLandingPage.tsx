@@ -1,7 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import CaseStudyBlock from "@/components/CaseStudyBlock";
 import VimeoEmbed from "@/components/VimeoEmbed";
+import type { CaseStudy } from "@/lib/caseStudies";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
@@ -32,8 +34,24 @@ export type ServiceLandingConfig = {
   problemHeading: string;
   problemBody: string;
   problemBullets: string[];
+  problemClosing?: string;
   servicesSubheading?: string;
+  servicesHeading?: string;
+  servicesColumns?: 2 | 3 | 4;
   services: { icon: LucideIcon; title: string; subtitle?: string }[];
+  dualVideos?: {
+    heading: string;
+    subheading: string;
+    videos: { vimeoVideoId: string; iframeTitle: string; label: string }[];
+  };
+  caseStudies?: {
+    eyebrow?: string;
+    heading: string;
+    subheading?: string;
+    studies: CaseStudy[];
+    ctaHref?: string;
+    ctaLabel?: string;
+  };
   videoHeading?: string;
   videoCaption?: string;
   showVideoSection?: boolean;
@@ -54,7 +72,12 @@ export type ServiceLandingConfig = {
   finalCtaHeading: string;
   finalCtaBullets: string[];
   finalCtaLabel: string;
-  bottomStrip: string;
+  finalCtaShowForm?: boolean;
+  finalCtaFormTitle?: string;
+  finalCtaFormSubtitle?: string;
+  finalCtaBulletsAsList?: boolean;
+  bottomStrip?: string;
+  showBottomStrip?: boolean;
   positiveProblemBullets?: boolean;
   caseStudy?: {
     label: string;
@@ -177,8 +200,13 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     problemHeading,
     problemBody,
     problemBullets,
+    problemClosing,
     servicesSubheading,
+    servicesHeading = "Our Services",
+    servicesColumns,
     services,
+    dualVideos,
+    caseStudies,
     videoHeading,
     videoCaption,
     showVideoSection = true,
@@ -189,10 +217,22 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     finalCtaHeading,
     finalCtaBullets,
     finalCtaLabel,
+    finalCtaShowForm = false,
+    finalCtaFormTitle,
+    finalCtaFormSubtitle,
+    finalCtaBulletsAsList = false,
     bottomStrip,
+    showBottomStrip = true,
     positiveProblemBullets = false,
     caseStudy,
   } = config;
+
+  const servicesGridCols =
+    servicesColumns === 4
+      ? "md:grid-cols-2 lg:grid-cols-4"
+      : servicesColumns === 2
+        ? "md:grid-cols-2"
+        : "md:grid-cols-2 lg:grid-cols-3";
 
   const heroCtaTarget = heroCtaAnchorId ?? formAnchorId;
 
@@ -322,6 +362,13 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
               </ScrollReveal>
             ))}
           </ul>
+          {problemClosing && (
+            <ScrollReveal>
+              <p className="text-muted-foreground text-center text-base md:text-lg mt-10 max-w-3xl mx-auto leading-relaxed">
+                {problemClosing}
+              </p>
+            </ScrollReveal>
+          )}
         </div>
       </section>
 
@@ -334,10 +381,10 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
               </p>
             )}
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
-              Our Services
+              {servicesHeading}
             </h2>
           </ScrollReveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className={`grid ${servicesGridCols} gap-6 max-w-6xl mx-auto`}>
             {services.map((service) => (
               <ScrollReveal key={service.title}>
                 <div className="bg-card rounded-lg border border-border p-6 h-full hover:shadow-lg transition-shadow">
@@ -356,6 +403,69 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
       </section>
 
       {caseStudy && <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />}
+
+      {caseStudies && (
+        <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
+          <div className="container max-w-6xl">
+            <ScrollReveal>
+              {caseStudies.eyebrow && (
+                <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3 text-center md:text-left">
+                  {caseStudies.eyebrow}
+                </p>
+              )}
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center md:text-left mb-4">
+                {caseStudies.heading}
+              </h2>
+              {caseStudies.subheading && (
+                <p className="text-muted-foreground text-lg mb-10 md:mb-14 max-w-3xl text-center md:text-left mx-auto md:mx-0">
+                  {caseStudies.subheading}
+                </p>
+              )}
+            </ScrollReveal>
+            <div className="space-y-16 md:space-y-24">
+              {caseStudies.studies.map((study, index) => (
+                <ScrollReveal key={study.id}>
+                  <CaseStudyBlock
+                    caseStudy={study}
+                    reverse={index % 2 === 1}
+                    ctaHref={caseStudies.ctaHref ?? `#${formAnchorId}`}
+                    ctaLabel={caseStudies.ctaLabel ?? "Get a Free Quote"}
+                  />
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {dualVideos && (
+        <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
+          <div className="container max-w-6xl">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-4">
+                {dualVideos.heading}
+              </h2>
+              <p className="text-muted-foreground text-center text-lg mb-8 max-w-3xl mx-auto">
+                {dualVideos.subheading}
+              </p>
+            </ScrollReveal>
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+              {dualVideos.videos.map((video) => (
+                <ScrollReveal key={video.label}>
+                  <div>
+                    <div className="rounded-lg overflow-hidden border border-border shadow-md max-w-sm mx-auto md:max-w-none">
+                      <VimeoEmbed videoId={video.vimeoVideoId} title={video.iframeTitle} />
+                    </div>
+                    <p className="text-foreground font-heading font-semibold text-sm md:text-base text-center mt-4">
+                      {video.label}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {showVideoSection && videoHeading && (
       <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
@@ -460,9 +570,63 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white mb-4">
               {finalCtaHeading}
             </h2>
-            <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
-              {finalCtaBullets.join(" · ")}
-            </p>
+            {finalCtaBulletsAsList ? (
+              <ul className="text-white/85 text-lg mb-8 max-w-2xl mx-auto space-y-2 text-left sm:text-center">
+                {finalCtaBullets.map((bullet) => (
+                  <li key={bullet} className="flex items-start sm:items-center sm:justify-center gap-2.5">
+                    <CheckCircle2 className="w-5 h-5 text-gold mt-0.5 sm:mt-0 shrink-0" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
+                {finalCtaBullets.join(" · ")}
+              </p>
+            )}
+
+            {finalCtaShowForm && (
+              <div
+                id={`${formAnchorId}-bottom`}
+                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] mx-auto mb-8 text-left scroll-mt-28"
+              >
+                <h3 className="text-2xl font-heading font-bold text-foreground mb-1">
+                  {finalCtaFormTitle ?? heroFormTitle}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-3">
+                  {finalCtaFormSubtitle ?? heroFormSubtitle}
+                </p>
+
+                {formEmbed ? (
+                  <GhlFormEmbed
+                    src={formEmbed.src}
+                    title={formEmbed.title}
+                    iframeId={`${formEmbed.iframeId}-bottom`}
+                    formName={formEmbed.formName}
+                    formId={formEmbed.formId}
+                    phoneDisplay={LANDLINE_DISPLAY}
+                    phoneHref={`tel:${LANDLINE_TEL}`}
+                    minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
+                    iframeHeight={formEmbed.iframeHeight ?? "502px"}
+                    embedScriptSrc={formEmbed.embedScriptSrc}
+                    deferLoad={formEmbed.deferLoad}
+                  />
+                ) : (
+                  <>
+                    {/* GHL FORM EMBED HERE */}
+                    <div className="min-h-[470px]" aria-hidden="true" />
+                  </>
+                )}
+
+                <p className="mt-1 text-center text-xs text-muted-foreground">
+                  Or call us:{" "}
+                  <a href={`tel:${LANDLINE_TEL}`} className="text-gold font-semibold hover:underline">
+                    {LANDLINE_DISPLAY}
+                  </a>
+                </p>
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <a href={`#${formAnchorId}`} className="w-full sm:w-auto">
                 <Button variant="gold" size="xl" className="w-full sm:w-auto">
@@ -480,11 +644,13 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      <section className="bg-gold/15 py-4 border-t border-gold/30">
-        <div className="container text-center text-foreground font-heading font-semibold tracking-wide">
-          {bottomStrip}
-        </div>
-      </section>
+      {showBottomStrip && bottomStrip && (
+        <section className="bg-gold/15 py-4 border-t border-gold/30">
+          <div className="container text-center text-foreground font-heading font-semibold tracking-wide">
+            {bottomStrip}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

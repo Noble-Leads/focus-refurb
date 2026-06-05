@@ -1,0 +1,96 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import RefurbishmentLondonPage from "../site/pages/RefurbishmentLondon";
+
+const refurbishmentJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Full Property Refurbishment London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Full property refurbishment across London and Kent. HMOs, flats, houses and listed buildings. Design, build and fit-out all in house. Free callout.",
+    serviceType: "Property Refurbishment",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What types of property do you refurbish?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All types — HMOs, flats, houses, apartments, period properties and Grade II listed buildings. Residential and commercial. We've worked across all of them over 25 years.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you work on Grade II listed and period properties?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We have specific experience with listed and heritage buildings, which require a different approach to standard refurbishment. We know the restrictions and how to work within them.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What's included — just the labour or full project management too?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Full project management is included as standard. We handle every trade in-house and you have one point of contact throughout. You don't need to coordinate anything.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How long does a full refurbishment take?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "It depends on the scope. We'll give you a realistic timeline upfront and stick to it. A full flat refurbishment typically takes 2–4 weeks. Larger properties and listed buildings take longer — we'll be upfront about this from day one.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What areas do you cover?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All of Greater London (within the M25) and Kent. We're based in Sidcup — well positioned for South and South East London and across into Kent.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Full Property Refurbishment London | Focus Refurbishment"
+  description="Full property refurbishment across London and Kent. HMOs, flats, houses and listed buildings. Design, build and fit-out all in house. Free callout — get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/refurbishment-london"
+  ogTitle="Full Property Refurbishment London | Focus Refurbishment"
+  ogDescription="Full property refurbishment across London and Kent. HMOs, flats, houses and listed buildings. Design, build and fit-out all in house. Free callout — get a quote today."
+  ogUrl="https://focusrefurbishmentltd.com/refurbishment-london"
+  extraJsonLd={refurbishmentJsonLd}
+  preconnectOrigins={[
+    "https://app.focusrefurbishmentltd.com",
+    "https://player.vimeo.com",
+    "https://i.vimeocdn.com",
+  ]}
+>
+  <PageShell client:load>
+    <RefurbishmentLondonPage />
+  </PageShell>
+</Layout>

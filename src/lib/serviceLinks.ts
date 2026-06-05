@@ -1,4 +1,5 @@
 const SERVICE_PAGE_LINKS: Partial<Record<string, string>> = {
+  "Full Refurbishment & Restoration": "/refurbishment-london",
   "Fire Door Installation": "/fire-door-installation-london",
   "Rubbish Removal": "/rubbish-removal",
   Roofing: "/roofing-london",

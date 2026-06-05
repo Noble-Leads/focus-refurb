@@ -38,19 +38,16 @@ const LandingHeader = () => {
       }`}
     >
       <div className="container flex items-center justify-between py-4">
-        <div className="flex items-center gap-2 sm:gap-3" aria-label="Focus Refurbishment">
+        <div className="flex items-center" aria-label="Focus Refurbishment">
           <img
             src="/images/logo.png"
-            alt=""
+            alt="Focus Refurbishment"
             width={200}
             height={48}
             loading="eager"
             decoding="async"
             className="h-10 w-auto"
           />
-          <span className="text-sm sm:text-xl font-heading font-extrabold text-hero-foreground tracking-tight">
-            Focus Refurbishment
-          </span>
         </div>
         <a
           href={`tel:${LANDLINE_TEL}`}

@@ -7,9 +7,16 @@ type CaseStudyBlockProps = {
   caseStudy: CaseStudy;
   /** Flip video/text on desktop for alternating layout */
   reverse?: boolean;
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
-const CaseStudyBlock = ({ caseStudy, reverse = false }: CaseStudyBlockProps) => {
+const CaseStudyBlock = ({
+  caseStudy,
+  reverse = false,
+  ctaHref = "/contact",
+  ctaLabel = "Get a Free Quote",
+}: CaseStudyBlockProps) => {
   return (
     <article className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
       <div
@@ -65,9 +72,9 @@ const CaseStudyBlock = ({ caseStudy, reverse = false }: CaseStudyBlockProps) => 
             )}
           </blockquote>
         )}
-        <a href="/contact">
+        <a href={ctaHref}>
           <Button variant="gold" size="lg" className="w-full sm:w-auto">
-            Get a Free Quote <ArrowRight className="w-5 h-5" />
+            {ctaLabel} <ArrowRight className="w-5 h-5" />
           </Button>
         </a>
       </div>

@@ -18,7 +18,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
     pathname === "/commercial-enquiries" ||
     pathname === "/fire-door-installation-london" ||
     pathname === "/roofing-london" ||
-    pathname === "/painting-decorating-london";
+    pathname === "/painting-decorating-london" ||
+    pathname === "/refurbishment-london";
 
   return (
     <div className="min-h-screen flex flex-col relative">
