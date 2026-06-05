@@ -97,6 +97,7 @@ const paintingConfig: ServiceLandingConfig = {
   caseStudy: {
     ...gradeIiCaseStudy,
     anchorId: "painting-our-work",
+    placement: "afterValueCards",
     label: "Real Project",
     ctaLabel: "Get a Free Quote",
   },

@@ -104,6 +104,8 @@ export type ServiceLandingConfig = {
     iframeTitle: string;
     /** Section id for in-page links (e.g. hero “See our work”) */
     anchorId?: string;
+    /** Where to render in page flow — default is after services */
+    placement?: "default" | "afterValueCards";
   };
 };
 
@@ -182,19 +184,16 @@ const CaseStudySection = ({
   formAnchorId: string;
 }) => {
   const caseStudyCtaTarget = caseStudy.ctaAnchorId ?? formAnchorId;
-  const videoAnchorId = caseStudy.anchorId;
 
   return (
-    <section className={`${LANDING_SECTION} bg-secondary`}>
+    <section
+      id={caseStudy.anchorId}
+      className={`${LANDING_SECTION} bg-secondary content-auto scroll-mt-32 md:scroll-mt-36`}
+    >
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
           <ScrollReveal instant>
-            <div
-              id={videoAnchorId}
-              className={`w-full max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible] ${
-                videoAnchorId ? "scroll-mt-24" : ""
-              }`.trim()}
-            >
+            <div className="w-full max-w-full sm:max-w-sm mx-auto md:max-w-none md:mx-0 rounded-lg overflow-hidden border border-border shadow-md [content-visibility:visible]">
               <VimeoEmbed videoId={caseStudy.vimeoVideoId} title={caseStudy.iframeTitle} />
             </div>
           </ScrollReveal>
@@ -310,6 +309,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
 
   const heroCtaTarget = heroCtaAnchorId ?? formAnchorId;
   const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
+  const caseStudyAfterValueCards = caseStudy?.placement === "afterValueCards";
 
   return (
     <div className="overflow-x-hidden max-w-full min-w-0">
@@ -516,6 +516,10 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         />
       )}
 
+      {caseStudyAfterValueCards && caseStudy && (
+        <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />
+      )}
+
       <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
         <div className="container max-w-4xl">
           <ScrollReveal>
@@ -612,7 +616,9 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
-      {caseStudy && <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />}
+      {caseStudy && !caseStudyAfterValueCards && (
+        <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />
+      )}
 
       {caseStudies && !caseStudiesAfterValueCards && (
         <CaseStudiesSection
