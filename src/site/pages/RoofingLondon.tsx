@@ -6,6 +6,10 @@ import {
   Triangle,
   Droplets,
 } from "lucide-react";
+import {
+  RoofingParapetCaseStudy,
+  RoofingStreathamCaseStudy,
+} from "@/components/RoofingProjectGallery";
 import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingPage";
 
 const roofingConfig: ServiceLandingConfig = {
@@ -174,6 +178,12 @@ const roofingConfig: ServiceLandingConfig = {
     "Roof repair & replacement — London & Kent — Same-day emergency callouts — Free inspections — Fully insured",
 };
 
-const RoofingLondonPage = () => <ServiceLandingPage config={roofingConfig} />;
+const RoofingLondonPage = () => (
+  <ServiceLandingPage
+    config={roofingConfig}
+    featuredProject={<RoofingStreathamCaseStudy formAnchorId={roofingConfig.formAnchorId} />}
+    secondaryProject={<RoofingParapetCaseStudy />}
+  />
+);
 
 export default RoofingLondonPage;

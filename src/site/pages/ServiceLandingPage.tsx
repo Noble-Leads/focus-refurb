@@ -111,6 +111,10 @@ export type ServiceLandingConfig = {
 
 type ServiceLandingPageProps = {
   config: ServiceLandingConfig;
+  /** Rendered after the problem section — e.g. a flagship case study */
+  featuredProject?: React.ReactNode;
+  /** Rendered after services — e.g. a secondary project highlight */
+  secondaryProject?: React.ReactNode;
 };
 
 type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
@@ -251,7 +255,7 @@ const CaseStudySection = ({
   );
 };
 
-const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
+const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: ServiceLandingPageProps) => {
   const {
     formAnchorId,
     heroEyebrow,
@@ -319,7 +323,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         }`}
       >
         <HeroBackdrop />
-        <div className="container relative z-10 min-w-0 max-w-full">
+        <div className="container relative z-10 min-w-0 max-w-7xl">
           <div
             className={`grid lg:grid-cols-12 items-start min-w-0 ${
               mobileOptimizations ? "gap-6 lg:gap-10" : "gap-8 lg:gap-10"
@@ -447,7 +451,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
           mobileOptimizations ? "py-5 md:py-6" : "py-6"
         }`}
       >
-        <div className="container">
+        <div className="container max-w-7xl">
           <div
             className={`grid grid-cols-2 md:grid-cols-4 text-center ${
               mobileOptimizations ? "gap-4 md:gap-6" : "gap-6"
@@ -477,8 +481,10 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         </div>
       </section>
 
+      {featuredProject}
+
       <section className={`${LANDING_SECTION} bg-background content-auto`}>
-        <div className="container">
+        <div className="container max-w-7xl">
           <div className={`grid md:grid-cols-2 ${mobileOptimizations ? "gap-4 md:gap-6" : "gap-6"}`}>
             {valueCards.map((card) => (
               <ScrollReveal key={card.title}>
@@ -615,6 +621,8 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
           </div>
         </div>
       </section>
+
+      {secondaryProject}
 
       {caseStudy && !caseStudyAfterValueCards && (
         <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />
