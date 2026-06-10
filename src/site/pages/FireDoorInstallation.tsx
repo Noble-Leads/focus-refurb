@@ -171,8 +171,6 @@ const FireDoorInstallationPage = () => {
                   iframeId="inline-LsQfA3LgiKr1TIsl3JSq"
                   formName="FR - Fire Doors"
                   formId="LsQfA3LgiKr1TIsl3JSq"
-                  phoneDisplay={LANDLINE_DISPLAY}
-                  phoneHref={`tel:${LANDLINE_TEL}`}
                   minHeightClassName="min-h-[470px]"
                   iframeHeight="470px"
                 />

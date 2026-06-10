@@ -98,10 +98,7 @@ const refurbishmentConfig: ServiceLandingConfig = {
     formName: "FR - Refurb",
     formId: "SXKJ1hbNc4q8oilhBk7Q",
     iframeHeight: "609px",
-    mobileIframeHeight: "520px",
     minHeightClassName: "min-h-[609px]",
-    mobileMinHeightClassName: "min-h-[520px]",
-    embedScriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
   },
   processSteps: [
     {

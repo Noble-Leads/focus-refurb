@@ -11,8 +11,9 @@ import ContactPage from "../site/pages/Contact";
   ogTitle="Contact Us | Focus Refurbishment Ltd"
   ogDescription="Get in touch with Focus Refurbishment Ltd for a free quote. Call 020 4634 0020 or email us — covering London and the South East."
   ogUrl="https://focusrefurbishmentltd.com/contact"
+  preconnectOrigins={["https://link.nobleleads.uk"]}
 >
-  <PageShell client:idle>
+  <PageShell client:load>
     <ContactPage />
   </PageShell>
 </Layout>

@@ -168,9 +168,8 @@ const CommercialEnquiries = () => {
                 iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
                 formName="FR Site- Commercial"
                 formId="e6NuUzUMAfN2MKNTqFnI"
-                phoneDisplay="020 4634 0020"
-                phoneHref={`tel:${PHONE}`}
                 iframeHeight="800px"
+                minHeightClassName="min-h-[800px]"
               />
             </div>
 

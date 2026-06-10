@@ -84,8 +84,9 @@ const roofingJsonLd = [
   ogDescription="Expert roof repair and replacement across London and Kent. Flat roofs, pitched roofs, emergency callouts. 25+ years experience. Free inspection — call today."
   ogUrl="https://focusrefurbishmentltd.com/roofing-london"
   extraJsonLd={roofingJsonLd}
+  preconnectOrigins={["https://app.focusrefurbishmentltd.com"]}
 >
-  <PageShell client:idle>
-    <RoofingLondonPage client:idle />
+  <PageShell client:load>
+    <RoofingLondonPage />
   </PageShell>
 </Layout>

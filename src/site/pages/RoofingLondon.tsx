@@ -101,7 +101,6 @@ const roofingConfig: ServiceLandingConfig = {
     formId: "uFrY24Fk2ADJKEnNz5IU",
     iframeHeight: "502px",
     minHeightClassName: "min-h-[502px]",
-    embedScriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
   },
   processSteps: [
     {

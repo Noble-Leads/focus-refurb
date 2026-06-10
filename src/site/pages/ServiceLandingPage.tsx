@@ -67,10 +67,6 @@ export type ServiceLandingConfig = {
     formId: string;
     iframeHeight?: string;
     minHeightClassName?: string;
-    mobileIframeHeight?: string;
-    mobileMinHeightClassName?: string;
-    embedScriptSrc?: string;
-    deferLoad?: boolean;
   };
   /** Shorter hero headline shown below the md breakpoint */
   heroHeadlineMobile?: string;
@@ -418,14 +414,8 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
                     iframeId={formEmbed.iframeId}
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
-                    phoneDisplay={LANDLINE_DISPLAY}
-                    phoneHref={`tel:${LANDLINE_TEL}`}
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
-                    mobileMinHeightClassName={formEmbed.mobileMinHeightClassName}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
-                    mobileIframeHeight={formEmbed.mobileIframeHeight}
-                    embedScriptSrc={formEmbed.embedScriptSrc}
-                    deferLoad={formEmbed.deferLoad}
                   />
                 ) : (
                   <>
@@ -838,14 +828,8 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
                     iframeId={`${formEmbed.iframeId}-bottom`}
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
-                    phoneDisplay={LANDLINE_DISPLAY}
-                    phoneHref={`tel:${LANDLINE_TEL}`}
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
-                    mobileMinHeightClassName={formEmbed.mobileMinHeightClassName}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
-                    mobileIframeHeight={formEmbed.mobileIframeHeight}
-                    embedScriptSrc={formEmbed.embedScriptSrc}
-                    deferLoad={formEmbed.deferLoad}
                   />
                 ) : (
                   <>

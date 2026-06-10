@@ -132,6 +132,10 @@ const jsonLd = {
     {preloadLcpImage && <link rel="preload" as="image" href={preloadLcpImage} fetchpriority="high" />}
 
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://link.nobleleads.uk" crossorigin="anonymous" />
+    <link rel="dns-prefetch" href="https://link.nobleleads.uk" />
+    <link rel="preconnect" href="https://app.focusrefurbishmentltd.com" crossorigin="anonymous" />
+    <link rel="dns-prefetch" href="https://app.focusrefurbishmentltd.com" />
     {
       preconnectOrigins.map((origin) => (
         <>
@@ -145,6 +149,9 @@ const jsonLd = {
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <script src="https://link.nobleleads.uk/js/form_embed.js" is:inline></script>
+    <script src="https://app.focusrefurbishmentltd.com/js/form_embed.js" is:inline></script>
 
     <meta name="google-site-verification" content="U9LuqipEGS_gRz_Avcy6Vi_HFLGviDyWGv_OoQc9M8w" />
 
@@ -275,13 +282,6 @@ const jsonLd = {
         );
       }
 
-      function loadFormEmbed() {
-        // form_embed.js is required for the contact / quote iframes to
-        // post back to the page. It is treated as strictly necessary
-        // because users actively choose to engage with the form.
-        loadThirdPartyScript("ghl-form", "https://link.nobleleads.uk/js/form_embed.js");
-      }
-
       function applyAndLoad(consent) {
         if (!consent) return;
         applyConsentSignal(consent);
@@ -299,15 +299,6 @@ const jsonLd = {
       var stored = readStoredConsent();
       if (stored) {
         applyAndLoad(stored);
-      }
-
-      // Always load the form embed (essential for quote / contact pages).
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(loadFormEmbed, { timeout: 3000 });
-      } else {
-        window.addEventListener("load", function () {
-          setTimeout(loadFormEmbed, 500);
-        }, { once: true });
       }
 
       window.addEventListener("focus:consentupdate", function (event) {

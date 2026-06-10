@@ -59,8 +59,7 @@ const ContactPage = () => {
                     iframeId="inline-MxMXNy7f1GiZCyhTuq2p"
                     formName="FR- Website Contact Us"
                     formId="MxMXNy7f1GiZCyhTuq2p"
-                    phoneDisplay="020 4634 0020"
-                    phoneHref="tel:02046340020"
+                    iframeHeight="500px"
                     minHeightClassName="min-h-[500px]"
                   />
                 </div>
