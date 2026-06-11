@@ -19,11 +19,11 @@ const refurbishmentConfig: ServiceLandingConfig = {
     "Full Property Refurbishment in London & Kent — Design, Build & Fit-Out Under One Roof",
   heroHeadlineMobile: "Full Property Refurbishment in London & Kent",
   heroSubheading:
-    "From HMOs and flats to full house renovations and listed buildings. Focus Refurbishment manage everything start to finish — one team, one point of contact, zero stress.",
+    "Whether you own one home or manage a portfolio — from HMOs and flats to full house renovations and listed buildings. Focus Refurbishment manage everything start to finish: one team, one point of contact, zero stress.",
   alertBox:
     "🏗️ We handle everything in-house — design, structural work, kitchens, bathrooms, painting, plumbing and more. No subcontractors to manage, no fingers to point.",
   heroBullets: [
-    "HMOs, flats, houses and listed buildings",
+    "Homes, flats, HMOs and listed buildings",
     "Full design and project management included",
     "Single point of contact start to finish",
     "Free callout across London & Kent",
@@ -31,7 +31,7 @@ const refurbishmentConfig: ServiceLandingConfig = {
   heroCtaLabel: "See the Quality of Our Work",
   heroCtaAnchorId: "refurbishment-recent-projects",
   heroFormTitle: "Get a Free Refurbishment Quote",
-  heroFormSubtitle: "Tell us about your property and we will respond within hours.",
+  heroFormSubtitle: "Tell us about your home or property and we will respond within hours.",
   trustStats: [
     { value: "25+", label: "Years Trading" },
     { value: "500+", label: "Projects Completed" },
@@ -145,7 +145,11 @@ const refurbishmentConfig: ServiceLandingConfig = {
   faqs: [
     {
       q: "What types of property do you refurbish?",
-      a: "All types — HMOs, flats, houses, apartments, period properties and Grade II listed buildings. Residential and commercial. We've worked across all of them over 25 years.",
+      a: "All types — owner-occupied homes, flats, HMOs, apartments, period properties and Grade II listed buildings. Residential and commercial. We've worked across all of them over 25 years.",
+    },
+    {
+      q: "Do you take on single domestic refurbishments?",
+      a: "Yes — full house and flat refurbishments for homeowners are a core part of what we do, alongside landlord and commercial work.",
     },
     {
       q: "Do you work on Grade II listed and period properties?",

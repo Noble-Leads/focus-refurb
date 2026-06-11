@@ -17,18 +17,18 @@ const roofingConfig: ServiceLandingConfig = {
   heroEyebrow: "Roof Repair & Replacement",
   heroHeadline: "Roof Repair & Replacement in London & Kent — Fast, Reliable, Fully Insured",
   heroSubheading:
-    "Leaking roof? Needs replacing? Focus Refurbishment have been repairing and replacing roofs across London and Kent for over 25 years. Craig offers same-day callouts for emergency repairs — and we respond within 48 hours on everything else.",
+    "Leaking roof? Needs replacing? Focus Refurbishment have been repairing and replacing roofs across London and Kent for over 25 years — trusted by landlords, property managers and homeowners alike. Craig offers same-day callouts for emergency repairs, and we respond within 48 hours on everything else.",
   alertBox:
-    "⚠️ A leaking roof causes structural damage fast. Damp, rot and weakened timbers escalate costs every week you wait. Same-day emergency callouts available — book a free inspection today.",
+    "⚠️ A leaking roof causes structural damage fast. Whether it's your own home or a rental property, same-day emergency callouts are available — book a free inspection today.",
   heroBullets: [
     "Flat roofs, pitched roofs — all types covered",
     "Same-day emergency callouts for urgent leaks and storm damage",
+    "Landlords, homeowners & commercial properties",
     "Fully insured with workmanship guarantee",
-    "London (M25) & Kent covered",
   ],
   heroCtaLabel: "Get a Free Roof Inspection",
   heroFormTitle: "Get a Free Roof Inspection",
-  heroFormSubtitle: "Tell us about your roof and we will respond within hours.",
+  heroFormSubtitle: "Tell us about your property and we will respond within hours.",
   trustStats: [
     { value: "25+", label: "Years Trading" },
     { value: "500+", label: "Projects Completed" },
@@ -58,7 +58,7 @@ const roofingConfig: ServiceLandingConfig = {
     "Most people wait too long. What starts as a minor leak becomes water ingress, wet insulation, rotting timbers and structural damage — turning a £300 repair into a £5,000 replacement job.",
   problemBullets: [
     "Water damage spreads through ceilings and walls quickly",
-    "Damp and mould create legal liability for landlords",
+    "Damp and mould — a health risk at home, a legal liability for landlords",
     "Prolonged leaks can void building insurance claims",
     "Structural rot is expensive — and avoidable",
   ],
@@ -139,9 +139,9 @@ const roofingConfig: ServiceLandingConfig = {
     },
     {
       quote:
-        "Called them on a Monday morning with a serious leak over a tenant's bedroom. They were on site within 48 hours and had it sorted same day. Brilliant service.",
-      name: "Google Review",
-      role: "★★★★★",
+        "Had a leak over our bedroom and they were on site within 48 hours. Sorted same day, no mess, and the price was fair. Would use again.",
+      name: "David R.",
+      role: "Homeowner, Streatham",
     },
   ],
   faqs: [
@@ -160,6 +160,10 @@ const roofingConfig: ServiceLandingConfig = {
     {
       q: "What areas do you cover?",
       a: "We cover all of Greater London (within the M25) and Kent. Based in Sidcup, we're well placed for South and South East London, and across into Kent.",
+    },
+    {
+      q: "Do you work on domestic homes?",
+      a: "Yes. We work on owner-occupied homes as well as rental and commercial properties. Same service, same guarantee — whether you live there or let it out.",
     },
     {
       q: "Do you work on HMOs and multi-unit properties?",

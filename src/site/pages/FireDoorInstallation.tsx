@@ -40,7 +40,7 @@ const chooseCards = [
   },
   {
     title: "London's Trusted Contractor",
-    desc: "Landlords, agents and commercial clients rely on Focus for dependable workmanship. We keep communication clear from first survey through final sign-off.",
+    desc: "Landlords, homeowners, agents and commercial clients rely on Focus for dependable workmanship. We keep communication clear from first survey through final sign-off.",
   },
 ];
 
@@ -59,6 +59,10 @@ const faqs = [
   {
     q: "What documentation do I receive after installation?",
     a: "You receive full compliance documentation including installer certificates and product data sheets.",
+  },
+  {
+    q: "Can you install fire doors in a private home?",
+    a: "Yes — owner-occupied flats and houses, as well as HMOs and commercial buildings. Same certified installation and full compliance documentation.",
   },
   {
     q: "Do you work on HMOs and multi-property portfolios?",
@@ -138,10 +142,10 @@ const FireDoorInstallationPage = () => {
                 Approved Fire Door Installers
               </p>
               <h1 className="text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
-                Fire Door Installation London - Certified, Compliant & Done Right
+                Fire Door Installation London — Landlords, Commercial & Residential
               </h1>
               <p className="text-hero-muted text-base md:text-lg mb-6 max-w-xl">
-                We support landlords, estate agents and commercial clients across London and the M25 with compliant FD30 and FD60 fire door installation.
+                We support landlords, homeowners, estate agents and commercial clients across London and the M25 with compliant FD30 and FD60 fire door installation.
               </p>
 
               <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-6">
@@ -316,7 +320,7 @@ const FireDoorInstallationPage = () => {
         <div className="container max-w-7xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
-              Trusted by Landlords Across London
+              Trusted by Landlords, Homeowners & Property Managers
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 lg:gap-8 items-stretch">

@@ -14,21 +14,21 @@ const paintingConfig: ServiceLandingConfig = {
   formAnchorId: "painting-enquiry-form",
   heroEyebrow: "Commercial Painting & Decorating",
   heroHeadline:
-    "Commercial Painting & Decorating in London & Kent — Built for Landlords and Property Managers",
+    "Commercial Painting & Decorating in London & Kent — Built for Landlords, Property Managers & Homeowners",
   heroSubheading:
-    "Void property turnarounds, HMO decoration, communal areas, multi-unit blocks and ongoing contracts. Professional work, done to schedule, with the paperwork to match.",
+    "Void property turnarounds, HMO decoration, full-house domestic projects, communal areas and ongoing contracts. Professional work, done to schedule, with the paperwork to match.",
   alertBox:
-    "📋 We specialise in multi-property and commercial painting contracts. We're not the right fit for single-room residential jobs — but if you manage properties, we almost certainly are.",
+    "📋 We specialise in multi-property and commercial painting contracts. Full-house domestic projects are welcome — single-room jobs aren't our focus, but if you manage properties or need a whole property painted, we almost certainly are the right fit.",
   heroBullets: [
     "Void properties repainted and ready to relet fast",
-    "HMOs, communal areas, stairwells, multi-unit blocks",
+    "HMOs, communal areas & full-house domestic projects",
     "Full interiors and exteriors",
-    "Ongoing maintenance contracts available",
+    "Landlords, homeowners & commercial clients",
   ],
   heroCtaLabel: "See Our Work",
   heroCtaAnchorId: "painting-our-work",
   heroFormTitle: "Get a Painting Quote",
-  heroFormSubtitle: "Tell us about your properties and we will respond within hours.",
+  heroFormSubtitle: "Tell us about your property or portfolio and we will respond within hours.",
   trustStats: [
     { value: "25+", label: "Years Trading" },
     { value: "500+", label: "Projects" },
@@ -156,8 +156,8 @@ const paintingConfig: ServiceLandingConfig = {
   ],
   faqs: [
     {
-      q: "Do you take on single-room residential painting jobs?",
-      a: "No — we specialise in commercial and multi-property work. If you manage a portfolio, have void properties to refresh, or need ongoing decorating support, we're the right fit. Single-room residential jobs aren't something we take on.",
+      q: "Do you take on domestic painting jobs?",
+      a: "We focus on whole-property work — void turnarounds, full interiors, HMOs and commercial spaces. Full-house domestic projects are welcome. Single-room touch-ups aren't something we take on.",
     },
     {
       q: "Can you handle multiple properties at the same time?",
@@ -176,7 +176,7 @@ const paintingConfig: ServiceLandingConfig = {
       a: "All of Greater London (within the M25) and Kent. We're based in Sidcup — well placed for South and South East London and across into Kent.",
     },
   ],
-  finalCtaHeading: "Let's Talk About Your Properties",
+  finalCtaHeading: "Let's Talk About Your Project",
   finalCtaBullets: [
     "Multi-property contracts welcome",
     "Fast void turnarounds",

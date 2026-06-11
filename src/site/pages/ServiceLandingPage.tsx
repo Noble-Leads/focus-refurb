@@ -74,6 +74,7 @@ export type ServiceLandingConfig = {
   finalCtaHideFormOnMobile?: boolean;
   processSteps: { number: string; title: string; desc: string }[];
   testimonials: { quote: string; name: string; role: string }[];
+  testimonialsHeading?: string;
   faqs: { q: string; a: string }[];
   finalCtaHeading: string;
   finalCtaBullets: string[];
@@ -282,6 +283,7 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
     formEmbed,
     processSteps,
     testimonials,
+    testimonialsHeading = "Trusted by Landlords, Homeowners & Property Managers",
     faqs,
     finalCtaHeading,
     finalCtaBullets,
@@ -723,7 +725,7 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
         <div className="container max-w-7xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
-              Trusted by Landlords Across London
+              {testimonialsHeading}
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 lg:gap-8 items-stretch">
