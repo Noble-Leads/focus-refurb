@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, ZoomIn } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 const LANDING_SECTION = "py-12 md:py-20";
@@ -67,6 +66,8 @@ const parapetPhotos: GalleryImage[] = [
 
 type Phase = "structure" | "finished";
 
+const phases: Phase[] = ["structure", "finished"];
+
 const phaseConfig: Record<
   Phase,
   { label: string; caption: string; images: GalleryImage[] }
@@ -88,20 +89,50 @@ type ImageLightboxProps = {
   onClose: () => void;
 };
 
-const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => (
-  <Dialog open={!!image} onOpenChange={(open) => !open && onClose()}>
-    <DialogContent className="max-w-[95vw] w-auto max-h-[95vh] border-0 bg-transparent p-2 shadow-none sm:rounded-lg [&>button]:text-white [&>button]:bg-black/50 [&>button]:rounded-full [&>button]:p-2 [&>button]:right-2 [&>button]:top-2">
-      <DialogTitle className="sr-only">{image?.alt ?? "Project photo"}</DialogTitle>
-      {image && (
-        <img
-          src={image.src}
-          alt={image.alt}
-          className="max-h-[90vh] max-w-full w-auto mx-auto object-contain rounded-lg"
-        />
-      )}
-    </DialogContent>
-  </Dialog>
-);
+const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => {
+  useEffect(() => {
+    if (!image) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [image, onClose]);
+
+  if (!image) {
+    return null;
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.alt}
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 rounded-full bg-black/60 px-3 py-1.5 text-sm font-semibold text-white"
+      >
+        Close
+      </button>
+      <img
+        src={image.src}
+        alt={image.alt}
+        className="max-h-[90vh] max-w-full rounded-lg object-contain"
+        onClick={(event) => event.stopPropagation()}
+      />
+    </div>
+  );
+};
 
 export const RoofingStreathamCaseStudy = ({ formAnchorId = "roofing-enquiry-form" }: { formAnchorId?: string }) => {
   const [phase, setPhase] = useState<Phase>("structure");
@@ -118,10 +149,10 @@ export const RoofingStreathamCaseStudy = ({ formAnchorId = "roofing-enquiry-form
 
   return (
     <>
-      <section className={`${LANDING_SECTION} bg-background content-auto`}>
+      <section className={`${LANDING_SECTION} bg-background [content-visibility:visible]`}>
         <div className="container max-w-6xl">
-          <ScrollReveal>
-            <article className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <article className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <ScrollReveal>
               <div>
                 <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
                   Case Study — Roof Replacement
@@ -160,73 +191,92 @@ export const RoofingStreathamCaseStudy = ({ formAnchorId = "roofing-enquiry-form
                   </Button>
                 </a>
               </div>
+            </ScrollReveal>
 
-              <div>
-                <div className="flex gap-2 mb-4">
-                  {(Object.keys(phaseConfig) as Phase[]).map((key) => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => switchPhase(key)}
-                      className={cn(
-                        "rounded-md px-4 py-2 text-sm font-heading font-semibold transition-colors",
-                        phase === key
-                          ? "bg-gold text-accent-foreground"
-                          : "bg-card border border-border text-muted-foreground hover:text-foreground",
-                      )}
-                    >
-                      {phaseConfig[key].label}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setLightboxImage(activeImage)}
-                  className="group relative w-full rounded-lg overflow-hidden border border-border shadow-md mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img
-                      src={activeImage.src}
-                      alt={activeImage.alt}
-                      width={800}
-                      height={600}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                </button>
-
-                <p className="text-foreground font-heading font-semibold text-sm mb-3">{caption}</p>
-
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                  {images.map((image, index) => (
-                    <button
-                      key={image.src}
-                      type="button"
-                      onClick={() => setActiveIndex(index)}
-                      className={cn(
-                        "relative rounded overflow-hidden border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
-                        index === activeIndex ? "border-gold shadow-sm" : "border-transparent opacity-70 hover:opacity-100",
-                      )}
-                    >
-                      <div className="relative aspect-square overflow-hidden">
-                        <img
-                          src={image.src}
-                          alt=""
-                          width={120}
-                          height={120}
-                          className="absolute inset-0 w-full h-full object-cover"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    </button>
-                  ))}
-                </div>
+            <div className="[content-visibility:visible]">
+              <div className="flex gap-2 mb-4" role="tablist" aria-label="Project phase">
+                {phases.map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    role="tab"
+                    aria-selected={phase === key}
+                    onClick={() => switchPhase(key)}
+                    className={cn(
+                      "rounded-md px-4 py-2 text-sm font-heading font-semibold transition-colors cursor-pointer",
+                      phase === key
+                        ? "bg-gold text-accent-foreground"
+                        : "bg-card border border-border text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {phaseConfig[key].label}
+                  </button>
+                ))}
               </div>
-            </article>
-          </ScrollReveal>
+
+              <button
+                type="button"
+                onClick={() => setLightboxImage(activeImage)}
+                className="group relative w-full rounded-lg overflow-hidden border border-border shadow-md mb-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                aria-label={`View larger: ${activeImage.alt}`}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    key={activeImage.src}
+                    src={activeImage.src}
+                    alt={activeImage.alt}
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                  <div className="absolute bottom-3 right-3 rounded-full bg-black/60 p-2 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ZoomIn className="h-4 w-4" />
+                  </div>
+                </div>
+              </button>
+
+              <p className="text-foreground font-heading font-semibold text-sm mb-3">{caption}</p>
+
+              <div
+                key={phase}
+                className={cn(
+                  "grid gap-2",
+                  images.length === 5 ? "grid-cols-5" : "grid-cols-4",
+                )}
+              >
+                {images.map((image, index) => (
+                  <button
+                    key={image.src}
+                    type="button"
+                    onClick={() => {
+                      setActiveIndex(index);
+                      setLightboxImage(image);
+                    }}
+                    className={cn(
+                      "relative rounded overflow-hidden border-2 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
+                      index === activeIndex ? "border-gold shadow-sm" : "border-transparent opacity-70 hover:opacity-100",
+                    )}
+                    aria-label={`View photo ${index + 1}`}
+                    aria-current={index === activeIndex ? "true" : undefined}
+                  >
+                    <div className="relative aspect-square overflow-hidden">
+                      <img
+                        src={image.src}
+                        alt=""
+                        width={120}
+                        height={120}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -240,34 +290,35 @@ export const RoofingParapetCaseStudy = () => {
 
   return (
     <>
-      <section className={`${LANDING_SECTION} bg-secondary content-auto border-t border-border`}>
+      <section className={`${LANDING_SECTION} bg-secondary border-t border-border [content-visibility:visible]`}>
         <div className="container max-w-6xl">
-          <ScrollReveal>
-            <article className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="grid grid-cols-2 gap-3 order-2 md:order-1">
-                {parapetPhotos.map((image) => (
-                  <button
-                    key={image.src}
-                    type="button"
-                    onClick={() => setLightboxImage(image)}
-                    className="group relative rounded-lg overflow-hidden border border-border shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                  >
-                    <div className="relative aspect-[3/4] overflow-hidden">
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        width={400}
-                        height={533}
-                        sizes="(max-width: 768px) 45vw, 280px"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </button>
-                ))}
-              </div>
+          <article className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="grid grid-cols-2 gap-3 order-2 md:order-1 [content-visibility:visible]">
+              {parapetPhotos.map((image) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  onClick={() => setLightboxImage(image)}
+                  className="group relative rounded-lg overflow-hidden border border-border shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  aria-label={`View larger: ${image.alt}`}
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      width={400}
+                      height={533}
+                      sizes="(max-width: 768px) 45vw, 280px"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
 
+            <ScrollReveal>
               <div className="order-1 md:order-2">
                 <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
                   Structural Repair
@@ -289,8 +340,8 @@ export const RoofingParapetCaseStudy = () => {
                   </p>
                 </div>
               </div>
-            </article>
-          </ScrollReveal>
+            </ScrollReveal>
+          </article>
         </div>
       </section>
 
