@@ -7,6 +7,7 @@ import type { CaseStudy } from "@/lib/caseStudies";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
+import { RoofingParapetCaseStudy, RoofingStreathamCaseStudy } from "@/components/RoofingProjectGallery";
 import {
   Accordion,
   AccordionContent,
@@ -104,14 +105,12 @@ export type ServiceLandingConfig = {
     /** Where to render in page flow — default is after services */
     placement?: "default" | "afterValueCards";
   };
+  /** Roofing page project galleries — rendered in-page (not as slot props) for reliable hydration */
+  roofingProjectGallery?: boolean;
 };
 
 type ServiceLandingPageProps = {
   config: ServiceLandingConfig;
-  /** Rendered after the problem section — e.g. a flagship case study */
-  featuredProject?: React.ReactNode;
-  /** Rendered after services — e.g. a secondary project highlight */
-  secondaryProject?: React.ReactNode;
 };
 
 type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
@@ -252,7 +251,7 @@ const CaseStudySection = ({
   );
 };
 
-const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: ServiceLandingPageProps) => {
+const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   const {
     formAnchorId,
     heroEyebrow,
@@ -298,6 +297,7 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
     showBottomStrip = true,
     positiveProblemBullets = false,
     caseStudy,
+    roofingProjectGallery,
   } = config;
 
   const servicesGridCols =
@@ -473,7 +473,7 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
         </div>
       </section>
 
-      {featuredProject}
+      {roofingProjectGallery && <RoofingStreathamCaseStudy formAnchorId={formAnchorId} />}
 
       <section className={`${LANDING_SECTION} bg-background content-auto`}>
         <div className="container max-w-7xl">
@@ -614,7 +614,7 @@ const ServiceLandingPage = ({ config, featuredProject, secondaryProject }: Servi
         </div>
       </section>
 
-      {secondaryProject}
+      {roofingProjectGallery && <RoofingParapetCaseStudy />}
 
       {caseStudy && !caseStudyAfterValueCards && (
         <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />

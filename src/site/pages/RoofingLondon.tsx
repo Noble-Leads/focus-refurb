@@ -6,10 +6,6 @@ import {
   Triangle,
   Droplets,
 } from "lucide-react";
-import {
-  RoofingParapetCaseStudy,
-  RoofingStreathamCaseStudy,
-} from "@/components/RoofingProjectGallery";
 import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingPage";
 
 const roofingConfig: ServiceLandingConfig = {
@@ -93,6 +89,7 @@ const roofingConfig: ServiceLandingConfig = {
     },
   ],
   showVideoSection: false,
+  roofingProjectGallery: true,
   formEmbed: {
     src: "https://app.focusrefurbishmentltd.com/widget/form/uFrY24Fk2ADJKEnNz5IU",
     title: "FR - Roofing",
@@ -181,12 +178,6 @@ const roofingConfig: ServiceLandingConfig = {
     "Roof repair & replacement — London & Kent — Same-day emergency callouts — Free inspections — Fully insured",
 };
 
-const RoofingLondonPage = () => (
-  <ServiceLandingPage
-    config={roofingConfig}
-    featuredProject={<RoofingStreathamCaseStudy formAnchorId={roofingConfig.formAnchorId} />}
-    secondaryProject={<RoofingParapetCaseStudy />}
-  />
-);
+const RoofingLondonPage = () => <ServiceLandingPage config={roofingConfig} />;
 
 export default RoofingLondonPage;
