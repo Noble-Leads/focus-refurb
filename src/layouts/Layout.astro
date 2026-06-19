@@ -231,9 +231,10 @@ const jsonLd = {
         return false;
       };
 
-      function loadGtag() {
-        if (window.__gtagLoaded || window.__gtagLoading) return;
-        window.__gtagLoading = true;
+      // Load gtag.js unconditionally so Consent Mode modelling works for
+      // users who decline cookies. Consent defaults above ensure no cookies
+      // are set until the user explicitly grants them.
+      (function () {
         var s = document.createElement("script");
         s.src = "https://www.googletagmanager.com/gtag/js?id=G-5Y4789V5YK";
         s.async = true;
@@ -244,16 +245,11 @@ const jsonLd = {
           gtag("config", "AW-18087305153");
         };
         document.head.appendChild(s);
-      }
+      })();
 
       function scheduleGtag() {
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(loadGtag, { timeout: 3500 });
-        } else {
-          window.addEventListener("load", function () {
-            setTimeout(loadGtag, 2000);
-          }, { once: true });
-        }
+        // gtag.js already loads unconditionally — this is a no-op kept for
+        // compatibility with applyAndLoad calls below.
       }
 
       var loadedScripts = {};
