@@ -157,9 +157,10 @@ const Footer = () => {
               href="https://nobleleads.uk"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-hero-muted hover:text-gold transition-colors"
+              className="group/noble inline-flex transition-colors"
             >
-              NobleLeads
+              <span className="text-hero-muted transition-colors group-hover/noble:text-[#CFB169]">Noble</span>
+              <span className="text-[#C5A55A] transition-colors group-hover/noble:text-[#CFB169]">Leads</span>
             </a>
           </p>
         </div>

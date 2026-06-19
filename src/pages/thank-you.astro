@@ -18,14 +18,34 @@ import ThankYouPage from "../site/pages/ThankYou";
   </PageShell>
 
   <script is:inline>
-    if (typeof window !== "undefined" && typeof window.gtag === "function") {
-      window.gtag("event", "generate_lead", {
-        source: "website_enquiry_form",
-        destination: "/thank-you",
-      });
-      window.gtag("event", "conversion", {
-        send_to: "AW-18087305153",
-      });
-    }
+    (function () {
+      // Fire immediately — no consent gate on the thank-you page.
+      // Consent Mode handles attribution modelling for users who declined;
+      // withholding the event entirely means zero data for those leads.
+      function fireConversions() {
+        if (typeof window.gtag !== "function") return;
+
+        // Matches the GA4 conversion action imported into Google Ads
+        window.gtag("event", "form_submission", {
+          event_category: "lead",
+          event_label: "website_enquiry_form",
+        });
+
+        // Keep generate_lead for any GA4 audiences/funnels built on it
+        window.gtag("event", "generate_lead", {
+          source: "website_enquiry_form",
+        });
+
+        // Conversion is imported from GA4 — no direct Google Ads tag needed.
+        // Google Ads picks up form_submission automatically via the GA4 import.
+      }
+
+      // GTM loads async — wait for it if not ready yet
+      if (typeof window.gtag === "function") {
+        fireConversions();
+      } else {
+        window.addEventListener("load", fireConversions);
+      }
+    })();
   </script>
 </Layout>
