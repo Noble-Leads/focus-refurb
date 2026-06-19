@@ -151,6 +151,17 @@ const Footer = () => {
             <p>&copy; {new Date().getFullYear()} Focus Refurbishment Ltd. All rights reserved.</p>
             <p>Company No. 04010469 · Established 2000</p>
           </div>
+          <p className="text-center text-xs text-hero-muted/70">
+            Powered by{" "}
+            <a
+              href="https://nobleleads.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-hero-muted hover:text-gold transition-colors"
+            >
+              NobleLeads
+            </a>
+          </p>
         </div>
       </div>
     </footer>
