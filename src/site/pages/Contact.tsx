@@ -52,18 +52,16 @@ const ContactPage = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-card border border-border rounded-lg p-8 min-h-[600px] px-0 py-0">
-                  <GhlFormEmbed
-                    src="https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p"
-                    title="FR- Website Contact Us"
-                    iframeId="inline-MxMXNy7f1GiZCyhTuq2p"
-                    formName="FR- Website Contact Us"
-                    formId="MxMXNy7f1GiZCyhTuq2p"
-                    source="contact"
-                    iframeHeight="500px"
-                    minHeightClassName="min-h-[500px]"
-                  />
-                </div>
+                <GhlFormEmbed
+                  src="https://app.focusrefurbishmentltd.com/widget/form/xShr7a5F4R13BPXXPGz4"
+                  title="Contact"
+                  iframeId="inline-xShr7a5F4R13BPXXPGz4"
+                  formName="Contact"
+                  formId="xShr7a5F4R13BPXXPGz4"
+                  source="contact"
+                  iframeHeight="672px"
+                  autoResize
+                />
                 <div className="mt-6 rounded-lg border border-amber-300 bg-amber-100/60 p-5">
                   <p className="text-amber-900 font-medium">
                     Need an emergency callout? We operate 24/7. Call{" "}

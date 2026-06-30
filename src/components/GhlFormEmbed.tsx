@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 
@@ -16,6 +16,14 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
+const parseIframeSizerHeight = (data: string, expectedId: string): number | null => {
+  if (!data.startsWith("[iFrameSizer]")) return null;
+  const [id, height] = data.slice(13).split(":");
+  if (id !== expectedId) return null;
+  const parsed = Number.parseInt(height ?? "", 10);
+  return parsed > 0 ? parsed : null;
+};
+
 type GhlFormEmbedProps = {
   src: string;
   title: string;
@@ -27,6 +35,8 @@ type GhlFormEmbedProps = {
   iframeHeight?: string;
   minHeightClassName?: string;
   wrapperClassName?: string;
+  /** Grow iframe height with form content — no inner scroll box */
+  autoResize?: boolean;
 };
 
 const GhlFormEmbed = ({
@@ -39,16 +49,54 @@ const GhlFormEmbed = ({
   iframeHeight = "502px",
   minHeightClassName = "min-h-[502px]",
   wrapperClassName = "",
+  autoResize = false,
 }: GhlFormEmbedProps) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [height, setHeight] = useState(() => {
+    const parsed = Number.parseInt(iframeHeight, 10);
+    if (autoResize) return parsed > 0 ? parsed : 520;
+    return parsed > 0 ? parsed : 502;
+  });
+
   useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    iframe.setAttribute("data-initial-iframe-hidden", "false");
+    iframe.style.opacity = "1";
+    iframe.style.visibility = "visible";
+
     ensureGhlEmbedScripts();
-  }, []);
+
+    if (!autoResize) return;
+
+    const onMessage = (event: MessageEvent) => {
+      if (typeof event.data !== "string") return;
+      const nextHeight = parseIframeSizerHeight(event.data, iframeId);
+      if (nextHeight) setHeight(nextHeight);
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [iframeId, autoResize]);
+
+  const wrapperClasses = autoResize
+    ? `max-w-full min-w-0 ${wrapperClassName}`.trim()
+    : `max-w-full min-w-0 overflow-hidden ${minHeightClassName} ${wrapperClassName}`.trim();
 
   return (
-    <div className={`max-w-full min-w-0 overflow-hidden ${minHeightClassName} ${wrapperClassName}`.trim()}>
+    <div className={wrapperClasses} style={autoResize ? { height } : undefined}>
       <iframe
+        ref={iframeRef}
         src={ghlFormSrc(src, source)}
-        style={{ width: "100%", height: iframeHeight, border: "none", borderRadius: "4px" }}
+        style={{
+          width: "100%",
+          height: autoResize ? height : iframeHeight,
+          border: "none",
+          borderRadius: "4px",
+          display: "block",
+        }}
+        scrolling="no"
         id={iframeId}
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"
