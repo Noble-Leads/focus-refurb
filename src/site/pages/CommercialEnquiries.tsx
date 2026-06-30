@@ -47,15 +47,15 @@ const CommercialEnquiries = () => {
       <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-x-hidden overflow-y-visible">
         <div className="absolute inset-0">
           <OptimizedImage
-            src="/images/commercial/office-building.png"
-            alt="Modern commercial office building in London"
+            src="/images/commercial/office-fitout-during.png"
+            alt="Focus Refurbishment team carrying out a commercial office fit-out in London"
             width={1024}
             height={682}
             sizes="100vw"
             loading="eager"
             decoding="async"
             pictureClassName="block w-full h-full"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-[center_35%]"
           />
           <div className="hero-overlay absolute inset-0" />
           <BrandPattern variant="dark" className="z-[1] opacity-50" />
@@ -166,24 +166,21 @@ const CommercialEnquiries = () => {
       <section id="enquiry-form" className="scroll-target scroll-mt-28 md:scroll-mt-32 py-12 bg-muted">
         <div className="container max-w-[980px] mx-auto">
           <ScrollReveal>
-            <div className="bg-card rounded-xl border border-border p-6 md:p-10">
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-accent text-center mb-3">
-                Make a Commercial Enquiry
-              </h2>
-              <p className="text-center text-muted-foreground mb-6">
-                Fill in the form below and we'll come back to you within 24 hours.
-              </p>
-              <GhlFormEmbed
-                src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
-                title="FR Site- Commercial"
-                iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
-                formName="FR Site- Commercial"
-                formId="e6NuUzUMAfN2MKNTqFnI"
-                source="commercial-enquiries"
-                iframeHeight="960px"
-                minHeightClassName="min-h-[960px]"
-              />
-            </div>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-accent text-center mb-3">
+              Make a Commercial Enquiry
+            </h2>
+            <p className="text-center text-muted-foreground mb-6">
+              Fill in the form below and we'll come back to you within 24 hours.
+            </p>
+            <GhlFormEmbed
+              src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
+              title="FR Site- Commercial"
+              iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
+              formName="FR Site- Commercial"
+              formId="e6NuUzUMAfN2MKNTqFnI"
+              source="commercial-enquiries"
+              iframeHeight="1200px"
+            />
 
             <p className="text-center text-muted-foreground mt-8">
               Prefer to speak to someone? Call us on{" "}

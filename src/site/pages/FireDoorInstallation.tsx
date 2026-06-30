@@ -184,7 +184,7 @@ const FireDoorInstallationPage = () => {
             <ScrollReveal className="lg:col-span-6 min-w-0">
               <div
                 id="fire-door-enquiry-form"
-                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32"
+                className="scroll-target w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
               >
                 <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1">Get a Free Fire Door Quote</h2>
                 <p className="text-muted-foreground text-sm mb-4">Tell us about your property and we will respond within hours.</p>

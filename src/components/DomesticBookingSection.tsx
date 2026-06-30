@@ -47,9 +47,7 @@ const DomesticBookingSection = ({
       </ScrollReveal>
 
       <ScrollReveal>
-        <div className="rounded-xl border-2 border-gold/30 bg-card p-4 sm:p-5 md:p-6 shadow-md overflow-visible">
-          <GhlBookingEmbed initialHeight={domesticBookingEmbed.initialHeight} />
-        </div>
+        <GhlBookingEmbed initialHeight={domesticBookingEmbed.initialHeight} />
         <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">
           Prefer to call?{" "}
           <a href="tel:02046340020" className="text-gold font-semibold hover:underline">

@@ -163,7 +163,7 @@ type HeroFormEmbedConfig = NonNullable<ServiceLandingConfig["formEmbed"]>;
 
 const isTallHeroForm = (formEmbed?: HeroFormEmbedConfig) => {
   const height = Number.parseInt(formEmbed?.iframeHeight ?? "", 10);
-  return height >= 800 || formEmbed?.minHeightClassName?.includes("800") === true;
+  return height >= 800;
 };
 
 const HeroFormCard = ({
@@ -183,7 +183,7 @@ const HeroFormCard = ({
 }) => (
   <div
     id={formAnchorId}
-    className="scroll-target bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
+    className="scroll-target w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
   >
     <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
@@ -198,7 +198,6 @@ const HeroFormCard = ({
         formName={formEmbed.formName}
         formId={formEmbed.formId}
         source={formEmbed.source}
-        minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[672px]"}
         iframeHeight={formEmbed.iframeHeight ?? "672px"}
       />
     ) : (
@@ -231,8 +230,8 @@ const CommercialFormBand = ({
     <BrandPattern variant="light" className="opacity-80" />
     <div className="container relative z-10 max-w-6xl">
       <ScrollReveal>
-        <div className="rounded-2xl border border-border/70 bg-card shadow-lg lg:grid lg:grid-cols-12 lg:items-stretch">
-          <div className="relative overflow-hidden rounded-t-2xl bg-section-dark p-8 md:p-10 lg:col-span-4 lg:rounded-l-2xl lg:rounded-tr-none lg:p-10 xl:p-12">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
+          <div className="relative overflow-hidden rounded-2xl bg-section-dark p-8 md:p-10 lg:col-span-4 lg:p-10 xl:p-12 mb-8 lg:mb-0">
             <BrandPattern variant="dark" className="opacity-60" />
             <div className="relative z-10">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
@@ -261,7 +260,7 @@ const CommercialFormBand = ({
 
           <div
             id={formAnchorId}
-            className="scroll-target border-t border-border/60 bg-card p-5 sm:p-6 md:p-8 lg:col-span-8 lg:rounded-r-2xl lg:rounded-bl-none lg:border-l lg:border-t-0 scroll-mt-28 md:scroll-mt-32"
+            className="scroll-target lg:col-span-8 w-full min-w-0 overflow-visible scroll-mt-28 md:scroll-mt-32"
           >
             {formEmbed ? (
               <GhlFormEmbed
@@ -271,8 +270,7 @@ const CommercialFormBand = ({
                 formName={formEmbed.formName}
                 formId={formEmbed.formId}
                 source={formEmbed.source}
-                minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[960px]"}
-                iframeHeight={formEmbed.iframeHeight ?? "960px"}
+                iframeHeight={formEmbed.iframeHeight ?? "1200px"}
               />
             ) : (
               <div className="min-h-[960px]" aria-hidden="true" />
@@ -1085,7 +1083,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             {finalCtaShowForm && (
               <div
                 id={`${formAnchorId}-bottom`}
-                className={`scroll-target bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 md:max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 ${
+                className={`scroll-target w-full max-w-full min-w-0 md:max-w-[800px] mx-auto mb-8 text-left overflow-visible scroll-mt-28 ${
                   finalCtaHideFormOnMobile ? "hidden md:block" : ""
                 }`}
               >
@@ -1104,7 +1102,6 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
                     source={formEmbed.source}
-                    minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[672px]"}
                     iframeHeight={formEmbed.iframeHeight ?? "672px"}
                   />
                 ) : (
