@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import OptimizedImage from "@/components/OptimizedImage";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import { ArrowRight, Phone, ChevronRight } from "lucide-react";
 import { getServiceLearnMoreHref } from "@/lib/serviceLinks";
@@ -15,7 +16,7 @@ const allServices = [
   { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes that transform your space. Careful preparation and attention to detail for results that stand the test of time.", image: "/images/service-painting.png" },
   { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations from layout and plumbing to fixtures and finishing. Designed for comfort, functionality and style.", image: "/images/service-bathrooms.png" },
   { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration. We remove dirt and stains, repair damage and apply durable finishes for a refreshed look.", image: "/images/service-brickwork.png" },
-  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal. We handle waste responsibly so your project stays clean and on schedule.", image: "/images/service-rubbish-removal-new.png" },
+  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal. We handle waste responsibly so your project stays clean and on schedule.", image: "/images/hero-rubbish-removal.png" },
   { title: "Summer Houses/Annexes", desc: "Bespoke summer houses/annexes designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-summer-house-new.png" },
 ];
 
@@ -46,7 +47,7 @@ const ServicesPage = () => {
               <ScrollReveal key={service.title} delay={i * 60}>
                 <div className="group flex flex-col sm:flex-row gap-6 bg-card border border-border rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <div className="sm:w-48 sm:min-h-[200px] shrink-0 overflow-hidden relative">
-                    <img
+                    <OptimizedImage
                       src={service.image}
                       alt={service.title}
                       width={384}

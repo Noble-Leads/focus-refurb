@@ -1,6 +1,8 @@
-import { Phone, MessageCircle, Trash2, HardHat, TreePine, Axe, Sofa, Building2, ShieldCheck, CalendarCheck, Truck } from "lucide-react";
+import { Phone, MessageCircle, Trash2, HardHat, TreePine, Axe, Sofa, Building2, ShieldCheck, CalendarCheck, Truck, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import OptimizedImage from "@/components/OptimizedImage";
 import ScrollReveal from "@/components/ScrollReveal";
+import BrandPattern from "@/components/BrandPattern";
 import GeometricDecor from "@/components/GeometricDecor";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 
@@ -25,6 +27,7 @@ const pricing = [
 ];
 
 const trustPoints = [
+  { icon: Scale, title: "On-Board Scales", desc: "We weigh your load on the spot — you only pay for what's actually taken away, with no guesswork." },
   { icon: ShieldCheck, title: "Licensed & Insured", desc: "Fully licensed waste carrier. Your waste is disposed of legally and responsibly." },
   { icon: CalendarCheck, title: "Same-Week Availability", desc: "We work across London and can often be with you within days." },
   { icon: Truck, title: "No Skips Required", desc: "We bring our own vehicle and do all the loading. You don't lift a thing." },
@@ -37,10 +40,25 @@ const RubbishRemovalPage = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="section-dark pt-36 pb-20 relative overflow-hidden">
-        <GeometricDecor variant="grid" className="top-20 right-0 text-gold opacity-40" />
-        <GeometricDecor variant="dots" className="bottom-10 left-10 text-gold opacity-30" />
-        <div className="container relative z-10">
+      <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0">
+          <OptimizedImage
+            src="/images/hero-rubbish-removal.png"
+            alt="Focus Refurbishment waste clearance van on a London residential street"
+            width={1024}
+            height={571}
+            sizes="100vw"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            pictureClassName="block w-full h-full"
+            className="w-full h-full object-cover"
+          />
+          <div className="hero-overlay absolute inset-0" />
+          <BrandPattern variant="dark" className="z-[1] opacity-50" />
+        </div>
+        <div className="container relative z-10 w-full pt-below-header pb-20">
+          <div className="max-w-3xl md:ml-8 lg:ml-14 xl:ml-20">
           <ScrollReveal>
             <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
               Rubbish Removal
@@ -49,7 +67,7 @@ const RubbishRemovalPage = () => {
               Rubbish Removal Across London – Fast, Affordable & Fully Licensed
             </h1>
             <p className="text-hero-muted text-lg md:text-xl mb-8 max-w-2xl">
-              From a single sofa to a full site clearance — we load it, we clear it, we sort it.
+              From a single sofa to a full site clearance — we load it, weigh it on our on-board scales, and clear it.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="gold" size="xl" asChild>
@@ -64,21 +82,38 @@ const RubbishRemovalPage = () => {
               </Button>
             </div>
           </ScrollReveal>
+          </div>
         </div>
       </section>
 
       {/* Intro */}
       <section className="py-20 bg-background relative overflow-hidden">
         <GeometricDecor variant="corner" className="top-0 right-0 text-foreground" />
-        <div className="container max-w-3xl">
-          <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground mb-6">
-              London's Go-To Rubbish Removal Team
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              Whether you're clearing a property, finishing a renovation, or just need bulky items gone — Focus Refurbishment handles it quickly and professionally. We cover South East, South West and Central London, within the M25. No skips, no waiting. We come to you, we load it, we go.
-            </p>
-          </ScrollReveal>
+        <div className="container">
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground mb-6">
+                London's Go-To Rubbish Removal Team
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Whether you're clearing a property, finishing a renovation, or just need bulky items gone — Focus Refurbishment handles it quickly and professionally. Our trucks are fitted with on-board scales, so we can weigh your waste there and then and give you a fair, transparent price on the spot. We cover South East, South West and Central London, within the M25. No skips, no waiting. We come to you, we load it, we go.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <figure className="overflow-hidden rounded-xl border border-border shadow-lg">
+                <OptimizedImage
+                  src="/images/service-rubbish-removal-new.png"
+                  alt="Focus rubbish removal truck loaded with timber waste on a London street"
+                  width={640}
+                  height={800}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover aspect-[4/5]"
+                />
+              </figure>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
@@ -117,7 +152,7 @@ const RubbishRemovalPage = () => {
               Clear, Honest Pricing. No Hidden Fees.
             </h2>
             <p className="text-muted-foreground text-center mb-10 text-lg">
-              All prices include loading, transport and legal disposal.
+              All prices include loading, transport and legal disposal. We weigh every load on our on-board scales — you pay for what's taken, not an estimate.
             </p>
           </ScrollReveal>
           <ScrollReveal>
@@ -166,7 +201,7 @@ const RubbishRemovalPage = () => {
               Why Choose Us
             </h2>
           </ScrollReveal>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {trustPoints.map((t, i) => (
               <ScrollReveal key={i} delay={i * 0.15}>
                 <div className="text-center">

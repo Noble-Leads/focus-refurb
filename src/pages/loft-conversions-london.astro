@@ -1,0 +1,92 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import LoftConversionsLondonPage from "../site/pages/LoftConversionsLondon";
+
+const loftConversionJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Loft Conversion London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Loft conversions in London. Velux, dormer, L-shaped and mansard conversions. Full design, supply and build for homeowners and residential landlords. Free site survey.",
+    serviceType: "Loft Conversion",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much does a loft conversion cost in London?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "A simple Velux or rooflight conversion is the most affordable option. Full dormer conversions in London typically run from around £50,000 to £90,000+ for a complete bedroom with bathroom, depending on spec and structural work. Focus Refurbishment provides a free survey and itemised written quote.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can you do a loft conversion for £20,000?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "A basic Velux or rooflight conversion can cost less than a major dormer build. A full loft conversion with stairs, insulation, electrics, plastering and a bathroom will typically cost more than £20,000 in London. An honest assessment is provided at the free survey.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is it worth doing a loft conversion in London?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "For most homeowners and landlords, yes. A loft conversion adds usable floor space without extending the footprint and is often cheaper than moving in London's property market.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the 4 year rule for loft conversions?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The 4 year rule refers to planning enforcement immunity for unauthorised building works after four years. It is separate from building regulations. Many loft conversions fall under permitted development, but requirements vary by property.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do I need planning permission for a loft conversion?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Many loft conversions qualify as permitted development. Listed buildings, conservation areas and some flats may need full planning permission. Requirements are checked during the site survey.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Loft Conversion London | Design & Build | Focus Refurbishment"
+  description="Loft conversions in London. Velux, dormer, L-shaped and mansard conversions. Full design, supply and build for homeowners and landlords. Free site survey — get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/loft-conversions-london"
+  ogTitle="Loft Conversion London | Design & Build | Focus Refurbishment"
+  ogDescription="Loft conversions in London. Velux, dormer, L-shaped and mansard conversions. Full design, supply and build for homeowners and landlords. Free site survey — get a quote today."
+  ogUrl="https://focusrefurbishmentltd.com/loft-conversions-london"
+  extraJsonLd={loftConversionJsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <LoftConversionsLondonPage />
+  </PageShell>
+</Layout>

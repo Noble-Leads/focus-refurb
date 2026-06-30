@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import BrickworkMasonryLondonPage from "../site/pages/BrickworkMasonryLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Brick Repointing London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Brick repointing and brickwork restoration in London. Lime mortar, brick cleaning and facade restoration. Free masonry survey.",
+    serviceType: "Brickwork and Masonry",
+  },
+];
+---
+
+<Layout
+  title="Brick Repointing & Restoration London | Focus Refurbishment"
+  description="Brick repointing and brickwork restoration in London. Lime mortar, brick cleaning and period property masonry. Free survey — get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/brickwork-masonry-london"
+  ogTitle="Brick Repointing & Restoration London | Focus Refurbishment"
+  ogDescription="Brick repointing and brickwork restoration in London. Lime mortar, brick cleaning and period property masonry."
+  ogUrl="https://focusrefurbishmentltd.com/brickwork-masonry-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <BrickworkMasonryLondonPage />
+  </PageShell>
+</Layout>

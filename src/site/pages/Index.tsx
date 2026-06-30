@@ -1,6 +1,8 @@
+import OptimizedImage from "@/components/OptimizedImage";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import GeometricDecor from "@/components/GeometricDecor";
+import BrandPattern from "@/components/BrandPattern";
 import { Phone, Shield, Clock, Award, ChevronRight, Star, ArrowRight, Building2, Users, Briefcase, Home } from "lucide-react";
 import { getHomeServiceCardHref } from "@/lib/serviceLinks";
 
@@ -15,7 +17,7 @@ const services = [
   { title: "Painting & Decorating", desc: "Flawless interior and exterior finishes with careful preparation and attention to detail.", image: "/images/service-painting.png" },
   { title: "Bathrooms & Kitchens", desc: "Bespoke bathroom and kitchen installations designed for comfort, functionality and style.", image: "/images/service-bathrooms.png" },
   { title: "Brickwork & Masonry", desc: "Professional brickwork cleaning, repointing and restoration for a refreshed, durable finish.", image: "/images/service-brickwork.png" },
-  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/service-rubbish-removal-new.png" },
+  { title: "Rubbish Removal", desc: "Fast, reliable site clearance and rubbish removal to keep your project moving.", image: "/images/hero-rubbish-removal.png" },
   { title: "Summer Houses/Annexes", desc: "Bespoke summer houses/annexes designed and built in as little as 3 weeks. Perfect for home offices, leisure spaces, or adding value to your property.", image: "/images/service-summer-house-new.png" },
 ];
 
@@ -107,71 +109,75 @@ function TestimonialCard({ t }: { t: TestimonialEntry }) {
 }
 
 const clientTypes = [
-  { icon: Home, title: "Landlords" },
-  { icon: Users, title: "Estate Agents & Managing Agents" },
-  { icon: Briefcase, title: "Facilities Managers" },
-  { icon: Building2, title: "Commercial Property Owners" },
+  { icon: Home, title: "Landlords", href: "/commercial" },
+  { icon: Users, title: "Estate Agents & Managing Agents", href: "/commercial" },
+  { icon: Briefcase, title: "Facilities Managers", href: "/commercial" },
+  { icon: Building2, title: "Homeowners & Commercial Owners", href: "/domestic" },
 ];
 
 const Index = () => {
   return (
     <div>
       {/* HERO */}
-      <section className="relative min-h-[86vh] md:min-h-[88vh] flex items-center">
+      <section className="relative min-h-[68vh] sm:min-h-[72vh] md:min-h-[78vh] lg:min-h-[82vh] flex items-center">
         <div className="absolute inset-0">
-          <img
-            src="/images/hero-fleet.png"
-            alt="Focus Group fleet and team"
+          <OptimizedImage
+            src="/images/hero-home.png"
+            alt="Focus Refurbishment team and branded van at a London apartment development"
             width={1024}
-            height={768}
+            height={571}
             sizes="100vw"
             fetchPriority="high"
             loading="eager"
             decoding="async"
-            className="w-full h-full object-cover"
+            pictureClassName="block w-full h-full"
+            className="w-full h-full object-cover object-[center_62%] md:object-[center_78%] lg:object-[center_88%]"
           />
           <div className="hero-overlay absolute inset-0" />
+          <BrandPattern variant="dark" className="z-[1] opacity-50" />
         </div>
-        <div className="container relative z-10 pt-28 md:pt-30 pb-14 md:pb-16">
-          <div className="max-w-2xl">
+        <div className="container relative z-10 w-full pt-below-header pb-12 md:pb-16 lg:pb-20">
+          <div className="max-w-3xl lg:max-w-4xl text-left md:ml-8 lg:ml-14 xl:ml-20 2xl:ml-24">
             <ScrollReveal>
-              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-4">
-                Commercial Contractors — Trusted Since 2000
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs md:text-sm mb-4 md:mb-5">
+                Est. 2000 · London & South East
               </p>
             </ScrollReveal>
             <ScrollReveal delay={100}>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground leading-tight mb-6">
-                London's Trusted Commercial Contractors
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.12] font-heading font-extrabold text-hero-foreground mb-4 md:mb-6">
+                Commercial & Domestic Contractors
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={200}>
-              <p className="text-base md:text-lg text-hero-muted mb-6 md:mb-8 max-w-lg leading-relaxed">
-                Fire door installation, building maintenance contracts, full refurbishments and more — delivered across London and the M25 by a multi-trade team with 25+ years of proven experience.
+              <p className="text-base md:text-lg text-hero-muted mb-6 md:mb-8 max-w-3xl leading-relaxed">
+                Fire doors, maintenance and refurbishments for businesses. Extensions, loft conversions and renovations for homeowners. One multi-trade team across London and the M25.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={300}>
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <a href="/contact">
-                    <Button variant="hero" size="xl">
-                      Get a Free Quote
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                  </a>
-                  <a href="/projects">
-                    <Button variant="hero-outline" size="xl">
-                      View Our Work
-                    </Button>
-                  </a>
-                </div>
-                <p className="text-sm text-hero-muted">
-                  We typically respond within 2 hours - Mon-Sat, 8am-5pm
-                </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-xl sm:max-w-2xl">
+                <a href="/commercial" className="sm:flex-1">
+                  <Button variant="hero" size="xl" className="w-full">
+                    Commercial
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </a>
+                <a href="/domestic#book-quote-visit" className="sm:flex-1">
+                  <Button variant="hero-outline" size="xl" className="w-full">
+                    Domestic
+                  </Button>
+                </a>
               </div>
+              <p className="text-sm text-hero-muted mt-5 md:mt-6">
+                <a href="/projects" className="text-hero-foreground/90 underline underline-offset-4 decoration-hero-foreground/30 hover:text-gold hover:decoration-gold transition-colors">
+                  View our work
+                </a>
+                <span className="mx-2 text-hero-foreground/20" aria-hidden="true">|</span>
+                We typically respond within 2 hours
+              </p>
             </ScrollReveal>
             <ScrollReveal delay={350}>
-              <div className="mt-5 w-full max-w-xl rounded-md bg-hero-foreground/10 border border-hero-foreground/20 px-4 py-2 text-xs text-hero-muted">
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <div className="mt-6 md:mt-8 w-full max-w-2xl lg:max-w-3xl rounded-md bg-hero-foreground/5 border border-hero-foreground/15 px-4 py-3 text-xs md:text-sm text-hero-muted">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                   <a
                     href={GOOGLE_BUSINESS_PROFILE_URL}
                     target="_blank"
@@ -183,11 +189,11 @@ const Index = () => {
                   </a>
                   <span>
                     <span aria-hidden="true">🏆 </span>
-                    500+ projects completed
+                    500+ projects
                   </span>
-                  <span>
+                  <span className="hidden sm:inline">
                     <span aria-hidden="true">✅ </span>
-                    Approved fire door installers
+                    Trusted 25+ years
                   </span>
                 </div>
               </div>
@@ -234,12 +240,13 @@ const Index = () => {
                   href={getHomeServiceCardHref(service.title)}
                   className="group block relative rounded-lg overflow-hidden aspect-[4/5] cursor-pointer"
                 >
-                  <img
+                  <OptimizedImage
                     src={service.image}
                     alt={service.title}
                     width={800}
                     height={1000}
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    pictureClassName="absolute inset-0 block"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -278,17 +285,17 @@ const Index = () => {
 
       {/* WHO WE WORK WITH */}
       <section className="relative section-dark py-20 md:py-28 overflow-hidden">
-        <GeometricDecor variant="grid" className="top-10 left-10 text-hero-foreground" />
+        <GeometricDecor variant="grid" className="top-10 left-10 text-hero-foreground opacity-40" />
         <GeometricDecor variant="corner" className="bottom-10 right-10 text-gold" />
-        <div className="container">
+        <div className="container relative z-10">
           <ScrollReveal>
             <div className="text-center mb-14">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Who We Work With</p>
               <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground mb-4">
-                Built for Commercial Clients
+                Commercial Clients & Homeowners
               </h2>
               <p className="text-hero-muted text-lg max-w-2xl mx-auto">
-                We work primarily with commercial clients who need a contractor they can rely on — not just for one job, but long term.
+                Whether you manage a property portfolio or are renovating your own home — choose the path that fits your needs.
               </p>
             </div>
           </ScrollReveal>
@@ -296,15 +303,34 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {clientTypes.map((client, i) => (
               <ScrollReveal key={client.title} delay={i * 100}>
-                <div className="bg-hero-foreground/5 border border-hero-foreground/10 rounded-lg p-8 text-center hover:border-gold/30 transition-colors">
+                <a
+                  href={client.href}
+                  className="block bg-hero-foreground/5 border border-hero-foreground/10 rounded-lg p-8 text-center hover:border-gold/30 transition-colors group"
+                >
                   <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-4">
                     <client.icon className="w-7 h-7 text-gold" />
                   </div>
-                  <h3 className="text-lg font-heading font-bold text-section-dark-foreground">{client.title}</h3>
-                </div>
+                  <h3 className="text-lg font-heading font-bold text-section-dark-foreground group-hover:text-gold transition-colors">
+                    {client.title}
+                  </h3>
+                </a>
               </ScrollReveal>
             ))}
           </div>
+          <ScrollReveal>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+              <a href="/commercial">
+                <Button variant="gold" size="lg" className="w-full sm:w-auto">
+                  Commercial Services
+                </Button>
+              </a>
+              <a href="/domestic">
+                <Button variant="hero-outline" size="lg" className="w-full sm:w-auto">
+                  Domestic Services
+                </Button>
+              </a>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

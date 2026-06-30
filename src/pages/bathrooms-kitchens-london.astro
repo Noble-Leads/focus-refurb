@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import BathroomsKitchensLondonPage from "../site/pages/BathroomsKitchensLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Bathroom Renovation & Kitchen Installation London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Bathroom renovation and kitchen installation in London. Full design, supply and build for homeowners and landlords. Free home visit.",
+    serviceType: "Bathroom and Kitchen Installation",
+  },
+];
+---
+
+<Layout
+  title="Bathroom Renovation & Kitchen Installation London | Focus Refurbishment"
+  description="Bathroom renovation and kitchen installation in London. Bathroom fitters and kitchen fitters — full design, supply and build. Free home visit. Get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/bathrooms-kitchens-london"
+  ogTitle="Bathroom Renovation & Kitchen Installation London | Focus Refurbishment"
+  ogDescription="Bathroom renovation and kitchen installation in London. Bathroom fitters and kitchen fitters — full design, supply and build. Free home visit."
+  ogUrl="https://focusrefurbishmentltd.com/bathrooms-kitchens-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <BathroomsKitchensLondonPage />
+  </PageShell>
+</Layout>

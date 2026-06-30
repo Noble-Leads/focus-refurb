@@ -1,12 +1,18 @@
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, ArrowRight, CheckCircle2, Phone, Quote, Star } from "lucide-react";
+import OptimizedImage from "@/components/OptimizedImage";
 import ScrollReveal from "@/components/ScrollReveal";
 import CaseStudyBlock from "@/components/CaseStudyBlock";
 import VimeoEmbed from "@/components/VimeoEmbed";
 import type { CaseStudy } from "@/lib/caseStudies";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
+import BrandPattern from "@/components/BrandPattern";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
+import GhlBookingEmbed from "@/components/GhlBookingEmbed";
+import BeforeAfterSection, { type BeforeAfterPair } from "@/components/BeforeAfterSection";
+import FeaturePhotoSection from "@/components/FeaturePhotoSection";
+import { domesticBookingDefaults, domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import { RoofingParapetCaseStudy, RoofingStreathamCaseStudy } from "@/components/RoofingProjectGallery";
 import {
   Accordion,
@@ -66,11 +72,20 @@ export type ServiceLandingConfig = {
     iframeId: string;
     formName: string;
     formId: string;
+    source?: string;
     iframeHeight?: string;
     minHeightClassName?: string;
   };
   /** Shorter hero headline shown below the md breakpoint */
   heroHeadlineMobile?: string;
+  /** Tall commercial forms stack below copy; shorter domestic forms sit beside copy */
+  heroFormLayout?: "split" | "stacked";
+  /** Full-bleed photo hero — replaces the default dark gradient backdrop */
+  heroImage?: {
+    src: string;
+    alt: string;
+    objectPosition?: string;
+  };
   mobileOptimizations?: boolean;
   finalCtaHideFormOnMobile?: boolean;
   processSteps: { number: string; title: string; desc: string }[];
@@ -86,6 +101,8 @@ export type ServiceLandingConfig = {
   finalCtaBulletsAsList?: boolean;
   bottomStrip?: string;
   showBottomStrip?: boolean;
+  /** Link to the equivalent page for the other audience (commercial ↔ domestic) */
+  audienceAltLink?: { prefix: string; label: string; href: string };
   positiveProblemBullets?: boolean;
   caseStudy?: {
     label: string;
@@ -107,6 +124,28 @@ export type ServiceLandingConfig = {
   };
   /** Roofing page project galleries — rendered in-page (not as slot props) for reliable hydration */
   roofingProjectGallery?: boolean;
+  beforeAfter?: {
+    eyebrow?: string;
+    heading: string;
+    subheading?: string;
+    pairs: BeforeAfterPair[];
+  };
+  featurePhoto?: {
+    eyebrow?: string;
+    heading: string;
+    body?: string;
+    src: string;
+    alt: string;
+    reverse?: boolean;
+    placement?: "afterValueCards" | "afterFormBand";
+    anchorId?: string;
+  };
+  /** GHL booking calendar for domestic quote visits */
+  domesticBooking?: boolean | {
+    anchorId?: string;
+    heading?: string;
+    subheading?: string;
+  };
 };
 
 type ServiceLandingPageProps = {
@@ -117,6 +156,224 @@ type CaseStudyConfig = NonNullable<ServiceLandingConfig["caseStudy"]>;
 type CaseStudiesConfig = NonNullable<ServiceLandingConfig["caseStudies"]>;
 
 const LANDING_SECTION = "py-12 md:py-20";
+const HERO_SECTION_PADDING = "pt-below-header pb-12 md:pb-14";
+
+type HeroFormEmbedConfig = NonNullable<ServiceLandingConfig["formEmbed"]>;
+
+const isTallHeroForm = (formEmbed?: HeroFormEmbedConfig) =>
+  formEmbed?.iframeHeight === "800px" || formEmbed?.minHeightClassName?.includes("800") === true;
+
+const HeroFormCard = ({
+  formAnchorId,
+  heroFormTitle,
+  heroFormSubtitle,
+  formEmbed,
+  useBooking = false,
+  iframeIdSuffix = "",
+}: {
+  formAnchorId: string;
+  heroFormTitle: string;
+  heroFormSubtitle: string;
+  formEmbed?: HeroFormEmbedConfig;
+  useBooking?: boolean;
+  iframeIdSuffix?: string;
+}) => (
+  <div
+    id={formAnchorId}
+    className="bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32"
+  >
+    <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
+    <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
+
+    {useBooking ? (
+      <GhlBookingEmbed iframeId={`${domesticBookingEmbed.iframeId}${iframeIdSuffix}`} />
+    ) : formEmbed ? (
+      <GhlFormEmbed
+        src={formEmbed.src}
+        title={formEmbed.title}
+        iframeId={`${formEmbed.iframeId}${iframeIdSuffix}`}
+        formName={formEmbed.formName}
+        formId={formEmbed.formId}
+        source={formEmbed.source}
+        minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
+        iframeHeight={formEmbed.iframeHeight ?? "502px"}
+      />
+    ) : (
+      <div className="min-h-[470px]" aria-hidden="true" />
+    )}
+
+    <p className="mt-2 text-center text-xs text-muted-foreground">
+      Or call us:{" "}
+      <a href={`tel:${LANDLINE_TEL}`} className="text-gold font-semibold hover:underline">
+        {LANDLINE_DISPLAY}
+      </a>
+    </p>
+  </div>
+);
+
+const CommercialFormBand = ({
+  formAnchorId,
+  heroFormTitle,
+  heroFormSubtitle,
+  formEmbed,
+  asideBullets,
+}: {
+  formAnchorId: string;
+  heroFormTitle: string;
+  heroFormSubtitle: string;
+  formEmbed?: HeroFormEmbedConfig;
+  asideBullets: string[];
+}) => (
+  <section className={`${LANDING_SECTION} relative overflow-hidden bg-secondary content-auto`}>
+    <BrandPattern variant="light" className="opacity-80" />
+    <div className="container relative z-10 max-w-6xl">
+      <ScrollReveal>
+        <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-lg lg:grid lg:grid-cols-12 lg:items-stretch">
+          <div className="relative overflow-hidden bg-section-dark p-8 md:p-10 lg:col-span-4 lg:p-10 xl:p-12">
+            <BrandPattern variant="dark" className="opacity-60" />
+            <div className="relative z-10">
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
+                Enquire
+              </p>
+              <h2 className="font-heading font-bold text-section-dark-foreground text-2xl md:text-3xl mb-3 leading-tight">
+                {heroFormTitle}
+              </h2>
+              <p className="text-hero-muted text-sm md:text-base mb-6 leading-relaxed">{heroFormSubtitle}</p>
+              <ul className="space-y-2.5 mb-8">
+                {asideBullets.map((point) => (
+                  <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+                    <span className="leading-snug">{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={`tel:${LANDLINE_TEL}`} className="inline-flex">
+                <Button variant="hero-outline" size="lg" className="gap-2">
+                  <Phone className="w-4 h-4" />
+                  Call {LANDLINE_DISPLAY}
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          <div
+            id={formAnchorId}
+            className="border-t border-border/60 bg-card p-5 sm:p-6 md:p-8 lg:col-span-8 lg:border-l lg:border-t-0 scroll-mt-28 md:scroll-mt-32"
+          >
+            {formEmbed ? (
+              <GhlFormEmbed
+                src={formEmbed.src}
+                title="Commercial enquiry form"
+                iframeId={formEmbed.iframeId}
+                formName={formEmbed.formName}
+                formId={formEmbed.formId}
+                source={formEmbed.source}
+                minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[800px]"}
+                iframeHeight={formEmbed.iframeHeight ?? "800px"}
+              />
+            ) : (
+              <div className="min-h-[800px]" aria-hidden="true" />
+            )}
+          </div>
+        </div>
+
+        <p className="text-center text-muted-foreground text-sm mt-6">
+          Prefer email?{" "}
+          <a href="mailto:office@focusrefurbishmentltd.com" className="text-gold font-semibold hover:underline">
+            office@focusrefurbishmentltd.com
+          </a>
+        </p>
+      </ScrollReveal>
+    </div>
+  </section>
+);
+
+const HeroCopyBlock = ({
+  heroEyebrow,
+  heroHeadline,
+  heroHeadlineMobile,
+  heroSubheading,
+  alertBox,
+  heroBullets,
+  heroCtaLabel,
+  heroCtaTarget,
+  stacked = false,
+}: {
+  heroEyebrow: string;
+  heroHeadline: string;
+  heroHeadlineMobile?: string;
+  heroSubheading: string;
+  alertBox: string;
+  heroBullets: string[];
+  heroCtaLabel: string;
+  heroCtaTarget: string;
+  stacked?: boolean;
+}) => (
+  <div
+    className={
+      stacked
+        ? "mx-auto w-full max-w-5xl xl:max-w-6xl text-center"
+        : "min-w-0 max-w-full"
+    }
+  >
+    <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
+      {heroEyebrow}
+    </p>
+    <h1
+      className={`font-heading font-extrabold text-section-dark-foreground mb-4 break-words mx-auto ${
+        stacked ? "max-w-5xl xl:max-w-6xl" : "max-w-2xl"
+      } text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-5xl xl:leading-tight`}
+    >
+      {heroHeadlineMobile ? (
+        <>
+          <span className="md:hidden">{heroHeadlineMobile}</span>
+          <span className="hidden md:inline">{heroHeadline}</span>
+        </>
+      ) : (
+        heroHeadline
+      )}
+    </h1>
+    <p
+      className={`text-hero-muted text-sm sm:text-base md:text-lg mb-5 md:mb-6 mx-auto ${
+        stacked ? "max-w-4xl xl:max-w-5xl" : "max-w-xl"
+      }`}
+    >
+      {heroSubheading}
+    </p>
+
+    <div
+      className={`border border-gold/30 bg-primary/30 rounded-lg p-4 mb-5 md:mb-6 mx-auto ${
+        stacked ? "max-w-4xl xl:max-w-5xl text-left" : ""
+      }`}
+    >
+      <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">{alertBox}</p>
+    </div>
+
+    <ul
+      className={`grid gap-x-6 gap-y-2.5 mb-6 md:mb-8 mx-auto ${
+        stacked
+          ? "grid-cols-1 sm:grid-cols-2 max-w-4xl xl:max-w-5xl text-left"
+          : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+      }`}
+    >
+      {heroBullets.map((point) => (
+        <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
+          <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+          <span className="leading-snug">{point}</span>
+        </li>
+      ))}
+    </ul>
+
+    <a
+      href={`#${heroCtaTarget}`}
+      className={`block min-w-0 ${stacked ? "mx-auto w-full max-w-sm" : "w-full max-w-full"}`}
+    >
+      <Button variant="gold" size="xl" className="w-full sm:w-auto min-h-12 px-6 sm:px-10">
+        {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
+      </Button>
+    </a>
+  </div>
+);
 
 const CaseStudiesSection = ({
   caseStudies,
@@ -280,6 +537,8 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     videoCaption,
     showVideoSection = true,
     formEmbed,
+    heroFormLayout,
+    heroImage,
     processSteps,
     testimonials,
     testimonialsHeading = "Trusted by Landlords, Homeowners & Property Managers",
@@ -295,10 +554,21 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     mobileOptimizations = false,
     bottomStrip,
     showBottomStrip = true,
+    audienceAltLink,
     positiveProblemBullets = false,
     caseStudy,
     roofingProjectGallery,
+    beforeAfter,
+    featurePhoto,
+    domesticBooking,
   } = config;
+
+  const bookingConfig =
+    domesticBooking === true
+      ? domesticBookingDefaults
+      : domesticBooking
+        ? { ...domesticBookingDefaults, ...domesticBooking }
+        : null;
 
   const servicesGridCols =
     servicesColumns === 4
@@ -310,131 +580,80 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         : "md:grid-cols-2 lg:grid-cols-3";
 
   const heroCtaTarget = heroCtaAnchorId ?? formAnchorId;
+  const heroCardTitle = bookingConfig?.heading ?? heroFormTitle;
+  const heroCardSubtitle = bookingConfig?.subheading ?? heroFormSubtitle;
+  const heroCardAnchorId = bookingConfig?.anchorId ?? formAnchorId;
   const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
   const caseStudyAfterValueCards = caseStudy?.placement === "afterValueCards";
+  const stackedHeroForm = heroFormLayout === "stacked" || (heroFormLayout !== "split" && isTallHeroForm(formEmbed));
 
   return (
     <div className="overflow-x-hidden max-w-full min-w-0">
       <section
-        className={`section-dark relative overflow-hidden ${
-          mobileOptimizations ? "pt-28 md:pt-32 pb-10 md:pb-12" : "pt-24 md:pt-32 pb-8 md:pb-12"
+        className={`relative overflow-hidden ${HERO_SECTION_PADDING} ${
+          heroImage ? "min-h-[70vh] md:min-h-[75vh] flex items-center" : "section-dark"
         }`}
       >
-        <HeroBackdrop />
-        <div className="container relative z-10 min-w-0 max-w-7xl">
-          <div
-            className={`grid lg:grid-cols-12 items-start min-w-0 ${
-              mobileOptimizations ? "gap-6 lg:gap-10" : "gap-8 lg:gap-10"
-            }`}
-          >
-            <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
-              <p
-                className={`text-gold font-heading font-semibold uppercase text-xs sm:text-sm mb-2 sm:mb-3 ${
-                  mobileOptimizations ? "tracking-wide sm:tracking-widest" : "tracking-widest"
-                }`}
-              >
-                {heroEyebrow}
-              </p>
-              <h1
-                className={`font-heading font-extrabold text-section-dark-foreground mb-3 sm:mb-4 max-w-2xl break-words ${
-                  mobileOptimizations
-                    ? "text-[1.65rem] leading-[1.2] sm:text-3xl md:text-5xl lg:text-[3rem] lg:leading-tight"
-                    : "text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight"
-                }`}
-              >
-                {heroHeadlineMobile ? (
-                  <>
-                    <span className="md:hidden">{heroHeadlineMobile}</span>
-                    <span className="hidden md:inline">{heroHeadline}</span>
-                  </>
-                ) : (
-                  heroHeadline
-                )}
-              </h1>
-              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-4 sm:mb-5 md:mb-6 max-w-xl">
-                {heroSubheading}
-              </p>
-
-              <div
-                className={`border border-gold/30 bg-primary/30 rounded-lg mb-5 sm:mb-6 ${
-                  mobileOptimizations ? "p-3 sm:p-4" : "p-4"
-                }`}
-              >
-                <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">{alertBox}</p>
-              </div>
-
-              <ul
-                className={`grid gap-x-4 gap-y-2 mb-6 sm:mb-8 ${
-                  mobileOptimizations
-                    ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
-                    : "md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
-                }`}
-              >
-                {heroBullets.map((point) => (
-                  <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
-                    <span className="leading-snug">{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <a href={`#${heroCtaTarget}`} className="block w-full max-w-full min-w-0">
-                <Button
-                  variant="gold"
-                  size="xl"
-                  className={`w-full max-w-full min-w-0 ${
-                    mobileOptimizations
-                      ? "h-auto min-h-14 whitespace-normal px-4 py-3 text-sm leading-snug sm:whitespace-nowrap sm:px-10 sm:text-lg"
-                      : "sm:w-auto"
-                  }`}
-                >
-                  {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
-                </Button>
-              </a>
-            </ScrollReveal>
-
-            <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
-              <div
-                id={formAnchorId}
-                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto overflow-hidden ${
-                  mobileOptimizations ? "scroll-mt-32 md:scroll-mt-28" : "scroll-mt-28"
-                }`}
-              >
-                <h2
-                  className={`font-heading font-bold text-foreground mb-1 break-words ${
-                    mobileOptimizations ? "text-xl sm:text-2xl" : "text-2xl"
-                  }`}
-                >
-                  {heroFormTitle}
-                </h2>
-                <p className="text-muted-foreground text-sm mb-3">{heroFormSubtitle}</p>
-
-                {formEmbed ? (
-                  <GhlFormEmbed
-                    src={formEmbed.src}
-                    title={formEmbed.title}
-                    iframeId={formEmbed.iframeId}
-                    formName={formEmbed.formName}
-                    formId={formEmbed.formId}
-                    minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
-                    iframeHeight={formEmbed.iframeHeight ?? "502px"}
-                  />
-                ) : (
-                  <>
-                    {/* GHL FORM EMBED HERE */}
-                    <div className="min-h-[470px]" aria-hidden="true" />
-                  </>
-                )}
-
-                <p className="mt-1 text-center text-xs text-muted-foreground">
-                  Or call us:{" "}
-                  <a href={`tel:${LANDLINE_TEL}`} className="text-gold font-semibold hover:underline">
-                    {LANDLINE_DISPLAY}
-                  </a>
-                </p>
-              </div>
-            </ScrollReveal>
+        {heroImage ? (
+          <div className="absolute inset-0">
+            <OptimizedImage
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={1024}
+              height={682}
+              sizes="100vw"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              pictureClassName="block w-full h-full"
+              className={`w-full h-full object-cover ${heroImage.objectPosition ?? "object-center"}`}
+            />
+            <div className="hero-overlay absolute inset-0" />
+            <BrandPattern variant="dark" className="z-[1] opacity-50" />
           </div>
+        ) : (
+          <HeroBackdrop />
+        )}
+        <div className="container relative z-10 min-w-0 max-w-7xl w-full">
+          {stackedHeroForm ? (
+            <ScrollReveal instant className="flex justify-center">
+              <HeroCopyBlock
+                heroEyebrow={heroEyebrow}
+                heroHeadline={heroHeadline}
+                heroHeadlineMobile={heroHeadlineMobile}
+                heroSubheading={heroSubheading}
+                alertBox={alertBox}
+                heroBullets={heroBullets}
+                heroCtaLabel={heroCtaLabel}
+                heroCtaTarget={heroCtaTarget}
+                stacked
+              />
+            </ScrollReveal>
+          ) : (
+            <div className="grid lg:grid-cols-12 items-center gap-8 lg:gap-12 min-w-0">
+              <ScrollReveal instant className="lg:col-span-6 min-w-0">
+                <HeroCopyBlock
+                  heroEyebrow={heroEyebrow}
+                  heroHeadline={heroHeadline}
+                  heroHeadlineMobile={heroHeadlineMobile}
+                  heroSubheading={heroSubheading}
+                  alertBox={alertBox}
+                  heroBullets={heroBullets}
+                  heroCtaLabel={heroCtaLabel}
+                  heroCtaTarget={heroCtaTarget}
+                />
+              </ScrollReveal>
+              <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
+                <HeroFormCard
+                  formAnchorId={heroCardAnchorId}
+                  heroFormTitle={heroCardTitle}
+                  heroFormSubtitle={heroCardSubtitle}
+                  formEmbed={bookingConfig ? undefined : formEmbed}
+                  useBooking={!!bookingConfig}
+                />
+              </ScrollReveal>
+            </div>
+          )}
         </div>
       </section>
 
@@ -514,8 +733,54 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
         />
       )}
 
+      {beforeAfter && (
+        <BeforeAfterSection
+          eyebrow={beforeAfter.eyebrow}
+          heading={beforeAfter.heading}
+          subheading={beforeAfter.subheading}
+          pairs={beforeAfter.pairs}
+          mobileOptimizations={mobileOptimizations}
+        />
+      )}
+
+      {featurePhoto?.placement === "afterValueCards" && (
+        <FeaturePhotoSection
+          eyebrow={featurePhoto.eyebrow}
+          heading={featurePhoto.heading}
+          body={featurePhoto.body}
+          src={featurePhoto.src}
+          alt={featurePhoto.alt}
+          reverse={featurePhoto.reverse}
+          anchorId={featurePhoto.anchorId}
+          mobileOptimizations={mobileOptimizations}
+        />
+      )}
+
       {caseStudyAfterValueCards && caseStudy && (
         <CaseStudySection caseStudy={caseStudy} formAnchorId={formAnchorId} />
+      )}
+
+      {stackedHeroForm && (
+        <CommercialFormBand
+          formAnchorId={formAnchorId}
+          heroFormTitle={heroFormTitle}
+          heroFormSubtitle={heroFormSubtitle}
+          formEmbed={formEmbed}
+          asideBullets={heroBullets.slice(0, 4)}
+        />
+      )}
+
+      {featurePhoto?.placement === "afterFormBand" && (
+        <FeaturePhotoSection
+          eyebrow={featurePhoto.eyebrow}
+          heading={featurePhoto.heading}
+          body={featurePhoto.body}
+          src={featurePhoto.src}
+          alt={featurePhoto.alt}
+          reverse={featurePhoto.reverse}
+          anchorId={featurePhoto.anchorId}
+          mobileOptimizations={mobileOptimizations}
+        />
       )}
 
       <section className={`${LANDING_SECTION} bg-secondary content-auto`}>
@@ -830,6 +1095,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     iframeId={`${formEmbed.iframeId}-bottom`}
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
+                    source={formEmbed.source}
                     minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
                     iframeHeight={formEmbed.iframeHeight ?? "502px"}
                   />
@@ -869,6 +1135,17 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
           </ScrollReveal>
         </div>
       </section>
+
+      {audienceAltLink && (
+        <section className="bg-background py-8 border-t border-border">
+          <div className="container text-center text-muted-foreground">
+            {audienceAltLink.prefix}{" "}
+            <a href={audienceAltLink.href} className="text-gold font-semibold hover:underline">
+              {audienceAltLink.label}
+            </a>
+          </div>
+        </section>
+      )}
 
       {showBottomStrip && bottomStrip && (
         <section className="bg-gold/15 py-4 border-t border-gold/30">

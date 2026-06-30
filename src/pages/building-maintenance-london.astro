@@ -1,0 +1,68 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import BuildingMaintenanceLondonPage from "../site/pages/BuildingMaintenanceLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Property Maintenance London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "Kent", "Bromley"],
+    description:
+      "Property maintenance and building maintenance contracts in London. Planned and reactive maintenance for landlords, agents and commercial property owners. 24hr emergency callouts.",
+    serviceType: "Building Maintenance",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Do you offer building maintenance contracts in London?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Focus Refurbishment provides planned maintenance contracts and reactive callouts for landlords, property managers and commercial clients across London and Kent.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you offer 24-hour emergency maintenance?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. 24-hour emergency callouts are available for urgent leaks, storm damage, security issues and tenant safety concerns across London and Kent.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Property Maintenance Company London | Commercial Contracts & 24hr Callouts"
+  description="Property maintenance company in London and Kent. Commercial property maintenance, planned agreements and reactive callouts for landlords and agents. 24hr emergencies. Enquire today."
+  canonicalUrl="https://focusrefurbishmentltd.com/building-maintenance-london"
+  ogTitle="Property Maintenance Company London | Commercial Contracts & 24hr Callouts"
+  ogDescription="Property maintenance company in London and Kent. Commercial property maintenance, planned agreements and reactive callouts for landlords and agents. 24hr emergencies."
+  ogUrl="https://focusrefurbishmentltd.com/building-maintenance-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <BuildingMaintenanceLondonPage />
+  </PageShell>
+</Layout>

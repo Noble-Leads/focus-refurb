@@ -1,8 +1,9 @@
 import { Shield, Clock, MapPin, Building2, Home, Landmark, HardHat, Briefcase, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import OptimizedImage from "@/components/OptimizedImage";
+import BrandPattern from "@/components/BrandPattern";
 import GeometricDecor from "@/components/GeometricDecor";
-import HeroBackdrop from "@/components/HeroBackdrop";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
 
@@ -46,10 +47,23 @@ const CommercialEnquiries = () => {
   return (
     <div className="overflow-hidden">
       {/* HERO */}
-      <section className="relative bg-section-dark py-24 md:py-32">
-        <HeroBackdrop />
-        <GeometricDecor variant="dots" />
-        <div className="container relative z-10 text-center max-w-4xl mx-auto">
+      <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0">
+          <OptimizedImage
+            src="/images/commercial/office-building.png"
+            alt="Modern commercial office building in London"
+            width={1024}
+            height={682}
+            sizes="100vw"
+            loading="eager"
+            decoding="async"
+            pictureClassName="block w-full h-full"
+            className="w-full h-full object-cover"
+          />
+          <div className="hero-overlay absolute inset-0" />
+          <BrandPattern variant="dark" className="z-[1] opacity-50" />
+        </div>
+        <div className="container relative z-10 pt-below-header pb-16 md:pb-24 max-w-4xl mx-auto text-center">
           <ScrollReveal>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-hero-foreground mb-6">
               Commercial Enquiries — Built for Business
@@ -168,6 +182,7 @@ const CommercialEnquiries = () => {
                 iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
                 formName="FR Site- Commercial"
                 formId="e6NuUzUMAfN2MKNTqFnI"
+                source="commercial-enquiries"
                 iframeHeight="800px"
                 minHeightClassName="min-h-[800px]"
               />
@@ -189,7 +204,6 @@ const CommercialEnquiries = () => {
 
       {/* BOTTOM CTA */}
       <section className="relative py-20 bg-section-dark">
-        <GeometricDecor variant="lines" />
         <div className="container relative z-10 text-center max-w-3xl mx-auto">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-hero-foreground mb-4">

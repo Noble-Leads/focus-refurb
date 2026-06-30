@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageShell from "../../components/PageShell";
+import DomesticPaintingDecoratingLondonPage from "../../site/pages/DomesticPaintingDecoratingLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Painting and Decorating London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "Kent"],
+    description:
+      "Painting and decorating in London. Interior and exterior painting, full-house redecorations and period property work for homeowners.",
+    serviceType: "Painting and Decorating",
+  },
+];
+---
+
+<Layout
+  title="Painting & Decorating London | Interior & Exterior | Focus Refurbishment"
+  description="Painting and decorating in London & Kent. Interior painting, exterior repaints and full-house redecorations for homeowners. Free quote — experienced team."
+  canonicalUrl="https://focusrefurbishmentltd.com/domestic/painting-decorating-london"
+  ogTitle="Painting & Decorating London | Interior & Exterior | Focus Refurbishment"
+  ogDescription="Painting and decorating in London & Kent. Interior painting, exterior repaints and full-house redecorations for homeowners. Free quote — experienced team."
+  ogUrl="https://focusrefurbishmentltd.com/domestic/painting-decorating-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk", "https://player.vimeo.com", "https://i.vimeocdn.com"]}
+>
+  <PageShell client:load>
+    <DomesticPaintingDecoratingLondonPage />
+  </PageShell>
+</Layout>

@@ -18,6 +18,7 @@ export interface Props {
   extraJsonLd?: object[];
   /** Optional LCP image URL for homepage hero preload */
   preloadLcpImage?: string;
+  preloadLcpImageType?: string;
   /** Origins to preconnect before third-party embeds (forms, video, etc.) */
   preconnectOrigins?: string[];
 }
@@ -36,6 +37,7 @@ const {
   includeLocalBusinessJsonLd = false,
   extraJsonLd,
   preloadLcpImage,
+  preloadLcpImageType = "image/webp",
   preconnectOrigins = [],
 } = Astro.props;
 
@@ -129,7 +131,9 @@ const jsonLd = {
     <meta name="twitter:description" content={twitterDesc} />
     <meta name="twitter:image" content={ogImage} />
 
-    {preloadLcpImage && <link rel="preload" as="image" href={preloadLcpImage} fetchpriority="high" />}
+    {preloadLcpImage && (
+      <link rel="preload" as="image" href={preloadLcpImage} type={preloadLcpImageType} fetchpriority="high" />
+    )}
 
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://link.nobleleads.uk" crossorigin="anonymous" />
@@ -324,5 +328,6 @@ const jsonLd = {
         window.location.href = link.href;
       });
     </script>
+    <script src="/scripts/before-after-slider.js" defer></script>
   </body>
 </html>

@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import SummerHousesAnnexesLondonPage from "../site/pages/SummerHousesAnnexesLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Garden Room London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "Garden rooms, offices and annexes in London. Bespoke design and build. Installations from 3 weeks. Free garden survey.",
+    serviceType: "Garden Room Construction",
+  },
+];
+---
+
+<Layout
+  title="Garden Room London | Garden Offices & Annexes | Focus Refurbishment"
+  description="Garden rooms in London. Bespoke garden offices, annexes and summer houses. Design and build — installations from 3 weeks. Free garden survey."
+  canonicalUrl="https://focusrefurbishmentltd.com/summer-houses-annexes-london"
+  ogTitle="Garden Room London | Garden Offices & Annexes | Focus Refurbishment"
+  ogDescription="Garden rooms in London. Bespoke garden offices, annexes and summer houses. Design and build — installations from 3 weeks."
+  ogUrl="https://focusrefurbishmentltd.com/summer-houses-annexes-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <SummerHousesAnnexesLondonPage />
+  </PageShell>
+</Layout>

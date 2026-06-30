@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageShell from "../../components/PageShell";
+import CommercialPaintingDecoratingLondonPage from "../../site/pages/CommercialPaintingDecoratingLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Commercial Painting London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "Kent"],
+    description:
+      "Commercial painting and decorating in London. Void property turnarounds, HMO decoration, communal areas and multi-property contracts.",
+    serviceType: "Commercial Painting",
+  },
+];
+---
+
+<Layout
+  title="Commercial Painting London | Voids, HMOs & Portfolios | Focus Refurbishment"
+  description="Commercial painting in London & the M25. Void property turnarounds, HMO decoration, communal areas and portfolio contracts. Free quote — full documentation."
+  canonicalUrl="https://focusrefurbishmentltd.com/commercial/painting-decorating-london"
+  ogTitle="Commercial Painting London | Voids, HMOs & Portfolios | Focus Refurbishment"
+  ogDescription="Commercial painting in London & the M25. Void property turnarounds, HMO decoration, communal areas and portfolio contracts. Free quote — full documentation."
+  ogUrl="https://focusrefurbishmentltd.com/commercial/painting-decorating-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk", "https://player.vimeo.com", "https://i.vimeocdn.com"]}
+>
+  <PageShell client:load>
+    <CommercialPaintingDecoratingLondonPage />
+  </PageShell>
+</Layout>

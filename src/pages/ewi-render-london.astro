@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import EwiRenderLondonPage from "../site/pages/EwiRenderLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "External Wall Insulation London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "External wall insulation and silicone render in London. EWI systems, pebble-dash removal and house rendering. Free exterior survey.",
+    serviceType: "External Wall Insulation",
+  },
+];
+---
+
+<Layout
+  title="External Wall Insulation & Render London | Focus Refurbishment"
+  description="External wall insulation and silicone render in London. EWI systems, pebble-dash removal and house rendering. Free survey — get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/ewi-render-london"
+  ogTitle="External Wall Insulation & Render London | Focus Refurbishment"
+  ogDescription="External wall insulation and silicone render in London. EWI systems, pebble-dash removal and house rendering."
+  ogUrl="https://focusrefurbishmentltd.com/ewi-render-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <EwiRenderLondonPage />
+  </PageShell>
+</Layout>

@@ -4,14 +4,16 @@ import { openCookiePreferences } from "./CookieConsent";
 const serviceLinks = [
   { label: "Fire Door Installation", path: "/fire-door-installation-london" },
   { label: "Roof Repair & Replacement", path: "/roofing-london" },
-  { label: "Full Refurbishment", path: "/refurbishment-london" },
-  { label: "Painting & Decorating", path: "/painting-decorating-london" },
+  { label: "Full Refurbishment", path: "/domestic/refurbishment-london" },
+  { label: "Painting & Decorating", path: "/domestic/painting-decorating-london" },
   { label: "Rubbish Removal", path: "/rubbish-removal" },
   { label: "All Services", path: "/services" },
 ];
 
 const companyLinks = [
   { label: "Home", path: "/" },
+  { label: "Commercial", path: "/commercial" },
+  { label: "Domestic", path: "/domestic" },
   { label: "About Us", path: "/about" },
   { label: "Our Projects", path: "/projects" },
   { label: "Commercial Enquiries", path: "/commercial-enquiries" },
@@ -44,7 +46,7 @@ const Footer = () => {
               </span>
             </a>
             <p className="mt-4 text-hero-muted text-sm leading-relaxed max-w-xs">
-              Commercial contractors serving London and the South East since 2000.
+              Commercial and domestic contractors serving London and the South East since 2000.
             </p>
             <p className="mt-3 text-hero-muted text-sm leading-relaxed">
               Focus Refurbishment Ltd · Company No. 04010469

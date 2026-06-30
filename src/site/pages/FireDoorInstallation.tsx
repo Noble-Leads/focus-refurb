@@ -10,48 +10,65 @@ const CTA_DISPLAY = LANDLINE_DISPLAY;
 const CTA_TEL = LANDLINE_TEL;
 
 const heroPoints = [
-  "FD30 & FD60 supplied and fitted",
-  "Full compliance documentation",
-  "Approved certified installer",
-  "Commercial and residential",
-  "Fast turnaround survey within the week",
+  "FD30 & FD60 supply, installation & replacement",
+  "Fire door surveys, maintenance & remedial works",
+  "Intumescent strips, smoke seals & door-set hardware",
+  "Compliance documentation on completion",
+  "Experienced installation team",
+  "Landlords, agents & commercial clients",
 ];
 
 const trustStats = [
   { value: "25+", label: "Years Trading" },
   { value: "500+", label: "Projects" },
   { value: "FD30-FD60", label: "Rated Doors" },
-  { value: "100%", label: "Certified" },
+  { value: "Docs", label: "On Completion" },
   { value: "M25", label: "Coverage" },
 ];
 
 const chooseCards = [
   {
-    title: "Approved & Certified",
-    desc: "Our team installs compliant FD30 and FD60 fire doors to current standards. Every project is delivered by trained professionals who understand inspection requirements.",
+    title: "Installation & Replacement",
+    desc: "FD30 and FD60 fire doors supplied, fitted and replaced to current standards. Every door installed with correct intumescent strips, closers and frames for full compliance.",
+  },
+  {
+    title: "Surveys & Maintenance",
+    desc: "Fire door surveys for landlords and managing agents — checking gaps, hinges, closers, intumescent strips and signage. In buildings over 11 metres, flat entrance doors should be checked annually and common-part doors quarterly. We survey and carry out remedial works.",
+  },
+  {
+    title: "Door-Set Sealing",
+    desc: "Correct intumescent strips, smoke seals, thresholds, closers and hardware fitted as part of every installation — the door-set details that matter for compliance, not just hanging the leaf.",
   },
   {
     title: "Full Documentation",
-    desc: "You receive a full compliance pack at completion so your records are audit-ready. We document each installed door and include supporting certification details.",
-  },
-  {
-    title: "Real People Fast Response",
-    desc: "A real member of our team handles your enquiry and arranges your survey quickly. If you have a deadline, we prioritize your programme where possible.",
-  },
-  {
-    title: "London's Trusted Contractor",
-    desc: "Landlords, homeowners, agents and commercial clients rely on Focus for dependable workmanship. We keep communication clear from first survey through final sign-off.",
+    desc: "Compliance pack at completion so your records are audit-ready — installer certificates, product data and evidence for agents, insurers and fire risk assessments.",
   },
 ];
 
 const processSteps = [
   { number: "1", title: "Enquire", desc: "Call or submit the form and tell us what your property needs." },
   { number: "2", title: "Free Survey", desc: "We arrange a fast survey and confirm door specs and compliance requirements." },
-  { number: "3", title: "Installation", desc: "Our certified team supplies and fits the required FD30 or FD60 doors." },
-  { number: "4", title: "Certified", desc: "You get full paperwork and confirmation your installation is compliant." },
+  { number: "3", title: "Installation", desc: "Our experienced team supplies and fits the required FD30 or FD60 doors." },
+  { number: "4", title: "Documentation", desc: "You receive compliance paperwork and product data for your records." },
 ];
 
 const faqs = [
+  {
+    q: "Do you offer fire door inspection in London?",
+    a: "Yes. We carry out fire door surveys for landlords, agents and commercial property owners — checking gaps, hinges, frames, closers, intumescent strips and signage. For residential buildings over 11 metres, London Fire Brigade guidance recommends annual checks on flat entrance doors and quarterly checks on common-part fire doors. We can carry out one-off surveys or scheduled programmes across portfolios, and we carry out remedial works and replacements where needed.",
+  },
+  {
+    q: "Do you provide compartmentation fire stopping?",
+    a: "Our work focuses on fire door supply, installation and door-set sealing — intumescent strips, smoke seals, closers and hardware. Specialist passive fire stopping around pipes, cables and service penetrations in walls and floors is a separate discipline. If your project needs that scope, tell us when you enquire and we can advise or coordinate with the right specialists.",
+  },
+  {
+    q: "Do you replace existing fire doors?",
+    a: "Yes. Fire door replacement is one of our most common jobs — upgrading non-compliant or damaged FD30 and FD60 doors with certified replacements and full documentation for your records.",
+  },
+  {
+    q: "Are you experienced fire door installers for landlords?",
+    a: "Yes. We work with residential landlords, HMO operators and commercial property owners across London. Every installation includes compliance documentation suitable for fire risk assessments and agent handovers.",
+  },
   {
     q: "How quickly can you carry out a survey?",
     a: "We aim to carry out surveys within the week of your enquiry.",
@@ -62,11 +79,11 @@ const faqs = [
   },
   {
     q: "Can you install fire doors in a private home?",
-    a: "Yes — owner-occupied flats and houses, as well as HMOs and commercial buildings. Same certified installation and full compliance documentation.",
+    a: "Yes — owner-occupied flats and houses, as well as HMOs and commercial buildings. Same careful installation and full compliance documentation.",
   },
   {
     q: "Do you work on HMOs and multi-property portfolios?",
-    a: "Yes — we regularly work with landlords and estate agents managing multiple HMOs and can schedule across multiple properties efficiently.",
+    a: "Yes — we regularly work with landlords and estate agents managing multiple HMOs and can schedule inspections and installations across multiple properties efficiently.",
   },
   {
     q: "What areas do you cover?",
@@ -108,7 +125,7 @@ const workCards = [
     alt: "Before FD30 installation single door",
   },
   {
-    title: "After - FD30 Installed & Certified",
+    title: "After - FD30 Installed Compliant",
     accent: "text-green-600",
     note: "FD30 upgraded compliant fire door",
     image: "/images/fd30-after.png",
@@ -122,7 +139,7 @@ const workCards = [
     alt: "Before FD60 installation double doors",
   },
   {
-    title: "After - FD60 Installed & Certified",
+    title: "After - FD60 Installed Compliant",
     accent: "text-green-600",
     note: "FD60 upgraded compliant double doors",
     image: "/images/fd60-after.png",
@@ -133,28 +150,28 @@ const workCards = [
 const FireDoorInstallationPage = () => {
   return (
     <div className="overflow-hidden">
-      <section className="section-dark pt-28 md:pt-32 pb-10 md:pb-12 relative overflow-hidden">
+      <section className="section-dark pt-below-header pb-12 md:pb-14 relative overflow-hidden">
         <HeroBackdrop />
-        <div className="container relative z-10">
-          <div className="grid lg:grid-cols-12 gap-10 items-start">
-            <ScrollReveal className="lg:col-span-6">
-              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
-                Approved Fire Door Installers
+        <div className="container relative z-10 max-w-7xl">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <ScrollReveal className="lg:col-span-6 min-w-0">
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
+                Fire Door Installers London
               </p>
-              <h1 className="text-4xl md:text-5xl lg:text-[3rem] lg:leading-tight font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl">
-                Fire Door Installation London — Landlords, Commercial & Residential
+              <h1 className="font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl break-words text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
+                Fire Door Installers London — Supply, Installation & Compliance
               </h1>
-              <p className="text-hero-muted text-base md:text-lg mb-6 max-w-xl">
-                We support landlords, homeowners, estate agents and commercial clients across London and the M25 with compliant FD30 and FD60 fire door installation.
+              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-5 md:mb-6 max-w-xl">
+                Experienced fire door installers for landlords, estate agents and commercial clients across London and the M25 — FD30 and FD60 supply, installation, surveys, maintenance and replacement with compliance documentation on completion.
               </p>
 
-              <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-6">
+              <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-5 md:mb-6">
                 <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">
                   <strong>Compliance Warning:</strong> Under the Regulatory Reform Fire Safety Order 2005, landlords are legally required to ensure fire doors are compliant - non-compliance can result in unlimited fines.
                 </p>
               </div>
 
-              <ul className="grid gap-x-4 gap-y-2 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <ul className="grid gap-x-4 gap-y-2.5 mb-6 md:mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {heroPoints.map((point) => (
                   <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
                     <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
@@ -164,10 +181,13 @@ const FireDoorInstallationPage = () => {
               </ul>
             </ScrollReveal>
 
-            <ScrollReveal className="lg:col-span-6">
-              <div id="fire-door-enquiry-form" className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 max-w-[800px] lg:ml-auto">
-                <h2 className="text-2xl font-heading font-bold text-foreground mb-1">Get a Free Fire Door Quote</h2>
-                <p className="text-muted-foreground text-sm mb-3">Tell us about your property and we will respond within hours.</p>
+            <ScrollReveal className="lg:col-span-6 min-w-0">
+              <div
+                id="fire-door-enquiry-form"
+                className="bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32"
+              >
+                <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1">Get a Free Fire Door Quote</h2>
+                <p className="text-muted-foreground text-sm mb-4">Tell us about your property and we will respond within hours.</p>
 
                 <GhlFormEmbed
                   src="https://link.nobleleads.uk/widget/form/LsQfA3LgiKr1TIsl3JSq"
@@ -175,6 +195,7 @@ const FireDoorInstallationPage = () => {
                   iframeId="inline-LsQfA3LgiKr1TIsl3JSq"
                   formName="FR - Fire Doors"
                   formId="LsQfA3LgiKr1TIsl3JSq"
+                  source="fire-door-installation-london"
                   minHeightClassName="min-h-[470px]"
                   iframeHeight="470px"
                 />
@@ -208,7 +229,7 @@ const FireDoorInstallationPage = () => {
         <div className="container">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
-              Certified Installers. Full Documentation. No Shortcuts.
+              Proper Installation. Full Documentation. No Shortcuts.
             </h2>
           </ScrollReveal>
           <div className="grid md:grid-cols-2 gap-6">
@@ -253,7 +274,7 @@ const FireDoorInstallationPage = () => {
                   What We Handle For You
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We manage the full process from survey and specification to installation and certification. You get compliant doors, documented evidence, and clear records for inspections.
+                  We manage supply, installation, surveys and remedial works. You get correctly fitted door sets with seals and hardware in place, plus documented evidence for your records — from one contractor rather than juggling separate trades.
                 </p>
               </div>
             </ScrollReveal>
@@ -280,6 +301,38 @@ const FireDoorInstallationPage = () => {
                 </div>
               </ScrollReveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 bg-secondary">
+        <div className="container max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <ScrollReveal>
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
+                Approved installers
+              </p>
+              <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-foreground mb-3">
+                Compliant Fire Doors for Landlords & Property Managers
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                FD30 and FD60 supply, installation and certification — with documentation provided on completion for your compliance records.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="rounded-lg border border-border overflow-hidden shadow-md">
+                <img
+                  src="/images/service-firedoors.png"
+                  alt="Fire door installation by Focus Refurbishment in London"
+                  width={800}
+                  height={600}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -370,7 +423,7 @@ const FireDoorInstallationPage = () => {
               Ready to Get Your Property Compliant?
             </h2>
             <p className="text-white/85 text-lg mb-8">
-              Free site survey. Fixed quote. Full certification on completion. A real person responds within hours.
+              Free site survey. Fixed quote. Compliance documentation on completion. A real person responds within hours.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a href="#fire-door-enquiry-form">
@@ -391,13 +444,17 @@ const FireDoorInstallationPage = () => {
 
       <section className="bg-gold/15 py-4 border-t border-gold/30">
         <div className="container text-center text-foreground font-heading font-semibold tracking-wide">
-          Approved fire door installer - London & M25 - Free quotes - Compliance certification included
+          Fire door installers — supply, installation & compliance — London & M25
         </div>
       </section>
       <section className="bg-background py-8">
         <div className="container text-center">
+          <a href="/building-maintenance-london" className="text-gold font-semibold hover:underline">
+            Need ongoing property maintenance too? See our maintenance services →
+          </a>
+          <span className="mx-3 text-muted-foreground">·</span>
           <a href="/commercial-enquiries" className="text-gold font-semibold hover:underline">
-            Managing multiple properties? See our commercial enquiries page →
+            Commercial portfolio enquiry →
           </a>
         </div>
       </section>

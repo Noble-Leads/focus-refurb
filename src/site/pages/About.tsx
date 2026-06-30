@@ -49,8 +49,8 @@ const AboutPage = () => {
               <div className="flex justify-center">
                 <div className="rounded-lg overflow-hidden">
                   <img
-                    src="/images/team-vans.png"
-                    alt="Focus Refurbishment vans"
+                    src="/images/hero-fleet-street.png"
+                    alt="Focus Refurbishment vans outside a London commercial building and Victorian home"
                     width={1200}
                     height={800}
                     sizes="(max-width: 1024px) 100vw, 50vw"

@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageShell from "../../components/PageShell";
+import CommercialRefurbishmentLondonPage from "../../site/pages/CommercialRefurbishmentLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Commercial Refurbishment London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "Kent"],
+    description:
+      "Commercial refurbishment in London. Office refurbishments, void property turns, HMO fit-outs and flat upgrades for landlords and property managers.",
+    serviceType: "Commercial Refurbishment",
+  },
+];
+---
+
+<Layout
+  title="Commercial Refurbishment London | Offices, Voids & Fit-Outs | Focus Refurbishment"
+  description="Commercial refurbishment in London & the M25. Office refurbishments, void property turns, HMO fit-outs and portfolio works. Free quote — full documentation."
+  canonicalUrl="https://focusrefurbishmentltd.com/commercial/refurbishment-london"
+  ogTitle="Commercial Refurbishment London | Offices, Voids & Fit-Outs | Focus Refurbishment"
+  ogDescription="Commercial refurbishment in London & the M25. Office refurbishments, void property turns, HMO fit-outs and portfolio works. Free quote — full documentation."
+  ogUrl="https://focusrefurbishmentltd.com/commercial/refurbishment-london"
+  preloadLcpImage="/images/commercial/office-fitout-complete.webp"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk", "https://player.vimeo.com", "https://i.vimeocdn.com"]}
+>
+  <PageShell client:load>
+    <CommercialRefurbishmentLondonPage />
+  </PageShell>
+</Layout>

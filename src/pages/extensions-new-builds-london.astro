@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import ExtensionsNewBuildsLondonPage from "../site/pages/ExtensionsNewBuildsLondon";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "House Extension London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+    },
+    areaServed: ["London", "South East London", "Kent"],
+    description:
+      "House extensions in London. Rear, side return and wrap-around extensions. Extension builders — full design and build. Free site survey.",
+    serviceType: "House Extension",
+  },
+];
+---
+
+<Layout
+  title="House Extension London | Extension Builders | Focus Refurbishment"
+  description="House extensions in London. Rear, side return, wrap-around and kitchen extensions. Extension builders — full design and build. Free site survey — get a quote today."
+  canonicalUrl="https://focusrefurbishmentltd.com/extensions-new-builds-london"
+  ogTitle="House Extension London | Extension Builders | Focus Refurbishment"
+  ogDescription="House extensions in London. Rear, side return, wrap-around and kitchen extensions. Extension builders — full design and build."
+  ogUrl="https://focusrefurbishmentltd.com/extensions-new-builds-london"
+  extraJsonLd={jsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <ExtensionsNewBuildsLondonPage />
+  </PageShell>
+</Layout>

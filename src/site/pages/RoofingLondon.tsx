@@ -10,6 +10,7 @@ import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingP
 
 const roofingConfig: ServiceLandingConfig = {
   formAnchorId: "roofing-enquiry-form",
+  mobileOptimizations: true,
   heroEyebrow: "Roof Repair & Replacement",
   heroHeadline: "Roof Repair & Replacement in London & Kent — Fast, Reliable, Fully Insured",
   heroSubheading:
@@ -96,6 +97,7 @@ const roofingConfig: ServiceLandingConfig = {
     iframeId: "inline-uFrY24Fk2ADJKEnNz5IU",
     formName: "FR - Roofing",
     formId: "uFrY24Fk2ADJKEnNz5IU",
+    source: "roofing-london",
     iframeHeight: "502px",
     minHeightClassName: "min-h-[502px]",
   },

@@ -1,0 +1,5 @@
+# SEO 301 redirects (Netlify, Cloudflare Pages, etc.)
+/refurbishment-london              /domestic/refurbishment-london              301
+/refurbishment-london/             /domestic/refurbishment-london              301
+/painting-decorating-london        /domestic/painting-decorating-london        301
+/painting-decorating-london/       /domestic/painting-decorating-london        301

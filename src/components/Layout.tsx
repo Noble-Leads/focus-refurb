@@ -18,11 +18,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
     pathname === "/commercial-enquiries" ||
     pathname === "/fire-door-installation-london" ||
     pathname === "/roofing-london" ||
-    pathname === "/painting-decorating-london" ||
-    pathname === "/refurbishment-london";
+    pathname === "/domestic" ||
+    pathname.startsWith("/domestic/") ||
+    (pathname.startsWith("/commercial/") && pathname !== "/commercial") ||
+    pathname === "/loft-conversions-london" ||
+    pathname === "/bathrooms-kitchens-london" ||
+    pathname === "/extensions-new-builds-london" ||
+    pathname === "/summer-houses-annexes-london" ||
+    pathname === "/brickwork-masonry-london" ||
+    pathname === "/ewi-render-london" ||
+    pathname === "/building-maintenance-london";
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-x-hidden max-w-full">
+    <div className="min-h-screen flex flex-col relative max-w-full">
       <a
         href="#main-content"
         className="absolute left-4 top-0 z-[100] -translate-y-full rounded-b-md bg-gold px-4 py-3 text-sm font-semibold text-section-dark shadow-md outline-none ring-2 ring-section-dark ring-offset-2 ring-offset-background transition-transform focus:translate-y-0 focus-visible:translate-y-0"
@@ -30,6 +38,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         Skip to main content
       </a>
       <Header />
+      <div className="flex flex-1 flex-col overflow-x-hidden max-w-full min-w-0">
       <main
         id="main-content"
         tabIndex={-1}
@@ -37,6 +46,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
       >
         {children}
       </main>
+      <Footer />
+      </div>
       <div
         className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 md:hidden"
         role="navigation"
@@ -63,7 +74,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </div>
         </div>
       </div>
-      <Footer />
       <CookieConsent />
     </div>
   );
