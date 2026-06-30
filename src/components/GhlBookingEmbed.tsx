@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
-import {
-  ghlEmbedFrameClassName,
-  parseWidgetId,
-  useGhlEmbedResize,
-} from "@/lib/ghlEmbedResize";
+import { ghlEmbedFrameClassName, parseWidgetId, useGhlEmbedResize } from "@/lib/ghlEmbedResize";
 
 type GhlBookingEmbedProps = {
   src?: string;
@@ -36,11 +32,12 @@ const GhlBookingEmbed = ({
   initialHeight = DEFAULT_HEIGHT,
 }: GhlBookingEmbedProps) => {
   const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
-  const { iframeRef, height, startingHeight, applyHeight, isMobile } = useGhlEmbedResize({
+  const { iframeRef, minHeight, isMobile } = useGhlEmbedResize({
     iframeId,
     widgetId,
     initialHeight,
     useBookingFallback: true,
+    variant: "booking",
   });
 
   useEffect(() => {
@@ -48,12 +45,13 @@ const GhlBookingEmbed = ({
   }, []);
 
   return (
-    <div className={ghlEmbedFrameClassName()}>
+    <div className={ghlEmbedFrameClassName("booking")}>
       <iframe
         ref={iframeRef}
         src={src}
         id={iframeId}
         title={title}
+        className="block w-full"
         scrolling={isMobile ? "yes" : "no"}
         data-initial-iframe-hidden="false"
         data-layout='{"id":"INLINE"}'
@@ -63,17 +61,9 @@ const GhlBookingEmbed = ({
         data-activation-value=""
         data-deactivation-type="neverDeactivate"
         data-deactivation-value=""
-        data-height={String(startingHeight)}
+        data-height={String(minHeight)}
         data-layout-iframe-id={iframeId}
         data-form-id={widgetId}
-        style={{
-          width: "100%",
-          height,
-          minHeight: startingHeight,
-          border: "none",
-          display: "block",
-        }}
-        onLoad={() => applyHeight(startingHeight)}
       />
     </div>
   );

@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
-import {
-  ghlEmbedFrameClassName,
-  mobileFormFallbackHeight,
-  useGhlEmbedResize,
-} from "@/lib/ghlEmbedResize";
+import { ghlEmbedFrameClassName, useGhlEmbedResize } from "@/lib/ghlEmbedResize";
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
@@ -54,20 +50,21 @@ const GhlFormEmbed = ({
   autoResize = true,
 }: GhlFormEmbedProps) => {
   const initialHeight = parseIframeHeight(iframeHeight, 672);
-  const { iframeRef, height, startingHeight, applyHeight, isMobile } = useGhlEmbedResize({
+  const isCommercial = initialHeight >= 900;
+  const { iframeRef, minHeight, isMobile } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
     initialHeight,
     enabled: autoResize,
+    variant: isCommercial ? "commercial" : "form",
   });
-  const [fixedHeight] = useState(() => mobileFormFallbackHeight(initialHeight));
 
   useEffect(() => {
     ensureGhlEmbedScripts();
   }, []);
 
   const wrapperClasses = autoResize
-    ? `${ghlEmbedFrameClassName()} ${wrapperClassName}`.trim()
+    ? `${ghlEmbedFrameClassName(isCommercial ? "commercial" : "form")} ${wrapperClassName}`.trim()
     : `max-w-full min-w-0 overflow-visible ${minHeightClassName} ${wrapperClassName}`.trim();
 
   return (
@@ -75,14 +72,7 @@ const GhlFormEmbed = ({
       <iframe
         ref={iframeRef}
         src={ghlFormSrc(src, source)}
-        style={{
-          width: "100%",
-          height: autoResize ? height : iframeHeight,
-          minHeight: autoResize ? startingHeight : fixedHeight,
-          border: "none",
-          borderRadius: "4px",
-          display: "block",
-        }}
+        className="block w-full rounded"
         scrolling={isMobile ? "yes" : "no"}
         id={iframeId}
         data-layout='{"id":"INLINE"}'
@@ -93,12 +83,11 @@ const GhlFormEmbed = ({
         data-deactivation-type="neverDeactivate"
         data-deactivation-value=""
         data-form-name={formName}
-        data-height={String(autoResize ? startingHeight : fixedHeight)}
+        data-height={String(autoResize ? minHeight : initialHeight)}
         data-layout-iframe-id={iframeId}
         data-form-id={formId}
         data-initial-iframe-hidden="false"
         title={title}
-        onLoad={() => autoResize && applyHeight(startingHeight)}
       />
     </div>
   );
