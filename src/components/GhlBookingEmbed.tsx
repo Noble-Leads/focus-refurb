@@ -1,23 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
+import {
+  mobileBookingFallbackHeight,
+  parseIframeSizerHeight,
+  parseWidgetId,
+} from "@/lib/ghlEmbedResize";
 
 type GhlBookingEmbedProps = {
   src?: string;
   iframeId?: string;
   title?: string;
+  /** Starting height before GHL resize messages arrive */
+  initialHeight?: number;
 };
 
-const DEFAULT_HEIGHT = 680;
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
-
-const parseIframeSizerHeight = (data: string, expectedId: string): number | null => {
-  if (!data.startsWith("[iFrameSizer]")) return null;
-  const [id, height] = data.slice(13).split(":");
-  if (id !== expectedId) return null;
-  const parsed = Number.parseInt(height ?? "", 10);
-  return parsed > 0 ? parsed : null;
-};
+const DEFAULT_HEIGHT = 720;
 
 const ensureGhlEmbedScripts = () => {
   for (const scriptSrc of [GHL_SCRIPT, GHL_SCRIPT_LEGACY]) {
@@ -41,9 +40,16 @@ const GhlBookingEmbed = ({
   src = domesticBookingEmbed.src,
   iframeId = domesticBookingEmbed.iframeId,
   title = domesticBookingEmbed.title,
+  initialHeight = DEFAULT_HEIGHT,
 }: GhlBookingEmbedProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
+  const startingHeight = mobileBookingFallbackHeight(initialHeight);
+  const [height, setHeight] = useState(startingHeight);
+
+  const applyHeight = (nextHeight: number) => {
+    setHeight((current) => Math.max(current, nextHeight));
+  };
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -54,16 +60,33 @@ const GhlBookingEmbed = ({
 
     const onMessage = (event: MessageEvent) => {
       if (typeof event.data !== "string") return;
-      const nextHeight = parseIframeSizerHeight(event.data, iframeId);
-      if (nextHeight) setHeight(nextHeight);
+      const nextHeight = parseIframeSizerHeight(event.data, iframeId, widgetId);
+      if (nextHeight) applyHeight(nextHeight);
     };
 
+    const fallbackTimers = [600, 1500, 3000, 5000].map((delay) =>
+      window.setTimeout(() => applyHeight(startingHeight), delay),
+    );
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        applyHeight(startingHeight);
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 },
+    );
+    observer.observe(iframe);
+
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, [iframeId]);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      fallbackTimers.forEach(window.clearTimeout);
+      observer.disconnect();
+    };
+  }, [iframeId, widgetId, startingHeight]);
 
   return (
-    <div className="max-w-full min-w-0" style={{ height }}>
+    <div className="max-w-full min-w-0 overflow-visible">
       <iframe
         ref={iframeRef}
         src={src}
@@ -71,13 +94,23 @@ const GhlBookingEmbed = ({
         title={title}
         scrolling="no"
         data-initial-iframe-hidden="false"
+        data-layout='{"id":"INLINE"}'
+        data-trigger-type="alwaysShow"
+        data-trigger-value=""
+        data-activation-type="alwaysActivated"
+        data-activation-value=""
+        data-deactivation-type="neverDeactivate"
+        data-deactivation-value=""
+        data-height={String(startingHeight)}
+        data-layout-iframe-id={iframeId}
+        data-form-id={widgetId}
         style={{
           width: "100%",
           height,
           border: "none",
-          overflow: "hidden",
           display: "block",
         }}
+        onLoad={() => applyHeight(startingHeight)}
       />
     </div>
   );

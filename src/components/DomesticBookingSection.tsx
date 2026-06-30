@@ -1,7 +1,7 @@
 import { CalendarCheck } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlBookingEmbed from "@/components/GhlBookingEmbed";
-import { domesticBookingDefaults } from "@/lib/domesticBookingEmbed";
+import { domesticBookingDefaults, domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 
 type DomesticBookingSectionProps = {
   anchorId?: string;
@@ -18,7 +18,7 @@ const DomesticBookingSection = ({
 }: DomesticBookingSectionProps) => (
   <section
     id={anchorId}
-    className="py-10 md:py-14 bg-secondary content-auto scroll-mt-32 md:scroll-mt-36"
+    className="scroll-target py-10 md:py-14 bg-secondary content-auto scroll-mt-32 md:scroll-mt-36"
   >
     <div className="container max-w-3xl">
       <ScrollReveal>
@@ -48,7 +48,7 @@ const DomesticBookingSection = ({
 
       <ScrollReveal>
         <div className="rounded-xl border-2 border-gold/30 bg-card p-4 sm:p-5 md:p-6 shadow-md overflow-visible">
-          <GhlBookingEmbed />
+          <GhlBookingEmbed initialHeight={domesticBookingEmbed.initialHeight} />
         </div>
         <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">
           Prefer to call?{" "}

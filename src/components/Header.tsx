@@ -9,6 +9,7 @@ import {
   isCommercialPath,
   isDomesticPath,
 } from "@/lib/navigation";
+import { navigateToHref } from "@/lib/scrollToAnchor";
 
 const simpleNavLinks = [
   { label: "Home", path: "/" },
@@ -143,7 +144,9 @@ const NavDropdown = ({
           <a
             href={ctaPath}
             role="menuitem"
-            onClick={handleNavigate}
+            onClick={(event) => {
+              navigateToHref(event, ctaPath, handleNavigate);
+            }}
             className="block text-sm text-hero-muted hover:text-gold transition-colors"
           >
             {ctaLabel}
@@ -247,7 +250,9 @@ const MobileNavSection = ({
               </a>
               <a
                 href={ctaPath}
-                onClick={onNavigate}
+                onClick={(event) => {
+                  navigateToHref(event, ctaPath, onNavigate);
+                }}
                 className="block py-2 px-3 rounded-md text-sm text-hero-muted hover:text-gold"
               >
                 {ctaLabel}
@@ -408,7 +413,7 @@ const Header = () => {
             label="Domestic"
             hubPath="/domestic"
             hubLabel="Domestic Overview"
-            ctaPath="/contact"
+            ctaPath="/domestic#book-quote-visit"
             ctaLabel="Get a Home Quote"
             services={domesticServices}
             isActive={domesticActive}
@@ -487,7 +492,7 @@ const Header = () => {
                 label="Domestic"
                 hubPath="/domestic"
                 hubLabel="Domestic Overview"
-                ctaPath="/contact"
+                ctaPath="/domestic#book-quote-visit"
                 ctaLabel="Get a Home Quote"
                 services={domesticServices}
                 isActive={domesticActive}

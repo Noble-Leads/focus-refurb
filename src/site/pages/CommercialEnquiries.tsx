@@ -6,7 +6,7 @@ import BrandPattern from "@/components/BrandPattern";
 import GeometricDecor from "@/components/GeometricDecor";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
-import { scrollToAnchor } from "@/lib/scrollToAnchor";
+import { handleAnchorClick } from "@/lib/scrollToAnchor";
 
 const PHONE = "02046340020";
 const EMAIL = "office@focusrefurbishmentltd.com";
@@ -42,7 +42,7 @@ const trustSignals = [
 
 const CommercialEnquiries = () => {
   return (
-    <div className="overflow-hidden">
+    <div>
       {/* HERO */}
       <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
@@ -69,14 +69,14 @@ const CommercialEnquiries = () => {
               Whether you need a full refurbishment, ongoing maintenance, fire door installation, or site clearance — we work with landlords, agents, councils, contractors and property managers across London and the South East.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="gold" size="xl" onClick={() => scrollToAnchor("enquiry-form")}>
-                Make an Enquiry
+              <Button asChild variant="gold" size="xl" className="w-full sm:w-auto">
+                <a href="#enquiry-form" onClick={(event) => handleAnchorClick(event, "enquiry-form")}>
+                  Make an Enquiry
+                </a>
               </Button>
-              <a href={`tel:${PHONE}`}>
-                <Button variant="hero-outline" size="xl" className="w-full sm:w-auto">
-                  Call Us: 020 4634 0020
-                </Button>
-              </a>
+              <Button asChild variant="hero-outline" size="xl" className="w-full sm:w-auto">
+                <a href={`tel:${PHONE}`}>Call Us: 020 4634 0020</a>
+              </Button>
             </div>
           </ScrollReveal>
         </div>
@@ -163,7 +163,7 @@ const CommercialEnquiries = () => {
       </section>
 
       {/* ENQUIRY FORM */}
-      <section id="enquiry-form" className="scroll-target py-12 bg-muted">
+      <section id="enquiry-form" className="scroll-target scroll-mt-28 md:scroll-mt-32 py-12 bg-muted">
         <div className="container max-w-[980px] mx-auto">
           <ScrollReveal>
             <div className="bg-card rounded-xl border border-border p-6 md:p-10">
@@ -210,14 +210,14 @@ const CommercialEnquiries = () => {
               Fast response. No obligation. Serving London and the South East.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="gold" size="xl" onClick={() => scrollToAnchor("enquiry-form")}>
-                Make an Enquiry
+              <Button asChild variant="gold" size="xl" className="w-full sm:w-auto">
+                <a href="#enquiry-form" onClick={(event) => handleAnchorClick(event, "enquiry-form")}>
+                  Make an Enquiry
+                </a>
               </Button>
-              <a href={`tel:${PHONE}`}>
-                <Button variant="hero-outline" size="xl" className="w-full sm:w-auto">
-                  Call 020 4634 0020
-                </Button>
-              </a>
+              <Button asChild variant="hero-outline" size="xl" className="w-full sm:w-auto">
+                <a href={`tel:${PHONE}`}>Call 020 4634 0020</a>
+              </Button>
             </div>
           </ScrollReveal>
         </div>

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
+import {
+  isMobileViewport,
+  parseIframeSizerHeight as parseGhlIframeSizerHeight,
+} from "@/lib/ghlEmbedResize";
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
-
-const HEIGHT_BUFFER = 48;
 const MOBILE_TALL_FORM_BOOST = 180;
 
 const ensureGhlEmbedScripts = () => {
@@ -19,41 +21,22 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
-const isMobileViewport = () =>
-  typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
+const isMobileViewportCheck = isMobileViewport;
 
 const mobileFallbackHeight = (initialHeight: number) => {
-  if (!isMobileViewport()) return initialHeight;
+  if (!isMobileViewportCheck()) return initialHeight;
   if (initialHeight >= 800) return initialHeight + MOBILE_TALL_FORM_BOOST;
   if (initialHeight >= 650) return initialHeight + 80;
   return initialHeight;
-};
-
-const iframeSizerIds = (iframeId: string, formId: string) =>
-  new Set([
-    iframeId,
-    formId,
-    `inline-${formId}`,
-    `embedded_iframe_${formId}`,
-    `embedded_iframe_${iframeId}`,
-  ]);
-
-const parseIframeSizerHeight = (
-  data: string,
-  iframeId: string,
-  formId: string,
-): number | null => {
-  if (!data.startsWith("[iFrameSizer]")) return null;
-  const [id, height] = data.slice(13).split(":");
-  if (!iframeSizerIds(iframeId, formId).has(id)) return null;
-  const parsed = Number.parseInt(height ?? "", 10);
-  return parsed > 0 ? parsed + HEIGHT_BUFFER : null;
 };
 
 const parseIframeHeight = (iframeHeight: string, fallback: number) => {
   const parsed = Number.parseInt(iframeHeight, 10);
   return parsed > 0 ? parsed : fallback;
 };
+
+const parseIframeSizerHeight = (data: string, iframeId: string, formId: string) =>
+  parseGhlIframeSizerHeight(data, iframeId, formId);
 
 type GhlFormEmbedProps = {
   src: string;
