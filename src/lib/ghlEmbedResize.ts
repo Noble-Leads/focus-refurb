@@ -1,10 +1,16 @@
 import { useEffect, useRef } from "react";
 
-/** GHL recommends 600–1200px for booking; 850–950px is a common starting point. */
-export const GHL_BOOKING_MIN_HEIGHT = 950;
-export const GHL_FORM_MIN_HEIGHT = 900;
-export const GHL_COMMERCIAL_MIN_HEIGHT = 1100;
+/** Form embeds — collapse prevention only. */
+export const GHL_COLLAPSE_FLOOR = 480;
 export const GHL_HEIGHT_BUFFER = 48;
+export const GHL_FORM_INITIAL_HEIGHT = 720;
+export const GHL_COMMERCIAL_INITIAL_HEIGHT = 960;
+
+/** Booking calendar — Google "squeeze" bounds (vh min/max + iFrameSizer). */
+export const GHL_BOOKING_MIN_HEIGHT = 600;
+export const GHL_BOOKING_MAX_HEIGHT = 850;
+export const GHL_BOOKING_INITIAL_HEIGHT = 650;
+export const GHL_BOOKING_HEIGHT_BUFFER = 48;
 
 const TRUSTED_ORIGIN_FRAGMENTS = [
   "msgsndr.com",
@@ -14,6 +20,8 @@ const TRUSTED_ORIGIN_FRAGMENTS = [
   "nobleleads.uk",
 ];
 
+export type GhlEmbedType = "form" | "booking";
+
 export const parseWidgetId = (src: string): string | null => {
   const match = src.match(/\/widget\/(?:booking|form)\/([^/?]+)/);
   return match?.[1] ?? null;
@@ -22,40 +30,101 @@ export const parseWidgetId = (src: string): string | null => {
 export const isTrustedGhlOrigin = (origin: string) =>
   TRUSTED_ORIGIN_FRAGMENTS.some((fragment) => origin.includes(fragment));
 
-export const ghlEmbedInlineStyle = (minHeight: number) =>
+export const ghlBookingContainerClassName = () =>
+  "ghl-booking-container w-full max-w-[850px] mx-auto overflow-hidden";
+
+/** Default before iFrameSizer — clamp(600px, 75vh, 850px). */
+export const ghlBookingIframeStyle = () =>
   ({
     width: "100%",
-    minHeight: `${minHeight}px`,
-    height: `${minHeight}px`,
+    height: "clamp(600px, 75vh, 850px)",
+    minHeight: `${GHL_BOOKING_MIN_HEIGHT}px`,
+    maxHeight: `${GHL_BOOKING_MAX_HEIGHT}px`,
     border: "none",
     display: "block",
     background: "transparent",
-    transition: "height 0.2s ease",
+    transition: "height 0.15s ease-out",
+  }) as const;
+
+export const ghlFormIframeStyle = (initialHeight: number, collapseFloor = GHL_COLLAPSE_FLOOR) =>
+  ({
+    width: "100%",
+    minHeight: `${collapseFloor}px`,
+    height: `${initialHeight}px`,
+    maxHeight: "none",
+    border: "none",
+    display: "block",
+    background: "transparent",
+    transition: "height 0.15s ease-out",
   }) as const;
 
 type RegisteredEmbed = {
   iframeId: string;
   widgetId: string | null;
-  minHeight: number;
+  initialHeight: number;
+  collapseFloor: number;
+  embedType: GhlEmbedType;
 };
 
 const embedRegistry = new Map<HTMLIFrameElement, RegisteredEmbed>();
 let globalListenerAttached = false;
 
-const readMinHeight = (iframe: HTMLIFrameElement) => {
+const readEmbedType = (iframe: HTMLIFrameElement): GhlEmbedType =>
+  iframe.getAttribute("data-embed-type") === "booking" ? "booking" : "form";
+
+const readCollapseFloor = (iframe: HTMLIFrameElement) => {
   const registered = embedRegistry.get(iframe);
-  if (registered) return registered.minHeight;
-  const dataHeight = Number.parseInt(iframe.getAttribute("data-height") || "", 10);
-  return dataHeight > 0 ? dataHeight : GHL_FORM_MIN_HEIGHT;
+  if (registered) return registered.collapseFloor;
+  const attr = Number.parseInt(iframe.getAttribute("data-collapse-floor") || "", 10);
+  if (attr > 0) return attr;
+  return readEmbedType(iframe) === "booking" ? GHL_BOOKING_MIN_HEIGHT : GHL_COLLAPSE_FLOOR;
 };
 
-/** Apply height from GHL postMessage — never below configured min-height. */
+const readMaxHeight = (iframe: HTMLIFrameElement) => {
+  const attr = Number.parseInt(iframe.getAttribute("data-max-height") || "", 10);
+  if (attr > 0) return attr;
+  return readEmbedType(iframe) === "booking" ? GHL_BOOKING_MAX_HEIGHT : null;
+};
+
+const syncGhlWrapper = (iframe: HTMLIFrameElement, embedType: GhlEmbedType) => {
+  const wrapper = iframe.closest<HTMLElement>(".ep-wrapper, [id$='-wrapper']");
+  if (!wrapper) return;
+  wrapper.style.width = "100%";
+  wrapper.style.height = "auto";
+  wrapper.style.minHeight = "0";
+  wrapper.style.maxHeight = embedType === "booking" ? `${GHL_BOOKING_MAX_HEIGHT}px` : "none";
+  wrapper.style.overflow = embedType === "booking" ? "hidden" : "visible";
+};
+
+/** Apply iFrameSizer height — booking is clamped 600–850px with internal scroll above max. */
 export const applyGhlIframeHeight = (iframe: HTMLIFrameElement, nextHeight: number) => {
-  const minHeight = readMinHeight(iframe);
-  const resolved = Math.max(nextHeight + GHL_HEIGHT_BUFFER, minHeight);
-  iframe.style.minHeight = `${minHeight}px`;
+  const embedType = readEmbedType(iframe);
+  const collapseFloor = readCollapseFloor(iframe);
+  const maxHeight = readMaxHeight(iframe);
+
+  if (embedType === "booking") {
+    const buffer = GHL_BOOKING_HEIGHT_BUFFER;
+    const resolved = Math.min(
+      Math.max(nextHeight + buffer, GHL_BOOKING_MIN_HEIGHT),
+      GHL_BOOKING_MAX_HEIGHT,
+    );
+    iframe.style.width = "100%";
+    iframe.style.minHeight = `${GHL_BOOKING_MIN_HEIGHT}px`;
+    iframe.style.maxHeight = `${GHL_BOOKING_MAX_HEIGHT}px`;
+    iframe.style.height = `${resolved}px`;
+    iframe.setAttribute("height", String(resolved));
+    iframe.setAttribute("scrolling", "yes");
+    syncGhlWrapper(iframe, "booking");
+    return;
+  }
+
+  const resolved = Math.max(nextHeight + GHL_HEIGHT_BUFFER, collapseFloor);
+  iframe.style.minHeight = `${collapseFloor}px`;
   iframe.style.height = `${resolved}px`;
+  iframe.style.maxHeight = "none";
   iframe.setAttribute("height", String(resolved));
+  iframe.setAttribute("scrolling", "no");
+  syncGhlWrapper(iframe, "form");
 };
 
 const findIframeByMessageId = (messageId: string): HTMLIFrameElement | null => {
@@ -76,7 +145,30 @@ const findIframeByMessageId = (messageId: string): HTMLIFrameElement | null => {
     if (layoutId && (messageId === layoutId || messageId.includes(layoutId))) return iframe;
   }
 
+  for (const [iframe, reg] of embedRegistry) {
+    if (matchesIframeSizerId(messageId, reg.iframeId, reg.widgetId)) return iframe;
+  }
+
   return null;
+};
+
+const matchesIframeSizerId = (
+  messageId: string,
+  iframeId: string,
+  widgetId?: string | null,
+) => {
+  const ids = new Set<string>([iframeId, `embedded_iframe_${iframeId}`]);
+  if (widgetId) {
+    ids.add(widgetId);
+    ids.add(`inline-${widgetId}`);
+    ids.add(`embedded_iframe_${widgetId}`);
+  }
+  if (ids.has(messageId)) return true;
+  if (widgetId && messageId.startsWith(`${widgetId}_`)) return true;
+  if (widgetId && messageId.includes(widgetId)) return true;
+  if (messageId.includes(iframeId)) return true;
+  if (iframeId.includes(messageId)) return true;
+  return false;
 };
 
 const handleIframeSizerMessage = (data: string) => {
@@ -90,9 +182,9 @@ const handleIframeSizerMessage = (data: string) => {
   if (iframe) applyGhlIframeHeight(iframe, parsedHeight);
 };
 
-const handleObjectHeightMessage = (data: Record<string, unknown>, iframe?: HTMLIFrameElement | null) => {
+const handleObjectHeightMessage = (data: Record<string, unknown>) => {
   const height = Number(data.height ?? data.iframeHeight ?? data.frameHeight);
-  if (!Number.isFinite(height) || height <= 0) return false;
+  if (!Number.isFinite(height) || height <= 0) return;
 
   const messageId =
     typeof data.id === "string"
@@ -104,13 +196,11 @@ const handleObjectHeightMessage = (data: Record<string, unknown>, iframe?: HTMLI
           : null;
 
   const target =
-    iframe ??
     (messageId ? findIframeByMessageId(messageId) : null) ??
     document.querySelector<HTMLIFrameElement>('iframe[data-ghl-embed="true"]');
 
-  if (!target) return false;
+  if (!target) return;
   applyGhlIframeHeight(target, height);
-  return true;
 };
 
 const ensureGlobalListener = () => {
@@ -118,12 +208,12 @@ const ensureGlobalListener = () => {
   globalListenerAttached = true;
 
   window.addEventListener("message", (event: MessageEvent) => {
-    if (!isTrustedGhlOrigin(event.origin)) return;
-
     if (typeof event.data === "string") {
       handleIframeSizerMessage(event.data);
-      return;
+      if (event.data.startsWith("[iFrameSizer]")) return;
     }
+
+    if (!isTrustedGhlOrigin(event.origin)) return;
 
     if (event.data && typeof event.data === "object") {
       handleObjectHeightMessage(event.data as Record<string, unknown>);
@@ -136,11 +226,18 @@ export const registerGhlEmbed = (iframe: HTMLIFrameElement, options: RegisteredE
   embedRegistry.set(iframe, options);
 
   iframe.setAttribute("data-initial-iframe-hidden", "false");
+  iframe.setAttribute("data-collapse-floor", String(options.collapseFloor));
   iframe.style.opacity = "1";
   iframe.style.visibility = "visible";
 
-  const style = ghlEmbedInlineStyle(options.minHeight);
-  Object.assign(iframe.style, style);
+  if (options.embedType === "booking") {
+    iframe.setAttribute("data-max-height", String(GHL_BOOKING_MAX_HEIGHT));
+    Object.assign(iframe.style, ghlBookingIframeStyle());
+  } else {
+    Object.assign(iframe.style, ghlFormIframeStyle(options.initialHeight, options.collapseFloor));
+  }
+
+  syncGhlWrapper(iframe, options.embedType);
 
   return () => {
     embedRegistry.delete(iframe);
@@ -150,14 +247,18 @@ export const registerGhlEmbed = (iframe: HTMLIFrameElement, options: RegisteredE
 type UseGhlEmbedResizeOptions = {
   iframeId: string;
   widgetId: string | null;
-  minHeight: number;
+  initialHeight: number;
+  collapseFloor?: number;
+  embedType?: GhlEmbedType;
   enabled?: boolean;
 };
 
 export function useGhlEmbedResize({
   iframeId,
   widgetId,
-  minHeight,
+  initialHeight,
+  collapseFloor = GHL_COLLAPSE_FLOOR,
+  embedType = "form",
   enabled = true,
 }: UseGhlEmbedResizeOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -166,8 +267,20 @@ export function useGhlEmbedResize({
     const iframe = iframeRef.current;
     if (!iframe || !enabled) return;
 
-    return registerGhlEmbed(iframe, { iframeId, widgetId, minHeight });
-  }, [enabled, iframeId, minHeight, widgetId]);
+    const floor =
+      embedType === "booking" ? GHL_BOOKING_MIN_HEIGHT : collapseFloor;
 
-  return { iframeRef, minHeight };
+    return registerGhlEmbed(iframe, {
+      iframeId,
+      widgetId,
+      initialHeight,
+      collapseFloor: floor,
+      embedType,
+    });
+  }, [collapseFloor, embedType, enabled, iframeId, initialHeight, widgetId]);
+
+  return { iframeRef, initialHeight };
 }
+
+/** @deprecated use ghlFormIframeStyle */
+export const ghlEmbedInlineStyle = ghlFormIframeStyle;

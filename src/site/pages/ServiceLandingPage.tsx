@@ -183,7 +183,9 @@ const HeroFormCard = ({
 }) => (
   <div
     id={formAnchorId}
-    className="scroll-target w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
+    className={`scroll-target w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible ${
+      useBooking ? "hero-with-embed" : ""
+    }`}
   >
     <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
@@ -594,9 +596,11 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   const stackedHeroForm = heroFormLayout === "stacked" || (heroFormLayout !== "split" && isTallHeroForm(formEmbed));
 
   return (
-    <div className="overflow-x-hidden max-w-full min-w-0">
+    <div className={`max-w-full min-w-0 ${bookingConfig ? "overflow-visible" : "overflow-x-clip"}`}>
       <section
-        className={`relative overflow-x-hidden overflow-y-visible ${HERO_SECTION_PADDING} ${
+        className={`relative overflow-visible ${HERO_SECTION_PADDING} ${
+          bookingConfig ? "pb-16 md:pb-20" : ""
+        } ${
           heroImage ? "min-h-[70vh] md:min-h-[75vh] flex items-center" : "section-dark"
         }`}
       >
@@ -649,7 +653,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                   heroCtaTarget={heroCtaTarget}
                 />
               </ScrollReveal>
-              <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full">
+              <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full overflow-visible">
                 <HeroFormCard
                   formAnchorId={heroCardAnchorId}
                   heroFormTitle={heroCardTitle}

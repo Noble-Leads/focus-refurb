@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import {
-  GHL_BOOKING_MIN_HEIGHT,
-  ghlEmbedInlineStyle,
+  ghlBookingContainerClassName,
+  ghlBookingIframeStyle,
   parseWidgetId,
   useGhlEmbedResize,
 } from "@/lib/ghlEmbedResize";
@@ -11,7 +11,6 @@ type GhlBookingEmbedProps = {
   src?: string;
   iframeId?: string;
   title?: string;
-  minHeight?: number;
 };
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
@@ -32,13 +31,13 @@ const GhlBookingEmbed = ({
   src = domesticBookingEmbed.src,
   iframeId = domesticBookingEmbed.iframeId,
   title = domesticBookingEmbed.title,
-  minHeight = GHL_BOOKING_MIN_HEIGHT,
 }: GhlBookingEmbedProps) => {
   const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId,
-    minHeight,
+    initialHeight: domesticBookingEmbed.initialHeight,
+    embedType: "booking",
   });
 
   useEffect(() => {
@@ -46,27 +45,32 @@ const GhlBookingEmbed = ({
   }, []);
 
   return (
-    <iframe
-      ref={iframeRef}
-      src={src}
-      id={iframeId}
-      title={title}
-      className="ghl-embed-iframe ghl-embed-iframe--booking"
-      style={ghlEmbedInlineStyle(minHeight)}
-      scrolling="yes"
-      data-initial-iframe-hidden="false"
-      data-ghl-embed="true"
-      data-layout='{"id":"INLINE"}'
-      data-trigger-type="alwaysShow"
-      data-trigger-value=""
-      data-activation-type="alwaysActivated"
-      data-activation-value=""
-      data-deactivation-type="neverDeactivate"
-      data-deactivation-value=""
-      data-height={String(minHeight)}
-      data-layout-iframe-id={iframeId}
-      data-form-id={widgetId}
-    />
+    <div className={ghlBookingContainerClassName()}>
+      <iframe
+        ref={iframeRef}
+        src={src}
+        id={iframeId}
+        title={title}
+        className="ghl-embed-iframe ghl-embed-iframe--booking"
+        style={ghlBookingIframeStyle()}
+        scrolling="yes"
+        data-initial-iframe-hidden="false"
+        data-ghl-embed="true"
+        data-embed-type="booking"
+        data-layout='{"id":"INLINE"}'
+        data-trigger-type="alwaysShow"
+        data-trigger-value=""
+        data-activation-type="alwaysActivated"
+        data-activation-value=""
+        data-deactivation-type="neverDeactivate"
+        data-deactivation-value=""
+        data-height={String(domesticBookingEmbed.initialHeight)}
+        data-collapse-floor={String(domesticBookingEmbed.collapseFloor)}
+        data-max-height={String(domesticBookingEmbed.maxHeight)}
+        data-layout-iframe-id={iframeId}
+        data-form-id={widgetId}
+      />
+    </div>
   );
 };
 

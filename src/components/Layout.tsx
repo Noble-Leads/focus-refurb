@@ -43,11 +43,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
         Skip to main content
       </a>
       <Header />
-      <div className="flex flex-1 flex-col overflow-x-hidden max-w-full min-w-0">
+      <div className="flex flex-1 flex-col overflow-x-clip max-w-full min-w-0">
       <main
         id="main-content"
         tabIndex={-1}
-        className="flex-1 pb-20 md:pb-0 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background overflow-x-hidden max-w-full min-w-0"
+        className={`flex-1 pb-20 md:pb-0 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background max-w-full min-w-0 ${
+          isFormPage ? "overflow-x-clip overflow-y-visible" : "overflow-x-clip"
+        }`}
       >
         {children}
       </main>

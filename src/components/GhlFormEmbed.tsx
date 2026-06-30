@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import {
-  GHL_COMMERCIAL_MIN_HEIGHT,
-  GHL_FORM_MIN_HEIGHT,
-  ghlEmbedInlineStyle,
+  GHL_COLLAPSE_FLOOR,
+  GHL_COMMERCIAL_INITIAL_HEIGHT,
+  GHL_FORM_INITIAL_HEIGHT,
+  ghlFormIframeStyle,
   useGhlEmbedResize,
 } from "@/lib/ghlEmbedResize";
 
@@ -22,7 +23,7 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
-const parseMinHeight = (iframeHeight: string | undefined, fallback: number) => {
+const parseInitialHeight = (iframeHeight: string | undefined, fallback: number) => {
   const parsed = Number.parseInt(iframeHeight ?? "", 10);
   return parsed > 0 ? parsed : fallback;
 };
@@ -52,15 +53,17 @@ const GhlFormEmbed = ({
   wrapperClassName = "",
   autoResize = true,
 }: GhlFormEmbedProps) => {
-  const defaultMin =
+  const defaultInitial =
     iframeHeight && Number.parseInt(iframeHeight, 10) >= 1000
-      ? GHL_COMMERCIAL_MIN_HEIGHT
-      : GHL_FORM_MIN_HEIGHT;
-  const minHeight = parseMinHeight(iframeHeight, defaultMin);
+      ? GHL_COMMERCIAL_INITIAL_HEIGHT
+      : GHL_FORM_INITIAL_HEIGHT;
+  const initialHeight = parseInitialHeight(iframeHeight, defaultInitial);
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
-    minHeight,
+    initialHeight,
+    collapseFloor: GHL_COLLAPSE_FLOOR,
+    embedType: "form",
     enabled: autoResize,
   });
 
@@ -73,8 +76,8 @@ const GhlFormEmbed = ({
       ref={iframeRef}
       src={ghlFormSrc(src, source)}
       className="ghl-embed-iframe ghl-embed-iframe--form"
-      style={ghlEmbedInlineStyle(minHeight)}
-      scrolling="yes"
+      style={ghlFormIframeStyle(initialHeight, GHL_COLLAPSE_FLOOR)}
+      scrolling="no"
       id={iframeId}
       data-layout='{"id":"INLINE"}'
       data-trigger-type="alwaysShow"
@@ -84,7 +87,9 @@ const GhlFormEmbed = ({
       data-deactivation-type="neverDeactivate"
       data-deactivation-value=""
       data-form-name={formName}
-      data-height={String(minHeight)}
+      data-height={String(initialHeight)}
+      data-collapse-floor={String(GHL_COLLAPSE_FLOOR)}
+      data-embed-type="form"
       data-layout-iframe-id={iframeId}
       data-form-id={formId}
       data-initial-iframe-hidden="false"

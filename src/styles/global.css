@@ -214,12 +214,28 @@
     transition: height 0.2s ease;
   }
 
-  /* GHL embed script wrapper — don't clip */
-  .ep-wrapper,
-  [id$="-wrapper"] {
+  /* Booking calendar — bounded container (Google squeeze: 600–850px, 75vh, scroll inside) */
+  .ghl-booking-container {
+    width: 100%;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+  }
+
+  .ghl-embed-iframe--booking {
+    width: 100%;
+    min-height: 600px;
+    max-height: 850px;
+    height: clamp(600px, 75vh, 850px);
+    border: none;
+    transition: height 0.15s ease-out;
+  }
+
+  /* Hero booking embeds — never clip vertically */
+  .hero-with-embed,
+  .hero-with-embed .scroll-target {
     overflow: visible !important;
-    max-height: none !important;
-    height: auto !important;
   }
 
   /* Embedded players must not sit inside skipped content-visibility subtrees */
