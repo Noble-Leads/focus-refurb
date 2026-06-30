@@ -198,10 +198,10 @@ const HeroFormCard = ({
         formName={formEmbed.formName}
         formId={formEmbed.formId}
         source={formEmbed.source}
-        iframeHeight={formEmbed.iframeHeight ?? "672px"}
+        iframeHeight={formEmbed.iframeHeight ?? "1100px"}
       />
     ) : (
-      <div className="min-h-[672px]" aria-hidden="true" />
+      <div className="min-h-[1100px]" aria-hidden="true" />
     )}
 
     <p className="mt-2 text-center text-xs text-muted-foreground">
@@ -270,7 +270,7 @@ const CommercialFormBand = ({
                 formName={formEmbed.formName}
                 formId={formEmbed.formId}
                 source={formEmbed.source}
-                iframeHeight={formEmbed.iframeHeight ?? "1200px"}
+                iframeHeight={formEmbed.iframeHeight ?? "1400px"}
               />
             ) : (
               <div className="min-h-[960px]" aria-hidden="true" />
@@ -1102,12 +1102,12 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
                     source={formEmbed.source}
-                    iframeHeight={formEmbed.iframeHeight ?? "672px"}
+                    iframeHeight={formEmbed.iframeHeight ?? "1100px"}
                   />
                 ) : (
                   <>
                     {/* GHL FORM EMBED HERE */}
-                    <div className="min-h-[672px]" aria-hidden="true" />
+                    <div className="min-h-[1100px]" aria-hidden="true" />
                   </>
                 )}
 

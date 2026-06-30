@@ -98,8 +98,7 @@ const roofingConfig: ServiceLandingConfig = {
     formName: "FR - Roofing",
     formId: "uFrY24Fk2ADJKEnNz5IU",
     source: "roofing-london",
-    iframeHeight: "672px",
-    minHeightClassName: "min-h-[672px]",
+    iframeHeight: "1100px",
   },
   processSteps: [
     {

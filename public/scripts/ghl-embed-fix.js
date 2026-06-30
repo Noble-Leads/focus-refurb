@@ -1,33 +1,21 @@
 /**
- * Keep GHL embed iframes visible and sized to their content.
- * Tall commercial forms keep a min-height floor; a style guard undoes GHL shrink attempts.
+ * GHL embed iframes: grow-only height, never shrink below data-height, always scrollable.
  */
 (function () {
-  var FORM_BUFFER = 64;
-  var BOOKING_BUFFER = 160;
-  var TALL_FORM_BUFFER = 120;
-  var TALL_THRESHOLD = 800;
+  var FORM_BUFFER = 80;
+  var BOOKING_BUFFER = 200;
   var COLLAPSE_FLOOR = 280;
+  var peaks = typeof WeakMap !== "undefined" ? new WeakMap() : null;
   var guarded = typeof WeakSet !== "undefined" ? new WeakSet() : null;
 
   function readConfiguredHeight(iframe) {
     var dataHeight = parseInt(iframe.getAttribute("data-height") || "", 10);
-    return isNaN(dataHeight) ? 0 : dataHeight;
-  }
-
-  function minFloorFor(iframe) {
-    var configured = readConfiguredHeight(iframe);
-    return configured >= TALL_THRESHOLD ? configured : COLLAPSE_FLOOR;
-  }
-
-  function isTall(iframe) {
-    return minFloorFor(iframe) >= TALL_THRESHOLD;
+    return isNaN(dataHeight) || dataHeight <= 0 ? COLLAPSE_FLOOR : dataHeight;
   }
 
   function bufferFor(iframe) {
     var src = iframe.getAttribute("src") || "";
-    if (src.indexOf("/widget/booking/") !== -1) return BOOKING_BUFFER;
-    return isTall(iframe) ? TALL_FORM_BUFFER : FORM_BUFFER;
+    return src.indexOf("/widget/booking/") !== -1 ? BOOKING_BUFFER : FORM_BUFFER;
   }
 
   function readHeight(iframe) {
@@ -36,45 +24,48 @@
     return Math.max(isNaN(inline) ? 0 : inline, isNaN(attr) ? 0 : attr);
   }
 
-  function isMobile() {
-    return window.matchMedia("(max-width: 767px)").matches;
+  function getPeak(iframe, minFloor) {
+    if (peaks && peaks.has(iframe)) return peaks.get(iframe);
+    return minFloor;
+  }
+
+  function setPeak(iframe, value) {
+    if (peaks) peaks.set(iframe, value);
   }
 
   function setHeight(iframe, height, minFloor) {
     var floor = minFloor || COLLAPSE_FLOOR;
-    var resolved = Math.max(height, floor);
-    var tall = floor >= TALL_THRESHOLD;
+    var resolved = Math.max(height, floor, COLLAPSE_FLOOR);
+    setPeak(iframe, resolved);
 
     iframe.style.height = resolved + "px";
-    iframe.style.minHeight = tall ? floor + "px" : "0";
+    iframe.style.minHeight = floor + "px";
     iframe.style.maxHeight = "none";
     iframe.setAttribute("height", String(resolved));
     iframe.setAttribute("data-initial-iframe-hidden", "false");
     iframe.style.opacity = "1";
     iframe.style.visibility = "visible";
     iframe.style.background = "transparent";
-    iframe.style.overflow = tall ? "auto" : "visible";
-    iframe.scrolling = tall && isMobile() ? "auto" : "no";
-
-    if (tall) {
-      iframe.setAttribute("data-ghl-tall", "true");
-    }
+    iframe.style.overflow = "auto";
+    iframe.scrolling = "auto";
   }
 
-  function enforceHeight(iframe, height) {
-    var minFloor = minFloorFor(iframe);
-    setHeight(iframe, height, minFloor);
+  function enforceHeight(iframe, rawHeight) {
+    var minFloor = readConfiguredHeight(iframe);
+    var target = Math.max(getPeak(iframe, minFloor), rawHeight + bufferFor(iframe), minFloor);
+    setHeight(iframe, target, minFloor);
+
     window.requestAnimationFrame(function () {
-      setHeight(iframe, Math.max(height, minFloor), minFloor);
+      setHeight(iframe, target, minFloor);
     });
     window.setTimeout(function () {
-      setHeight(iframe, Math.max(height, minFloor), minFloor);
+      setHeight(iframe, target, minFloor);
     }, 50);
     window.setTimeout(function () {
-      setHeight(iframe, Math.max(height, minFloor), minFloor);
+      setHeight(iframe, target, minFloor);
     }, 250);
     window.setTimeout(function () {
-      setHeight(iframe, Math.max(height, minFloor), minFloor);
+      setHeight(iframe, target, minFloor);
     }, 1000);
   }
 
@@ -82,16 +73,24 @@
     if (guarded && guarded.has(iframe)) return;
     if (guarded) guarded.add(iframe);
 
-    var minFloor = minFloorFor(iframe);
-    if (minFloor < TALL_THRESHOLD) return;
+    var minFloor = readConfiguredHeight(iframe);
+    setPeak(iframe, minFloor);
 
     function applyGuard() {
+      var minFloor = readConfiguredHeight(iframe);
+      var peak = getPeak(iframe, minFloor);
       var current = readHeight(iframe);
-      if (current < minFloor) {
-        setHeight(iframe, minFloor, minFloor);
+      var target = Math.max(peak, minFloor, current);
+
+      if (current < target) {
+        setHeight(iframe, target, minFloor);
       }
+
       if (iframe.style.overflow === "hidden") {
         iframe.style.overflow = "auto";
+      }
+      if (iframe.getAttribute("scrolling") === "no") {
+        iframe.setAttribute("scrolling", "auto");
       }
     }
 
@@ -102,7 +101,7 @@
       observer.observe(iframe, { attributes: true, attributeFilter: ["style", "height"] });
     }
 
-    window.setInterval(applyGuard, 300);
+    window.setInterval(applyGuard, 250);
   }
 
   function findIframeByMessageId(id) {
@@ -127,21 +126,16 @@
     return null;
   }
 
-  function fixCollapsed() {
+  function fixAll() {
     var iframes = document.querySelectorAll(
       'iframe[src*="/widget/form/"], iframe[src*="/widget/booking/"]',
     );
     for (var i = 0; i < iframes.length; i++) {
       var iframe = iframes[i];
       guardIframe(iframe);
-      var minFloor = minFloorFor(iframe);
+      var minFloor = readConfiguredHeight(iframe);
       var current = readHeight(iframe);
-      if (current < COLLAPSE_FLOOR) {
-        var dataHeight = readConfiguredHeight(iframe);
-        enforceHeight(iframe, dataHeight > 0 ? dataHeight : COLLAPSE_FLOOR);
-        continue;
-      }
-      if (isTall(iframe) && current < minFloor) {
+      if (current < minFloor) {
         enforceHeight(iframe, minFloor);
       }
     }
@@ -157,15 +151,15 @@
     var iframe = findIframeByMessageId(id);
     if (!(iframe instanceof HTMLIFrameElement)) return;
 
-    enforceHeight(iframe, height + bufferFor(iframe));
+    enforceHeight(iframe, height);
   }
 
   window.addEventListener("message", function (event) {
     growFromMessage(event.data);
   });
 
-  window.setInterval(fixCollapsed, 400);
+  window.setInterval(fixAll, 400);
 
-  document.addEventListener("DOMContentLoaded", fixCollapsed);
-  window.addEventListener("load", fixCollapsed);
+  document.addEventListener("DOMContentLoaded", fixAll);
+  window.addEventListener("load", fixAll);
 })();

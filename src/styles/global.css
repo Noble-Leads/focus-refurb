@@ -202,7 +202,8 @@
   }
 
   /* GHL embeds must stay measurable — height is set imperatively, not via React */
-  .ghl-embed-iframe {
+  .ghl-embed-iframe,
+  iframe[data-ghl-embed="true"] {
     content-visibility: visible;
     border: 0;
     width: 100%;
@@ -210,6 +211,7 @@
     display: block;
     background: transparent;
     box-shadow: none;
+    overflow: auto !important;
   }
 
   .ghl-embed-iframe[data-ghl-tall="true"] {

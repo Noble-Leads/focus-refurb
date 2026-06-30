@@ -1,11 +1,7 @@
 import { useEffect } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
-import {
-  isMobileViewport,
-  TALL_EMBED_THRESHOLD,
-  useGhlEmbedResize,
-} from "@/lib/ghlEmbedResize";
+import { useGhlEmbedResize } from "@/lib/ghlEmbedResize";
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
@@ -47,13 +43,12 @@ const GhlFormEmbed = ({
   formName,
   formId,
   source,
-  iframeHeight = "672px",
+  iframeHeight = "1100px",
   wrapperClassName = "",
   autoResize = true,
 }: GhlFormEmbedProps) => {
-  const initialHeight = parseIframeHeight(iframeHeight, 672);
-  const variant = initialHeight >= 800 ? "commercial" : "form";
-  const isTall = initialHeight >= TALL_EMBED_THRESHOLD;
+  const initialHeight = parseIframeHeight(iframeHeight, 1100);
+  const variant = initialHeight >= 1000 ? "commercial" : "form";
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
@@ -71,7 +66,7 @@ const GhlFormEmbed = ({
       ref={iframeRef}
       src={ghlFormSrc(src, source)}
       className="ghl-embed-iframe block w-full max-w-full border-0 bg-transparent"
-      scrolling={isTall && isMobileViewport() ? "auto" : "no"}
+      scrolling="auto"
       id={iframeId}
       data-layout='{"id":"INLINE"}'
       data-trigger-type="alwaysShow"
@@ -85,7 +80,7 @@ const GhlFormEmbed = ({
       data-layout-iframe-id={iframeId}
       data-form-id={formId}
       data-initial-iframe-hidden="false"
-      {...(isTall ? { "data-ghl-tall": "true" } : {})}
+      data-ghl-embed="true"
       title={title}
     />
   );

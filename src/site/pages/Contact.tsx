@@ -59,7 +59,7 @@ const ContactPage = () => {
                   formName="Contact"
                   formId="xShr7a5F4R13BPXXPGz4"
                   source="contact"
-                  iframeHeight="672px"
+                  iframeHeight="1100px"
                   autoResize
                 />
                 <div className="mt-6 rounded-lg border border-amber-300 bg-amber-100/60 p-5">

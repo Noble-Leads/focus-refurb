@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react";
 
-export const GHL_HEIGHT_BUFFER = 64;
-export const GHL_BOOKING_HEIGHT_BUFFER = 160;
-export const GHL_TALL_FORM_BUFFER = 120;
-export const TALL_EMBED_THRESHOLD = 800;
+export const GHL_HEIGHT_BUFFER = 80;
+export const GHL_BOOKING_HEIGHT_BUFFER = 200;
 export const COLLAPSE_FLOOR = 280;
 
 export const parseWidgetId = (src: string): string | null => {
@@ -39,17 +37,8 @@ export const matchesIframeSizerId = (
 export const isMobileViewport = () =>
   typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
 
-export const minHeightFloor = (initialHeight: number) =>
-  initialHeight >= TALL_EMBED_THRESHOLD ? initialHeight : COLLAPSE_FLOOR;
-
-export const bufferForVariant = (
-  variant: "form" | "booking" | "commercial",
-  initialHeight: number,
-) => {
+export const bufferForVariant = (variant: "form" | "booking" | "commercial") => {
   if (variant === "booking") return GHL_BOOKING_HEIGHT_BUFFER;
-  if (variant === "commercial" || initialHeight >= TALL_EMBED_THRESHOLD) {
-    return GHL_TALL_FORM_BUFFER;
-  }
   return GHL_HEIGHT_BUFFER;
 };
 
@@ -59,6 +48,7 @@ type RegisteredEmbed = {
   initialHeight: number;
   heightBuffer: number;
   minFloor: number;
+  peakHeight: number;
 };
 
 const embedRegistry = new Map<HTMLIFrameElement, RegisteredEmbed>();
@@ -73,63 +63,54 @@ const readIframeHeight = (iframe: HTMLIFrameElement) => {
 
 const readConfiguredHeight = (iframe: HTMLIFrameElement) => {
   const dataHeight = Number.parseInt(iframe.getAttribute("data-height") || "", 10);
-  return dataHeight > 0 ? dataHeight : 0;
+  return dataHeight > 0 ? dataHeight : COLLAPSE_FLOOR;
 };
 
-const isTallEmbed = (minFloor: number) => minFloor >= TALL_EMBED_THRESHOLD;
-
-/** Set iframe height; tall embeds keep a CSS min-height floor GHL cannot shrink below. */
+/** Grow-only iframe sizing — never shrink below configured data-height. */
 export const setIframeHeight = (
   iframe: HTMLIFrameElement,
   nextHeight: number,
   minFloor = COLLAPSE_FLOOR,
 ) => {
-  const resolved = Math.max(nextHeight, minFloor);
-  const tall = isTallEmbed(minFloor);
-
+  const resolved = Math.max(nextHeight, minFloor, COLLAPSE_FLOOR);
   iframe.style.height = `${resolved}px`;
-  iframe.style.minHeight = tall ? `${minFloor}px` : "0";
+  iframe.style.minHeight = `${minFloor}px`;
   iframe.style.maxHeight = "none";
   iframe.setAttribute("height", String(resolved));
-  iframe.setAttribute("scrolling", tall && isMobileViewport() ? "auto" : "no");
-  iframe.style.overflow = tall ? "auto" : "visible";
-
+  iframe.setAttribute("scrolling", "auto");
+  iframe.style.overflow = "auto";
   return resolved;
+};
+
+const resolveHeight = (
+  iframe: HTMLIFrameElement,
+  rawHeight: number,
+  reg?: RegisteredEmbed,
+) => {
+  const minFloor = reg?.minFloor ?? readConfiguredHeight(iframe);
+  const buffer = reg?.heightBuffer ?? GHL_HEIGHT_BUFFER;
+  const candidate = rawHeight + buffer;
+  const peak = reg ? Math.max(reg.peakHeight, candidate, minFloor) : Math.max(candidate, minFloor);
+  if (reg) reg.peakHeight = peak;
+  return peak;
 };
 
 const enforceIframeHeight = (
   iframe: HTMLIFrameElement,
-  nextHeight: number,
-  minFloor: number,
+  rawHeight: number,
+  reg?: RegisteredEmbed,
 ) => {
-  setIframeHeight(iframe, nextHeight, minFloor);
+  const minFloor = reg?.minFloor ?? readConfiguredHeight(iframe);
+  const target = resolveHeight(iframe, rawHeight, reg);
+  setIframeHeight(iframe, target, minFloor);
 
   if (typeof window === "undefined") return;
 
-  const apply = () => setIframeHeight(iframe, Math.max(nextHeight, minFloor), minFloor);
+  const apply = () => setIframeHeight(iframe, target, minFloor);
   window.requestAnimationFrame(apply);
   window.setTimeout(apply, 50);
   window.setTimeout(apply, 250);
   window.setTimeout(apply, 1000);
-};
-
-const bufferForIframe = (iframe: HTMLIFrameElement) => {
-  const registered = embedRegistry.get(iframe);
-  if (registered) return registered.heightBuffer;
-
-  const src = iframe.getAttribute("src") ?? "";
-  if (src.includes("/widget/booking/")) return GHL_BOOKING_HEIGHT_BUFFER;
-
-  const configured = readConfiguredHeight(iframe);
-  return configured >= TALL_EMBED_THRESHOLD ? GHL_TALL_FORM_BUFFER : GHL_HEIGHT_BUFFER;
-};
-
-const minFloorForIframe = (iframe: HTMLIFrameElement) => {
-  const registered = embedRegistry.get(iframe);
-  if (registered) return registered.minFloor;
-
-  const configured = readConfiguredHeight(iframe);
-  return minHeightFloor(configured || COLLAPSE_FLOOR);
 };
 
 const findIframeByMessageId = (messageId: string): HTMLIFrameElement | null => {
@@ -160,11 +141,7 @@ const findIframeByMessageId = (messageId: string): HTMLIFrameElement | null => {
 const applyHeightToMessage = (messageId: string, rawHeight: number) => {
   const iframe = findIframeByMessageId(messageId);
   if (!iframe) return;
-
-  const minFloor = minFloorForIframe(iframe);
-  const registered = embedRegistry.get(iframe);
-  const buffer = registered?.heightBuffer ?? bufferForIframe(iframe);
-  enforceIframeHeight(iframe, rawHeight + buffer, minFloor);
+  enforceIframeHeight(iframe, rawHeight, embedRegistry.get(iframe));
 };
 
 const handleIframeSizerMessage = (data: string) => {
@@ -209,32 +186,39 @@ const ensureGlobalListener = () => {
   });
 };
 
-/** Undo GHL's script shrinking tall embeds after it sets inline styles. */
+/** Undo GHL's script shrinking embeds after it sets inline styles. */
 export const attachIframeStyleGuard = (
   iframe: HTMLIFrameElement,
   minFloor: number,
+  getPeak: () => number,
+  setPeak: (value: number) => void,
 ) => {
   const existing = styleGuards.get(iframe);
   existing?.();
 
-  if (!isTallEmbed(minFloor)) {
-    return () => {};
-  }
-
   const guard = () => {
     const current = readIframeHeight(iframe);
-    if (current < minFloor) {
-      setIframeHeight(iframe, minFloor, minFloor);
+    const peak = getPeak();
+    const target = Math.max(current, peak, minFloor);
+
+    if (target > peak) setPeak(target);
+
+    if (current < minFloor || current < peak) {
+      setIframeHeight(iframe, target, minFloor);
     }
+
     if (iframe.style.overflow === "hidden") {
       iframe.style.overflow = "auto";
+    }
+    if (iframe.getAttribute("scrolling") === "no") {
+      iframe.setAttribute("scrolling", "auto");
     }
   };
 
   const observer = new MutationObserver(guard);
   observer.observe(iframe, { attributes: true, attributeFilter: ["style", "height"] });
 
-  const interval = window.setInterval(guard, 300);
+  const interval = window.setInterval(guard, 250);
 
   const disconnect = () => {
     observer.disconnect();
@@ -254,11 +238,20 @@ export const registerGhlEmbed = (
 ) => {
   ensureGlobalListener();
   embedRegistry.set(iframe, options);
-  enforceIframeHeight(iframe, options.initialHeight, options.minFloor);
-  attachIframeStyleGuard(iframe, options.minFloor);
+  enforceIframeHeight(iframe, options.initialHeight, options);
+
+  const disconnectGuard = attachIframeStyleGuard(
+    iframe,
+    options.minFloor,
+    () => options.peakHeight,
+    (value) => {
+      options.peakHeight = value;
+    },
+  );
+
   return () => {
     embedRegistry.delete(iframe);
-    styleGuards.get(iframe)?.();
+    disconnectGuard();
   };
 };
 
@@ -278,17 +271,15 @@ export function useGhlEmbedResize({
   variant = "form",
 }: UseGhlEmbedResizeOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const heightBuffer = bufferForVariant(variant, initialHeight);
-  const minFloor = minHeightFloor(initialHeight);
+  const heightBuffer = bufferForVariant(variant);
+  const minFloor = Math.max(initialHeight, COLLAPSE_FLOOR);
 
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
     iframe.setAttribute("data-initial-iframe-hidden", "false");
-    if (isTallEmbed(minFloor)) {
-      iframe.setAttribute("data-ghl-tall", "true");
-    }
+    iframe.setAttribute("data-ghl-embed", "true");
     iframe.style.opacity = "1";
     iframe.style.visibility = "visible";
     iframe.style.pointerEvents = "auto";
@@ -300,34 +291,26 @@ export function useGhlEmbedResize({
 
     if (!enabled) {
       setIframeHeight(iframe, initialHeight, minFloor);
-      const disconnectGuard = attachIframeStyleGuard(iframe, minFloor);
-      return disconnectGuard;
+      return attachIframeStyleGuard(
+        iframe,
+        minFloor,
+        () => initialHeight,
+        () => {},
+      );
     }
 
-    const unregister = registerGhlEmbed(iframe, {
+    const state: RegisteredEmbed = {
       iframeId,
       widgetId,
       initialHeight,
       heightBuffer,
       minFloor,
-    });
-
-    const collapseGuard = window.setInterval(() => {
-      const current = readIframeHeight(iframe);
-      if (current < COLLAPSE_FLOOR) {
-        enforceIframeHeight(iframe, initialHeight, minFloor);
-        return;
-      }
-
-      if (isTallEmbed(minFloor) && current < minFloor) {
-        enforceIframeHeight(iframe, minFloor, minFloor);
-      }
-    }, 300);
-
-    return () => {
-      unregister();
-      window.clearInterval(collapseGuard);
+      peakHeight: minFloor,
     };
+
+    const unregister = registerGhlEmbed(iframe, state);
+
+    return unregister;
   }, [enabled, heightBuffer, iframeId, initialHeight, minFloor, widgetId]);
 
   return {
