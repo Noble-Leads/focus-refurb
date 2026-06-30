@@ -88,8 +88,8 @@ const domesticRefurbishmentConfig: ServiceLandingConfig = {
       {
         label: "Main staircase",
         before: {
-          src: "/images/refurb/stairs-before.png",
-          alt: "Before — dark wood banister and tired staircase carpet",
+          src: "/images/refurb/stairs-landing-stairs-before.png",
+          alt: "Before — dated staircase with dark wood banister and tired carpet",
         },
         after: {
           src: "/images/refurb/stairs-after.png",

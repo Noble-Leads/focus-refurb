@@ -3,6 +3,8 @@ type BeforeAfterSliderProps = {
   after: { src: string; alt: string };
   aspectClassName?: string;
   objectPosition?: string;
+  /** Fill grid column width instead of capping at max-w-2xl */
+  fullWidth?: boolean;
 };
 
 const toWebp = (src: string) => src.replace(/\.(png|jpe?g)$/i, ".webp");
@@ -34,8 +36,9 @@ const BeforeAfterSlider = ({
   after,
   aspectClassName = "aspect-[3/4] md:aspect-[4/5]",
   objectPosition = "object-center",
+  fullWidth = false,
 }: BeforeAfterSliderProps) => (
-  <div className="before-after-slider w-full max-w-2xl mx-auto">
+  <div className={`before-after-slider w-full ${fullWidth ? "" : "max-w-2xl mx-auto"}`}>
     <div
       data-before-after
       tabIndex={0}
