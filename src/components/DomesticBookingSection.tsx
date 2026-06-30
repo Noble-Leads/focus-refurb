@@ -47,7 +47,7 @@ const DomesticBookingSection = ({
       </ScrollReveal>
 
       <ScrollReveal>
-        <div className="rounded-xl border-2 border-gold/30 bg-card p-4 sm:p-5 md:p-6 shadow-md">
+        <div className="rounded-xl border-2 border-gold/30 bg-card p-4 sm:p-5 md:p-6 shadow-md overflow-visible">
           <GhlBookingEmbed />
         </div>
         <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">

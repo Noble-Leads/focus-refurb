@@ -180,7 +180,7 @@ const HeroFormCard = ({
 }) => (
   <div
     id={formAnchorId}
-    className="bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32"
+    className="bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
   >
     <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
@@ -590,7 +590,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   return (
     <div className="overflow-x-hidden max-w-full min-w-0">
       <section
-        className={`relative overflow-hidden ${HERO_SECTION_PADDING} ${
+        className={`relative ${bookingConfig ? "overflow-x-hidden" : "overflow-hidden"} ${HERO_SECTION_PADDING} ${
           heroImage ? "min-h-[70vh] md:min-h-[75vh] flex items-center" : "section-dark"
         }`}
       >
@@ -630,7 +630,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
               />
             </ScrollReveal>
           ) : (
-            <div className="grid lg:grid-cols-12 items-center gap-8 lg:gap-12 min-w-0">
+            <div className={`grid lg:grid-cols-12 gap-8 lg:gap-12 min-w-0 ${bookingConfig ? "items-start" : "items-center"}`}>
               <ScrollReveal instant className="lg:col-span-6 min-w-0">
                 <HeroCopyBlock
                   heroEyebrow={heroEyebrow}
