@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import {
@@ -37,7 +37,7 @@ type GhlFormEmbedProps = {
   iframeHeight?: string;
   minHeightClassName?: string;
   wrapperClassName?: string;
-  /** Grow iframe height with form content — no inner scroll box on desktop */
+  /** Grow iframe height with form content */
   autoResize?: boolean;
 };
 
@@ -54,7 +54,7 @@ const GhlFormEmbed = ({
   autoResize = true,
 }: GhlFormEmbedProps) => {
   const initialHeight = parseIframeHeight(iframeHeight, 672);
-  const { iframeRef, height, startingHeight, applyHeight, allowIframeScroll } = useGhlEmbedResize({
+  const { iframeRef, height, startingHeight, applyHeight, isMobile } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
     initialHeight,
@@ -67,8 +67,8 @@ const GhlFormEmbed = ({
   }, []);
 
   const wrapperClasses = autoResize
-    ? `${ghlEmbedFrameClassName(allowIframeScroll)} ${wrapperClassName}`.trim()
-    : `max-w-full min-w-0 overflow-hidden ${minHeightClassName} ${wrapperClassName}`.trim();
+    ? `${ghlEmbedFrameClassName()} ${wrapperClassName}`.trim()
+    : `max-w-full min-w-0 overflow-visible ${minHeightClassName} ${wrapperClassName}`.trim();
 
   return (
     <div className={wrapperClasses}>
@@ -78,12 +78,12 @@ const GhlFormEmbed = ({
         style={{
           width: "100%",
           height: autoResize ? height : iframeHeight,
-          minHeight: autoResize ? startingHeight : undefined,
+          minHeight: autoResize ? startingHeight : fixedHeight,
           border: "none",
           borderRadius: "4px",
           display: "block",
         }}
-        scrolling={autoResize && allowIframeScroll ? "yes" : "no"}
+        scrolling={isMobile ? "yes" : "no"}
         id={iframeId}
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"

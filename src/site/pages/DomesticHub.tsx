@@ -32,8 +32,8 @@ const audienceDetails = [
 
 const DomesticHub = () => {
   return (
-    <div className="overflow-hidden">
-      <section className="relative min-h-[70vh] md:min-h-[78vh] lg:min-h-[82vh] flex items-center overflow-hidden">
+    <div className="overflow-x-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[78vh] lg:min-h-[82vh] flex items-center overflow-x-hidden overflow-y-visible">
         <div className="absolute inset-0">
           <OptimizedImage
             src="/images/hero-home.png"

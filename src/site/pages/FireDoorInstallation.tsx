@@ -149,8 +149,8 @@ const workCards = [
 
 const FireDoorInstallationPage = () => {
   return (
-    <div className="overflow-hidden">
-      <section className="section-dark pt-below-header pb-12 md:pb-14 relative overflow-hidden">
+    <div className="overflow-x-hidden">
+      <section className="section-dark pt-below-header pb-12 md:pb-14 relative overflow-x-hidden overflow-y-visible">
         <HeroBackdrop />
         <div className="container relative z-10 max-w-7xl">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">

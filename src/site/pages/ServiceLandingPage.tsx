@@ -227,7 +227,7 @@ const CommercialFormBand = ({
   formEmbed?: HeroFormEmbedConfig;
   asideBullets: string[];
 }) => (
-  <section className={`${LANDING_SECTION} relative bg-secondary content-auto`}>
+  <section className={`${LANDING_SECTION} relative bg-secondary scroll-target`}>
     <BrandPattern variant="light" className="opacity-80" />
     <div className="container relative z-10 max-w-6xl">
       <ScrollReveal>
@@ -598,7 +598,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   return (
     <div className="overflow-x-hidden max-w-full min-w-0">
       <section
-        className={`relative ${bookingConfig ? "overflow-x-hidden" : "overflow-hidden"} ${HERO_SECTION_PADDING} ${
+        className={`relative overflow-x-hidden overflow-y-visible ${HERO_SECTION_PADDING} ${
           heroImage ? "min-h-[70vh] md:min-h-[75vh] flex items-center" : "section-dark"
         }`}
       >

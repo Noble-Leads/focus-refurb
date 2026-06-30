@@ -44,7 +44,7 @@ const CommercialEnquiries = () => {
   return (
     <div>
       {/* HERO */}
-      <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[75vh] flex items-center overflow-x-hidden overflow-y-visible">
         <div className="absolute inset-0">
           <OptimizedImage
             src="/images/commercial/office-building.png"

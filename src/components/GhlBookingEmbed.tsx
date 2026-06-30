@@ -36,7 +36,7 @@ const GhlBookingEmbed = ({
   initialHeight = DEFAULT_HEIGHT,
 }: GhlBookingEmbedProps) => {
   const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
-  const { iframeRef, height, startingHeight, applyHeight, allowIframeScroll } = useGhlEmbedResize({
+  const { iframeRef, height, startingHeight, applyHeight, isMobile } = useGhlEmbedResize({
     iframeId,
     widgetId,
     initialHeight,
@@ -48,13 +48,13 @@ const GhlBookingEmbed = ({
   }, []);
 
   return (
-    <div className={ghlEmbedFrameClassName(allowIframeScroll)}>
+    <div className={ghlEmbedFrameClassName()}>
       <iframe
         ref={iframeRef}
         src={src}
         id={iframeId}
         title={title}
-        scrolling={allowIframeScroll ? "yes" : "no"}
+        scrolling={isMobile ? "yes" : "no"}
         data-initial-iframe-hidden="false"
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"

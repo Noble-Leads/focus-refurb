@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const GHL_HEIGHT_BUFFER = 48;
+export const GHL_HEIGHT_BUFFER = 64;
+export const MOBILE_FORM_MIN_HEIGHT = 1320;
+export const MOBILE_TALL_FORM_MIN_HEIGHT = 1480;
+export const MOBILE_BOOKING_MIN_HEIGHT = 1150;
 
 export const parseWidgetId = (src: string): string | null => {
   const match = src.match(/\/widget\/(?:booking|form)\/([^/?]+)/);
@@ -31,18 +34,36 @@ export const matchesIframeSizerId = (
   return false;
 };
 
+const parseHeightFromMessage = (data: string): number | null => {
+  if (!data.startsWith("[iFrameSizer]")) return null;
+  const [, height] = data.slice(13).split(":");
+  const parsed = Number.parseInt(height ?? "", 10);
+  return parsed > 0 ? parsed + GHL_HEIGHT_BUFFER : null;
+};
+
 export const parseIframeSizerHeight = (
   data: string,
   iframeId: string,
   widgetId?: string | null,
+  iframe?: HTMLIFrameElement | null,
 ): number | null => {
   if (!data.startsWith("[iFrameSizer]")) return null;
 
-  const [id, height] = data.slice(13).split(":");
-  if (!id || !matchesIframeSizerId(id, iframeId, widgetId)) return null;
+  const [id] = data.slice(13).split(":");
+  if (id && matchesIframeSizerId(id, iframeId, widgetId)) {
+    return parseHeightFromMessage(data);
+  }
 
-  const parsed = Number.parseInt(height ?? "", 10);
-  return parsed > 0 ? parsed + GHL_HEIGHT_BUFFER : null;
+  if (!isMobileViewport() || !iframe) return null;
+
+  const ghlIframes = document.querySelectorAll<HTMLIFrameElement>(
+    'iframe[src*="/widget/form/"], iframe[src*="/widget/booking/"]',
+  );
+  if (ghlIframes.length === 1 && ghlIframes[0] === iframe) {
+    return parseHeightFromMessage(data);
+  }
+
+  return null;
 };
 
 export const isMobileViewport = () =>
@@ -50,14 +71,14 @@ export const isMobileViewport = () =>
 
 export const mobileFormFallbackHeight = (baseHeight: number) => {
   if (!isMobileViewport()) return baseHeight;
-  if (baseHeight >= 900) return baseHeight + 120;
-  if (baseHeight >= 650) return Math.max(baseHeight + 120, 900);
-  return Math.max(baseHeight + 80, 820);
+  if (baseHeight >= 900) return Math.max(baseHeight + 200, MOBILE_TALL_FORM_MIN_HEIGHT);
+  if (baseHeight >= 650) return Math.max(baseHeight + 200, MOBILE_FORM_MIN_HEIGHT);
+  return MOBILE_FORM_MIN_HEIGHT;
 };
 
 export const mobileBookingFallbackHeight = (baseHeight: number) => {
   if (!isMobileViewport()) return baseHeight;
-  return Math.max(baseHeight + 120, 900);
+  return Math.max(baseHeight + 200, MOBILE_BOOKING_MIN_HEIGHT);
 };
 
 type UseGhlEmbedResizeOptions = {
@@ -80,10 +101,20 @@ export function useGhlEmbedResize({
     ? mobileBookingFallbackHeight(initialHeight)
     : mobileFormFallbackHeight(initialHeight);
   const [height, setHeight] = useState(fallbackHeight);
-  const [allowIframeScroll, setAllowIframeScroll] = useState(() => isMobileViewport());
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileViewport());
+  }, []);
 
   const applyHeight = useCallback((nextHeight: number) => {
-    setHeight((current) => Math.max(current, nextHeight));
+    setHeight((current) => {
+      const resolved = Math.max(current, nextHeight);
+      if (iframeRef.current) {
+        iframeRef.current.style.height = `${resolved}px`;
+      }
+      return resolved;
+    });
   }, []);
 
   useEffect(() => {
@@ -94,29 +125,26 @@ export function useGhlEmbedResize({
     iframe.style.opacity = "1";
     iframe.style.visibility = "visible";
     iframe.style.pointerEvents = "auto";
+    iframe.style.height = `${fallbackHeight}px`;
 
     if (!enabled) return;
 
     const onMessage = (event: MessageEvent) => {
       if (typeof event.data !== "string") return;
-      const nextHeight = parseIframeSizerHeight(event.data, iframeId, widgetId);
+      const nextHeight = parseIframeSizerHeight(event.data, iframeId, widgetId, iframe);
       if (nextHeight) applyHeight(nextHeight);
     };
 
-    const fallbackTimers = [400, 1000, 2500, 5000, 8000].map((delay) =>
+    const fallbackTimers = [300, 800, 1500, 3000, 6000, 10000].map((delay) =>
       window.setTimeout(() => applyHeight(fallbackHeight), delay),
     );
-
-    const scrollFallbackTimer = window.setTimeout(() => {
-      if (isMobileViewport()) setAllowIframeScroll(true);
-    }, 1200);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
         applyHeight(fallbackHeight);
       },
-      { rootMargin: "120px 0px", threshold: 0.01 },
+      { rootMargin: "160px 0px", threshold: 0.01 },
     );
     observer.observe(iframe);
 
@@ -124,7 +152,6 @@ export function useGhlEmbedResize({
     return () => {
       window.removeEventListener("message", onMessage);
       fallbackTimers.forEach(window.clearTimeout);
-      window.clearTimeout(scrollFallbackTimer);
       observer.disconnect();
     };
   }, [applyHeight, enabled, fallbackHeight, iframeId, widgetId]);
@@ -134,12 +161,8 @@ export function useGhlEmbedResize({
     height,
     startingHeight: fallbackHeight,
     applyHeight,
-    allowIframeScroll,
+    isMobile,
   };
 }
 
-export const ghlEmbedFrameClassName = (allowScroll: boolean) =>
-  [
-    "ghl-embed-frame max-w-full min-w-0",
-    allowScroll ? "ghl-embed-frame--scrollable" : "overflow-visible",
-  ].join(" ");
+export const ghlEmbedFrameClassName = () => "ghl-embed-frame max-w-full min-w-0 overflow-visible";
