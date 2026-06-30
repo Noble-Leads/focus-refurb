@@ -2,9 +2,11 @@ import { useEffect, useRef } from "react";
 
 /** Form embeds — collapse prevention only. */
 export const GHL_COLLAPSE_FLOOR = 480;
-export const GHL_HEIGHT_BUFFER = 48;
+export const GHL_HEIGHT_BUFFER = 24;
 export const GHL_FORM_INITIAL_HEIGHT = 720;
-export const GHL_COMMERCIAL_INITIAL_HEIGHT = 960;
+/** Commercial enquiry forms — start compact; GHL often reports inflated heights. */
+export const GHL_COMMERCIAL_INITIAL_HEIGHT = 720;
+export const GHL_COMMERCIAL_MAX_HEIGHT = 820;
 
 /** Booking calendar — Google "squeeze" bounds (vh min/max + iFrameSizer). */
 export const GHL_BOOKING_MIN_HEIGHT = 600;
@@ -46,17 +48,25 @@ export const ghlBookingIframeStyle = () =>
     transition: "height 0.15s ease-out",
   }) as const;
 
-export const ghlFormIframeStyle = (initialHeight: number, collapseFloor = GHL_COLLAPSE_FLOOR) =>
-  ({
+export const ghlFormIframeStyle = (
+  initialHeight: number,
+  collapseFloor = GHL_COLLAPSE_FLOOR,
+  maxHeight?: number | null,
+) => {
+  const cappedInitial =
+    maxHeight && maxHeight > 0 ? Math.min(initialHeight, maxHeight) : initialHeight;
+
+  return {
     width: "100%",
     minHeight: `${collapseFloor}px`,
-    height: `${initialHeight}px`,
-    maxHeight: "none",
+    height: `${cappedInitial}px`,
+    maxHeight: maxHeight && maxHeight > 0 ? `${maxHeight}px` : "none",
     border: "none",
     display: "block",
     background: "transparent",
     transition: "height 0.15s ease-out",
-  }) as const;
+  } as const;
+};
 
 type RegisteredEmbed = {
   iframeId: string;
@@ -64,6 +74,7 @@ type RegisteredEmbed = {
   initialHeight: number;
   collapseFloor: number;
   embedType: GhlEmbedType;
+  maxHeight?: number | null;
 };
 
 const embedRegistry = new Map<HTMLIFrameElement, RegisteredEmbed>();
@@ -86,14 +97,15 @@ const readMaxHeight = (iframe: HTMLIFrameElement) => {
   return readEmbedType(iframe) === "booking" ? GHL_BOOKING_MAX_HEIGHT : null;
 };
 
-const syncGhlWrapper = (iframe: HTMLIFrameElement, embedType: GhlEmbedType) => {
+const syncGhlWrapper = (iframe: HTMLIFrameElement) => {
   const wrapper = iframe.closest<HTMLElement>(".ep-wrapper, [id$='-wrapper']");
   if (!wrapper) return;
+  const maxHeight = readMaxHeight(iframe);
   wrapper.style.width = "100%";
   wrapper.style.height = "auto";
   wrapper.style.minHeight = "0";
-  wrapper.style.maxHeight = embedType === "booking" ? `${GHL_BOOKING_MAX_HEIGHT}px` : "none";
-  wrapper.style.overflow = embedType === "booking" ? "hidden" : "visible";
+  wrapper.style.maxHeight = maxHeight ? `${maxHeight}px` : "none";
+  wrapper.style.overflow = maxHeight ? "hidden" : "visible";
 };
 
 /** Apply iFrameSizer height — booking is clamped 600–850px with internal scroll above max. */
@@ -114,17 +126,19 @@ export const applyGhlIframeHeight = (iframe: HTMLIFrameElement, nextHeight: numb
     iframe.style.height = `${resolved}px`;
     iframe.setAttribute("height", String(resolved));
     iframe.setAttribute("scrolling", "yes");
-    syncGhlWrapper(iframe, "booking");
+    syncGhlWrapper(iframe);
     return;
   }
 
-  const resolved = Math.max(nextHeight + GHL_HEIGHT_BUFFER, collapseFloor);
+  let resolved = Math.max(nextHeight + GHL_HEIGHT_BUFFER, collapseFloor);
+  if (maxHeight) resolved = Math.min(resolved, maxHeight);
+
   iframe.style.minHeight = `${collapseFloor}px`;
   iframe.style.height = `${resolved}px`;
-  iframe.style.maxHeight = "none";
+  iframe.style.maxHeight = maxHeight ? `${maxHeight}px` : "none";
   iframe.setAttribute("height", String(resolved));
-  iframe.setAttribute("scrolling", "no");
-  syncGhlWrapper(iframe, "form");
+  iframe.setAttribute("scrolling", maxHeight ? "yes" : "no");
+  syncGhlWrapper(iframe);
 };
 
 const findIframeByMessageId = (messageId: string): HTMLIFrameElement | null => {
@@ -234,10 +248,17 @@ export const registerGhlEmbed = (iframe: HTMLIFrameElement, options: RegisteredE
     iframe.setAttribute("data-max-height", String(GHL_BOOKING_MAX_HEIGHT));
     Object.assign(iframe.style, ghlBookingIframeStyle());
   } else {
-    Object.assign(iframe.style, ghlFormIframeStyle(options.initialHeight, options.collapseFloor));
+    if (options.maxHeight) {
+      iframe.setAttribute("data-max-height", String(options.maxHeight));
+    }
+    Object.assign(
+      iframe.style,
+      ghlFormIframeStyle(options.initialHeight, options.collapseFloor, options.maxHeight),
+    );
+    iframe.setAttribute("scrolling", options.maxHeight ? "yes" : "no");
   }
 
-  syncGhlWrapper(iframe, options.embedType);
+  syncGhlWrapper(iframe);
 
   return () => {
     embedRegistry.delete(iframe);
@@ -249,6 +270,7 @@ type UseGhlEmbedResizeOptions = {
   widgetId: string | null;
   initialHeight: number;
   collapseFloor?: number;
+  maxHeight?: number | null;
   embedType?: GhlEmbedType;
   enabled?: boolean;
 };
@@ -258,6 +280,7 @@ export function useGhlEmbedResize({
   widgetId,
   initialHeight,
   collapseFloor = GHL_COLLAPSE_FLOOR,
+  maxHeight = null,
   embedType = "form",
   enabled = true,
 }: UseGhlEmbedResizeOptions) {
@@ -275,9 +298,10 @@ export function useGhlEmbedResize({
       widgetId,
       initialHeight,
       collapseFloor: floor,
+      maxHeight,
       embedType,
     });
-  }, [collapseFloor, embedType, enabled, iframeId, initialHeight, widgetId]);
+  }, [collapseFloor, embedType, enabled, iframeId, initialHeight, maxHeight, widgetId]);
 
   return { iframeRef, initialHeight };
 }

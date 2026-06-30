@@ -75,6 +75,7 @@ export type ServiceLandingConfig = {
     formId: string;
     source?: string;
     iframeHeight?: string;
+    maxHeight?: number;
     minHeightClassName?: string;
   };
   /** Shorter hero headline shown below the md breakpoint */
@@ -200,10 +201,11 @@ const HeroFormCard = ({
         formName={formEmbed.formName}
         formId={formEmbed.formId}
         source={formEmbed.source}
-        iframeHeight={formEmbed.iframeHeight ?? "900px"}
+        iframeHeight={formEmbed.iframeHeight ?? "720px"}
+        maxHeight={formEmbed.maxHeight}
       />
     ) : (
-      <div className="min-h-[900px]" aria-hidden="true" />
+      <div className="min-h-[720px]" aria-hidden="true" />
     )}
 
     <p className="mt-2 text-center text-xs text-muted-foreground">
@@ -272,10 +274,11 @@ const CommercialFormBand = ({
                 formName={formEmbed.formName}
                 formId={formEmbed.formId}
                 source={formEmbed.source}
-                iframeHeight={formEmbed.iframeHeight ?? "1100px"}
+                iframeHeight={formEmbed.iframeHeight ?? "720px"}
+                maxHeight={formEmbed.maxHeight}
               />
             ) : (
-              <div className="min-h-[1100px]" aria-hidden="true" />
+              <div className="min-h-[720px]" aria-hidden="true" />
             )}
           </div>
         </div>
@@ -1106,12 +1109,13 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
                     source={formEmbed.source}
-                    iframeHeight={formEmbed.iframeHeight ?? "900px"}
+                    iframeHeight={formEmbed.iframeHeight ?? "720px"}
+                    maxHeight={formEmbed.maxHeight}
                   />
                 ) : (
                   <>
                     {/* GHL FORM EMBED HERE */}
-                    <div className="min-h-[900px]" aria-hidden="true" />
+                    <div className="min-h-[720px]" aria-hidden="true" />
                   </>
                 )}
 

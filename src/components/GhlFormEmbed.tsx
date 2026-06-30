@@ -4,6 +4,7 @@ import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import {
   GHL_COLLAPSE_FLOOR,
   GHL_COMMERCIAL_INITIAL_HEIGHT,
+  GHL_COMMERCIAL_MAX_HEIGHT,
   GHL_FORM_INITIAL_HEIGHT,
   ghlFormIframeStyle,
   useGhlEmbedResize,
@@ -37,6 +38,8 @@ type GhlFormEmbedProps = {
   /** Maps to GHL's hidden Source field via ?source= */
   source?: string;
   iframeHeight?: string;
+  /** Cap height for tall commercial forms — avoids GHL-reported dead space below submit */
+  maxHeight?: number;
   wrapperClassName?: string;
   /** Grow iframe height with form content */
   autoResize?: boolean;
@@ -50,19 +53,24 @@ const GhlFormEmbed = ({
   formId,
   source,
   iframeHeight,
+  maxHeight,
   wrapperClassName = "",
   autoResize = true,
 }: GhlFormEmbedProps) => {
-  const defaultInitial =
-    iframeHeight && Number.parseInt(iframeHeight, 10) >= 1000
-      ? GHL_COMMERCIAL_INITIAL_HEIGHT
-      : GHL_FORM_INITIAL_HEIGHT;
-  const initialHeight = parseInitialHeight(iframeHeight, defaultInitial);
+  const isCommercialForm = maxHeight != null || Boolean(iframeHeight && Number.parseInt(iframeHeight, 10) >= 800);
+  const resolvedMaxHeight = maxHeight ?? (isCommercialForm ? GHL_COMMERCIAL_MAX_HEIGHT : undefined);
+  const defaultInitial = isCommercialForm ? GHL_COMMERCIAL_INITIAL_HEIGHT : GHL_FORM_INITIAL_HEIGHT;
+  const parsedInitial = parseInitialHeight(iframeHeight, defaultInitial);
+  const initialHeight = resolvedMaxHeight
+    ? Math.min(parsedInitial, resolvedMaxHeight)
+    : parsedInitial;
+
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
     initialHeight,
     collapseFloor: GHL_COLLAPSE_FLOOR,
+    maxHeight: resolvedMaxHeight ?? null,
     embedType: "form",
     enabled: autoResize,
   });
@@ -76,8 +84,8 @@ const GhlFormEmbed = ({
       ref={iframeRef}
       src={ghlFormSrc(src, source)}
       className="ghl-embed-iframe ghl-embed-iframe--form"
-      style={ghlFormIframeStyle(initialHeight, GHL_COLLAPSE_FLOOR)}
-      scrolling="no"
+      style={ghlFormIframeStyle(initialHeight, GHL_COLLAPSE_FLOOR, resolvedMaxHeight)}
+      scrolling={resolvedMaxHeight ? "yes" : "no"}
       id={iframeId}
       data-layout='{"id":"INLINE"}'
       data-trigger-type="alwaysShow"
@@ -94,6 +102,7 @@ const GhlFormEmbed = ({
       data-form-id={formId}
       data-initial-iframe-hidden="false"
       data-ghl-embed="true"
+      data-max-height={resolvedMaxHeight ? String(resolvedMaxHeight) : undefined}
       title={title}
     />
   );

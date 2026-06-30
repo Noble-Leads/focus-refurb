@@ -232,6 +232,11 @@
     transition: height 0.15s ease-out;
   }
 
+  /* Commercial forms — cap trims GHL dead space below submit on desktop */
+  .ghl-embed-iframe--form[data-max-height] {
+    overflow: hidden;
+  }
+
   /* Hero booking embeds — never clip vertically */
   .hero-with-embed,
   .hero-with-embed .scroll-target {

@@ -1,9 +1,10 @@
 /**
  * GHL embed iframes: iFrameSizer auto-resize.
  * Booking calendars use 600–850px bounds + scrolling (Google squeeze pattern).
+ * Commercial forms cap at 820px to trim GHL-reported dead space below submit.
  */
 (function () {
-  var FORM_BUFFER = 48;
+  var FORM_BUFFER = 24;
   var BOOKING_BUFFER = 48;
   var FORM_COLLAPSE = 480;
   var BOOKING_MIN = 600;
@@ -38,19 +39,27 @@
     return isNaN(floor) || floor <= 0 ? FORM_COLLAPSE : floor;
   }
 
-  function syncWrapper(iframe, booking) {
+  function readMaxHeight(iframe) {
+    var attr = parseInt(iframe.getAttribute("data-max-height") || "", 10);
+    if (attr > 0) return attr;
+    return isBooking(iframe) ? BOOKING_MAX : null;
+  }
+
+  function syncWrapper(iframe) {
     var wrapper = iframe.closest(".ep-wrapper, [id$='-wrapper']");
     if (!wrapper) return;
+    var maxHeight = readMaxHeight(iframe);
     wrapper.style.width = "100%";
     wrapper.style.height = "auto";
     wrapper.style.minHeight = "0";
-    wrapper.style.maxHeight = booking ? BOOKING_MAX + "px" : "none";
-    wrapper.style.overflow = booking ? "hidden" : "visible";
+    wrapper.style.maxHeight = maxHeight ? maxHeight + "px" : "none";
+    wrapper.style.overflow = maxHeight ? "hidden" : "visible";
   }
 
   function applyHeight(iframe, height) {
     var booking = isBooking(iframe);
     var floor = readCollapseFloor(iframe);
+    var maxHeight = readMaxHeight(iframe);
     var buffer = booking ? BOOKING_BUFFER : FORM_BUFFER;
     var resolved;
 
@@ -67,21 +76,22 @@
       iframe.setAttribute("scrolling", "yes");
     } else {
       resolved = Math.max(height + buffer, floor);
+      if (maxHeight) resolved = Math.min(resolved, maxHeight);
       iframe.style.width = "100%";
       iframe.style.minHeight = floor + "px";
       iframe.style.height = resolved + "px";
-      iframe.style.maxHeight = "none";
+      iframe.style.maxHeight = maxHeight ? maxHeight + "px" : "none";
       iframe.style.border = "none";
       iframe.style.background = "transparent";
       iframe.style.transition = "height 0.15s ease-out";
       iframe.setAttribute("height", String(resolved));
-      iframe.setAttribute("scrolling", "no");
+      iframe.setAttribute("scrolling", maxHeight ? "yes" : "no");
     }
 
     iframe.setAttribute("data-initial-iframe-hidden", "false");
     iframe.style.opacity = "1";
     iframe.style.visibility = "visible";
-    syncWrapper(iframe, booking);
+    syncWrapper(iframe);
   }
 
   function initBookingIframe(iframe) {
@@ -92,7 +102,14 @@
     iframe.style.border = "none";
     iframe.style.transition = "height 0.15s ease-out";
     iframe.setAttribute("scrolling", "yes");
-    syncWrapper(iframe, true);
+    syncWrapper(iframe);
+  }
+
+  function initFormIframe(iframe) {
+    var initial = readInitialHeight(iframe);
+    var maxHeight = readMaxHeight(iframe);
+    if (maxHeight) initial = Math.min(initial, maxHeight);
+    applyHeight(iframe, initial - FORM_BUFFER);
   }
 
   function findIframeByMessageId(id) {
@@ -126,7 +143,7 @@
       if (isBooking(iframe)) {
         initBookingIframe(iframe);
       } else {
-        applyHeight(iframe, readInitialHeight(iframe));
+        initFormIframe(iframe);
       }
     }
   }

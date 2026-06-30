@@ -6,6 +6,7 @@ import BrandPattern from "@/components/BrandPattern";
 import GeometricDecor from "@/components/GeometricDecor";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
+import { commercialFormEmbed } from "@/lib/commercialFormEmbed";
 import { handleAnchorClick } from "@/lib/scrollToAnchor";
 
 const PHONE = "02046340020";
@@ -173,13 +174,9 @@ const CommercialEnquiries = () => {
               Fill in the form below and we'll come back to you within 24 hours.
             </p>
             <GhlFormEmbed
-              src="https://link.nobleleads.uk/widget/form/e6NuUzUMAfN2MKNTqFnI"
-              title="FR Site- Commercial"
+              {...commercialFormEmbed}
               iframeId="inline-e6NuUzUMAfN2MKNTqFnI"
-              formName="FR Site- Commercial"
-              formId="e6NuUzUMAfN2MKNTqFnI"
               source="commercial-enquiries"
-              iframeHeight="1100px"
             />
 
             <p className="text-center text-muted-foreground mt-8">
