@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 import {
-  mobileBookingFallbackHeight,
-  parseIframeSizerHeight,
+  ghlEmbedFrameClassName,
   parseWidgetId,
+  useGhlEmbedResize,
 } from "@/lib/ghlEmbedResize";
 
 type GhlBookingEmbedProps = {
@@ -29,70 +29,32 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
-const showIframe = (iframe: HTMLIFrameElement) => {
-  iframe.setAttribute("data-initial-iframe-hidden", "false");
-  iframe.style.opacity = "1";
-  iframe.style.visibility = "visible";
-  iframe.style.pointerEvents = "auto";
-};
-
 const GhlBookingEmbed = ({
   src = domesticBookingEmbed.src,
   iframeId = domesticBookingEmbed.iframeId,
   title = domesticBookingEmbed.title,
   initialHeight = DEFAULT_HEIGHT,
 }: GhlBookingEmbedProps) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
-  const startingHeight = mobileBookingFallbackHeight(initialHeight);
-  const [height, setHeight] = useState(startingHeight);
-
-  const applyHeight = (nextHeight: number) => {
-    setHeight((current) => Math.max(current, nextHeight));
-  };
+  const { iframeRef, height, startingHeight, applyHeight, allowIframeScroll } = useGhlEmbedResize({
+    iframeId,
+    widgetId,
+    initialHeight,
+    useBookingFallback: true,
+  });
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    showIframe(iframe);
     ensureGhlEmbedScripts();
-
-    const onMessage = (event: MessageEvent) => {
-      if (typeof event.data !== "string") return;
-      const nextHeight = parseIframeSizerHeight(event.data, iframeId, widgetId);
-      if (nextHeight) applyHeight(nextHeight);
-    };
-
-    const fallbackTimers = [600, 1500, 3000, 5000].map((delay) =>
-      window.setTimeout(() => applyHeight(startingHeight), delay),
-    );
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        applyHeight(startingHeight);
-      },
-      { rootMargin: "120px 0px", threshold: 0.01 },
-    );
-    observer.observe(iframe);
-
-    window.addEventListener("message", onMessage);
-    return () => {
-      window.removeEventListener("message", onMessage);
-      fallbackTimers.forEach(window.clearTimeout);
-      observer.disconnect();
-    };
-  }, [iframeId, widgetId, startingHeight]);
+  }, []);
 
   return (
-    <div className="max-w-full min-w-0 overflow-visible">
+    <div className={ghlEmbedFrameClassName(allowIframeScroll)}>
       <iframe
         ref={iframeRef}
         src={src}
         id={iframeId}
         title={title}
-        scrolling="no"
+        scrolling={allowIframeScroll ? "yes" : "no"}
         data-initial-iframe-hidden="false"
         data-layout='{"id":"INLINE"}'
         data-trigger-type="alwaysShow"
@@ -107,6 +69,7 @@ const GhlBookingEmbed = ({
         style={{
           width: "100%",
           height,
+          minHeight: startingHeight,
           border: "none",
           display: "block",
         }}

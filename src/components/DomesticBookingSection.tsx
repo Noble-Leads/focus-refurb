@@ -18,7 +18,7 @@ const DomesticBookingSection = ({
 }: DomesticBookingSectionProps) => (
   <section
     id={anchorId}
-    className="scroll-target py-10 md:py-14 bg-secondary content-auto scroll-mt-32 md:scroll-mt-36"
+    className="scroll-target py-10 md:py-14 bg-secondary scroll-mt-32 md:scroll-mt-36"
   >
     <div className="container max-w-3xl">
       <ScrollReveal>

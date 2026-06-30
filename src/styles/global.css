@@ -201,6 +201,21 @@
     content-visibility: visible;
   }
 
+  /* GHL embeds must stay measurable and scrollable on mobile */
+  .ghl-embed-frame {
+    content-visibility: visible;
+  }
+
+  @media (max-width: 767px) {
+    .ghl-embed-frame--scrollable {
+      max-height: 90dvh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
+  }
+
   /* Embedded players must not sit inside skipped content-visibility subtrees */
   .case-study-video,
   .case-study-video iframe {
