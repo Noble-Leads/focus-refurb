@@ -196,6 +196,11 @@
     contain-intrinsic-size: auto 480px;
   }
 
+  /* Hash scroll targets must stay measurable for mobile anchor navigation */
+  .scroll-target {
+    content-visibility: visible;
+  }
+
   /* Embedded players must not sit inside skipped content-visibility subtrees */
   .case-study-video,
   .case-study-video iframe {

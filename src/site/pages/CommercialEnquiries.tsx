@@ -6,13 +6,10 @@ import BrandPattern from "@/components/BrandPattern";
 import GeometricDecor from "@/components/GeometricDecor";
 import ScrollReveal from "@/components/ScrollReveal";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
+import { scrollToAnchor } from "@/lib/scrollToAnchor";
 
 const PHONE = "02046340020";
 const EMAIL = "office@focusrefurbishmentltd.com";
-
-const scrollToForm = () => {
-  document.getElementById("enquiry-form")?.scrollIntoView({ behavior: "smooth" });
-};
 
 const whoWeWorkWith = [
   { icon: Home, title: "Landlords & Property Investors", desc: "Refurbishments, maintenance, void clears and fire compliance between tenancies." },
@@ -72,7 +69,7 @@ const CommercialEnquiries = () => {
               Whether you need a full refurbishment, ongoing maintenance, fire door installation, or site clearance — we work with landlords, agents, councils, contractors and property managers across London and the South East.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="gold" size="xl" onClick={scrollToForm}>
+              <Button variant="gold" size="xl" onClick={() => scrollToAnchor("enquiry-form")}>
                 Make an Enquiry
               </Button>
               <a href={`tel:${PHONE}`}>
@@ -166,10 +163,10 @@ const CommercialEnquiries = () => {
       </section>
 
       {/* ENQUIRY FORM */}
-      <section id="enquiry-form" className="py-12 bg-muted">
+      <section id="enquiry-form" className="scroll-target py-12 bg-muted">
         <div className="container max-w-[980px] mx-auto">
           <ScrollReveal>
-            <div className="bg-card rounded-xl border border-border p-6 md:p-10 min-h-[600px]">
+            <div className="bg-card rounded-xl border border-border p-6 md:p-10">
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-accent text-center mb-3">
                 Make a Commercial Enquiry
               </h2>
@@ -183,8 +180,8 @@ const CommercialEnquiries = () => {
                 formName="FR Site- Commercial"
                 formId="e6NuUzUMAfN2MKNTqFnI"
                 source="commercial-enquiries"
-                iframeHeight="800px"
-                minHeightClassName="min-h-[800px]"
+                iframeHeight="960px"
+                minHeightClassName="min-h-[960px]"
               />
             </div>
 
@@ -213,7 +210,7 @@ const CommercialEnquiries = () => {
               Fast response. No obligation. Serving London and the South East.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="gold" size="xl" onClick={scrollToForm}>
+              <Button variant="gold" size="xl" onClick={() => scrollToAnchor("enquiry-form")}>
                 Make an Enquiry
               </Button>
               <a href={`tel:${PHONE}`}>

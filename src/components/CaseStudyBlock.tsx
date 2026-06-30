@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import VimeoEmbed from "@/components/VimeoEmbed";
+import { scrollToHref } from "@/lib/scrollToAnchor";
 import { Button } from "@/components/ui/button";
 import type { CaseStudy } from "@/lib/caseStudies";
 
@@ -94,11 +95,23 @@ const CaseStudyBlock = ({
             )}
           </blockquote>
         )}
-        <a href={ctaHref}>
-          <Button variant="gold" size="lg" className="w-full sm:w-auto">
+        {ctaHref.startsWith("#") ? (
+          <Button
+            type="button"
+            variant="gold"
+            size="lg"
+            className="w-full sm:w-auto"
+            onClick={() => scrollToHref(ctaHref)}
+          >
             {ctaLabel} <ArrowRight className="w-5 h-5" />
           </Button>
-        </a>
+        ) : (
+          <Button asChild variant="gold" size="lg" className="w-full sm:w-auto">
+            <a href={ctaHref}>
+              {ctaLabel} <ArrowRight className="w-5 h-5" />
+            </a>
+          </Button>
+        )}
       </div>
     </article>
   );

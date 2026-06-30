@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ArrowRight, ZoomIn, X } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import { scrollToAnchor } from "@/lib/scrollToAnchor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -236,11 +237,15 @@ export const RoofingStreathamCaseStudy = ({ formAnchorId = "roofing-enquiry-form
                   </li>
                 ))}
               </ul>
-              <a href={`#${formAnchorId}`}>
-                <Button variant="gold" size="lg" className="w-full sm:w-auto">
-                  Get a Free Roof Inspection <ArrowRight className="h-5 w-5" />
-                </Button>
-              </a>
+              <Button
+                type="button"
+                variant="gold"
+                size="lg"
+                className="w-full sm:w-auto"
+                onClick={() => scrollToAnchor(formAnchorId)}
+              >
+                Get a Free Roof Inspection <ArrowRight className="h-5 w-5" />
+              </Button>
             </div>
           </ScrollReveal>
 

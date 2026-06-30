@@ -196,8 +196,7 @@ const FireDoorInstallationPage = () => {
                   formName="FR - Fire Doors"
                   formId="LsQfA3LgiKr1TIsl3JSq"
                   source="fire-door-installation-london"
-                  minHeightClassName="min-h-[470px]"
-                  iframeHeight="470px"
+                  iframeHeight="672px"
                 />
 
                 <p className="mt-1 text-center text-xs text-muted-foreground">

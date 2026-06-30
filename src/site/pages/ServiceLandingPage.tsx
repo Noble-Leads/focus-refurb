@@ -5,6 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import CaseStudyBlock from "@/components/CaseStudyBlock";
 import VimeoEmbed from "@/components/VimeoEmbed";
 import type { CaseStudy } from "@/lib/caseStudies";
+import { scrollToAnchor } from "@/lib/scrollToAnchor";
 import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import BrandPattern from "@/components/BrandPattern";
@@ -160,8 +161,10 @@ const HERO_SECTION_PADDING = "pt-below-header pb-12 md:pb-14";
 
 type HeroFormEmbedConfig = NonNullable<ServiceLandingConfig["formEmbed"]>;
 
-const isTallHeroForm = (formEmbed?: HeroFormEmbedConfig) =>
-  formEmbed?.iframeHeight === "800px" || formEmbed?.minHeightClassName?.includes("800") === true;
+const isTallHeroForm = (formEmbed?: HeroFormEmbedConfig) => {
+  const height = Number.parseInt(formEmbed?.iframeHeight ?? "", 10);
+  return height >= 800 || formEmbed?.minHeightClassName?.includes("800") === true;
+};
 
 const HeroFormCard = ({
   formAnchorId,
@@ -180,7 +183,7 @@ const HeroFormCard = ({
 }) => (
   <div
     id={formAnchorId}
-    className="bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
+    className="scroll-target bg-card text-card-foreground rounded-xl border border-border shadow-xl w-full max-w-full min-w-0 p-4 md:p-5 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible"
   >
     <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
@@ -195,11 +198,11 @@ const HeroFormCard = ({
         formName={formEmbed.formName}
         formId={formEmbed.formId}
         source={formEmbed.source}
-        minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
-        iframeHeight={formEmbed.iframeHeight ?? "502px"}
+        minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[672px]"}
+        iframeHeight={formEmbed.iframeHeight ?? "672px"}
       />
     ) : (
-      <div className="min-h-[470px]" aria-hidden="true" />
+      <div className="min-h-[672px]" aria-hidden="true" />
     )}
 
     <p className="mt-2 text-center text-xs text-muted-foreground">
@@ -224,12 +227,12 @@ const CommercialFormBand = ({
   formEmbed?: HeroFormEmbedConfig;
   asideBullets: string[];
 }) => (
-  <section className={`${LANDING_SECTION} relative overflow-hidden bg-secondary content-auto`}>
+  <section className={`${LANDING_SECTION} relative bg-secondary content-auto`}>
     <BrandPattern variant="light" className="opacity-80" />
     <div className="container relative z-10 max-w-6xl">
       <ScrollReveal>
-        <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-lg lg:grid lg:grid-cols-12 lg:items-stretch">
-          <div className="relative overflow-hidden bg-section-dark p-8 md:p-10 lg:col-span-4 lg:p-10 xl:p-12">
+        <div className="rounded-2xl border border-border/70 bg-card shadow-lg lg:grid lg:grid-cols-12 lg:items-stretch">
+          <div className="relative overflow-hidden rounded-t-2xl bg-section-dark p-8 md:p-10 lg:col-span-4 lg:rounded-l-2xl lg:rounded-tr-none lg:p-10 xl:p-12">
             <BrandPattern variant="dark" className="opacity-60" />
             <div className="relative z-10">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
@@ -247,18 +250,18 @@ const CommercialFormBand = ({
                   </li>
                 ))}
               </ul>
-              <a href={`tel:${LANDLINE_TEL}`} className="inline-flex">
-                <Button variant="hero-outline" size="lg" className="gap-2">
+              <Button asChild variant="hero-outline" size="lg" className="gap-2">
+                <a href={`tel:${LANDLINE_TEL}`}>
                   <Phone className="w-4 h-4" />
                   Call {LANDLINE_DISPLAY}
-                </Button>
-              </a>
+                </a>
+              </Button>
             </div>
           </div>
 
           <div
             id={formAnchorId}
-            className="border-t border-border/60 bg-card p-5 sm:p-6 md:p-8 lg:col-span-8 lg:border-l lg:border-t-0 scroll-mt-28 md:scroll-mt-32"
+            className="scroll-target border-t border-border/60 bg-card p-5 sm:p-6 md:p-8 lg:col-span-8 lg:rounded-r-2xl lg:rounded-bl-none lg:border-l lg:border-t-0 scroll-mt-28 md:scroll-mt-32"
           >
             {formEmbed ? (
               <GhlFormEmbed
@@ -268,11 +271,11 @@ const CommercialFormBand = ({
                 formName={formEmbed.formName}
                 formId={formEmbed.formId}
                 source={formEmbed.source}
-                minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[800px]"}
-                iframeHeight={formEmbed.iframeHeight ?? "800px"}
+                minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[960px]"}
+                iframeHeight={formEmbed.iframeHeight ?? "960px"}
               />
             ) : (
-              <div className="min-h-[800px]" aria-hidden="true" />
+              <div className="min-h-[960px]" aria-hidden="true" />
             )}
           </div>
         </div>
@@ -364,14 +367,15 @@ const HeroCopyBlock = ({
       ))}
     </ul>
 
-    <a
-      href={`#${heroCtaTarget}`}
-      className={`block min-w-0 ${stacked ? "mx-auto w-full max-w-sm" : "w-full max-w-full"}`}
+    <Button
+      type="button"
+      variant="gold"
+      size="xl"
+      className={`w-full sm:w-auto min-h-12 px-6 sm:px-10 ${stacked ? "mx-auto max-w-sm" : ""}`}
+      onClick={() => scrollToAnchor(heroCtaTarget)}
     >
-      <Button variant="gold" size="xl" className="w-full sm:w-auto min-h-12 px-6 sm:px-10">
-        {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
-      </Button>
-    </a>
+      {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
+    </Button>
   </div>
 );
 
@@ -495,11 +499,15 @@ const CaseStudySection = ({
                   — {caseStudy.quoteAttribution}
                 </footer>
               </blockquote>
-              <a href={`#${caseStudyCtaTarget}`}>
-                <Button variant="gold" size="xl" className="w-full sm:w-auto">
-                  {caseStudy.ctaLabel} <ArrowRight className="w-5 h-5" />
-                </Button>
-              </a>
+              <Button
+                type="button"
+                variant="gold"
+                size="xl"
+                className="w-full sm:w-auto"
+                onClick={() => scrollToAnchor(caseStudyCtaTarget)}
+              >
+                {caseStudy.ctaLabel} <ArrowRight className="w-5 h-5" />
+              </Button>
             </div>
           </ScrollReveal>
         </div>
@@ -1077,7 +1085,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
             {finalCtaShowForm && (
               <div
                 id={`${formAnchorId}-bottom`}
-                className={`bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 md:max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 overflow-hidden ${
+                className={`scroll-target bg-card text-card-foreground rounded-xl border border-border shadow-xl p-4 md:p-5 w-full max-w-full min-w-0 md:max-w-[800px] mx-auto mb-8 text-left scroll-mt-28 ${
                   finalCtaHideFormOnMobile ? "hidden md:block" : ""
                 }`}
               >
@@ -1096,13 +1104,13 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                     formName={formEmbed.formName}
                     formId={formEmbed.formId}
                     source={formEmbed.source}
-                    minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[470px]"}
-                    iframeHeight={formEmbed.iframeHeight ?? "502px"}
+                    minHeightClassName={formEmbed.minHeightClassName ?? "min-h-[672px]"}
+                    iframeHeight={formEmbed.iframeHeight ?? "672px"}
                   />
                 ) : (
                   <>
                     {/* GHL FORM EMBED HERE */}
-                    <div className="min-h-[470px]" aria-hidden="true" />
+                    <div className="min-h-[672px]" aria-hidden="true" />
                   </>
                 )}
 
@@ -1120,17 +1128,21 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                 mobileOptimizations ? "px-1" : ""
               }`}
             >
-              <a href={`#${formAnchorId}`} className="w-full sm:w-auto">
-                <Button variant="gold" size="xl" className="w-full sm:w-auto">
-                  {finalCtaLabel} <ArrowRight className="w-5 h-5" />
-                </Button>
-              </a>
-              <a href={`tel:${LANDLINE_TEL}`} className="w-full sm:w-auto">
-                <Button variant="hero-outline" size="xl" className="w-full sm:w-auto">
+              <Button
+                type="button"
+                variant="gold"
+                size="xl"
+                className="w-full sm:w-auto"
+                onClick={() => scrollToAnchor(formAnchorId)}
+              >
+                {finalCtaLabel} <ArrowRight className="w-5 h-5" />
+              </Button>
+              <Button asChild variant="hero-outline" size="xl" className="w-full sm:w-auto">
+                <a href={`tel:${LANDLINE_TEL}`}>
                   <Phone className="w-5 h-5" />
                   Call {LANDLINE_DISPLAY}
-                </Button>
-              </a>
+                </a>
+              </Button>
             </div>
           </ScrollReveal>
         </div>

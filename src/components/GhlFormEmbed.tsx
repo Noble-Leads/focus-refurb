@@ -5,6 +5,9 @@ import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
 
+const HEIGHT_BUFFER = 48;
+const MOBILE_TALL_FORM_BOOST = 180;
+
 const ensureGhlEmbedScripts = () => {
   for (const scriptSrc of [GHL_SCRIPT, GHL_SCRIPT_LEGACY]) {
     if (document.querySelector(`script[src="${scriptSrc}"]`)) continue;
@@ -16,12 +19,40 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
-const parseIframeSizerHeight = (data: string, expectedId: string): number | null => {
+const isMobileViewport = () =>
+  typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
+
+const mobileFallbackHeight = (initialHeight: number) => {
+  if (!isMobileViewport()) return initialHeight;
+  if (initialHeight >= 800) return initialHeight + MOBILE_TALL_FORM_BOOST;
+  if (initialHeight >= 650) return initialHeight + 80;
+  return initialHeight;
+};
+
+const iframeSizerIds = (iframeId: string, formId: string) =>
+  new Set([
+    iframeId,
+    formId,
+    `inline-${formId}`,
+    `embedded_iframe_${formId}`,
+    `embedded_iframe_${iframeId}`,
+  ]);
+
+const parseIframeSizerHeight = (
+  data: string,
+  iframeId: string,
+  formId: string,
+): number | null => {
   if (!data.startsWith("[iFrameSizer]")) return null;
   const [id, height] = data.slice(13).split(":");
-  if (id !== expectedId) return null;
+  if (!iframeSizerIds(iframeId, formId).has(id)) return null;
   const parsed = Number.parseInt(height ?? "", 10);
-  return parsed > 0 ? parsed : null;
+  return parsed > 0 ? parsed + HEIGHT_BUFFER : null;
+};
+
+const parseIframeHeight = (iframeHeight: string, fallback: number) => {
+  const parsed = Number.parseInt(iframeHeight, 10);
+  return parsed > 0 ? parsed : fallback;
 };
 
 type GhlFormEmbedProps = {
@@ -46,17 +77,18 @@ const GhlFormEmbed = ({
   formName,
   formId,
   source,
-  iframeHeight = "502px",
-  minHeightClassName = "min-h-[502px]",
+  iframeHeight = "672px",
+  minHeightClassName = "min-h-[672px]",
   wrapperClassName = "",
-  autoResize = false,
+  autoResize = true,
 }: GhlFormEmbedProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [height, setHeight] = useState(() => {
-    const parsed = Number.parseInt(iframeHeight, 10);
-    if (autoResize) return parsed > 0 ? parsed : 520;
-    return parsed > 0 ? parsed : 502;
-  });
+  const initialHeight = parseIframeHeight(iframeHeight, 672);
+  const [height, setHeight] = useState(() => mobileFallbackHeight(initialHeight));
+
+  const applyHeight = (nextHeight: number) => {
+    setHeight((current) => Math.max(current, nextHeight));
+  };
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -72,20 +104,39 @@ const GhlFormEmbed = ({
 
     const onMessage = (event: MessageEvent) => {
       if (typeof event.data !== "string") return;
-      const nextHeight = parseIframeSizerHeight(event.data, iframeId);
-      if (nextHeight) setHeight(nextHeight);
+      const nextHeight = parseIframeSizerHeight(event.data, iframeId, formId);
+      if (nextHeight) applyHeight(nextHeight);
     };
 
+    const fallbackTimers = [800, 2000, 4000].map((delay) =>
+      window.setTimeout(() => {
+        applyHeight(mobileFallbackHeight(initialHeight));
+      }, delay),
+    );
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        applyHeight(mobileFallbackHeight(initialHeight));
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 },
+    );
+    observer.observe(iframe);
+
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, [iframeId, autoResize]);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      fallbackTimers.forEach(window.clearTimeout);
+      observer.disconnect();
+    };
+  }, [iframeId, formId, autoResize, initialHeight]);
 
   const wrapperClasses = autoResize
-    ? `max-w-full min-w-0 ${wrapperClassName}`.trim()
+    ? `max-w-full min-w-0 overflow-visible ${wrapperClassName}`.trim()
     : `max-w-full min-w-0 overflow-hidden ${minHeightClassName} ${wrapperClassName}`.trim();
 
   return (
-    <div className={wrapperClasses} style={autoResize ? { height } : undefined}>
+    <div className={wrapperClasses}>
       <iframe
         ref={iframeRef}
         src={ghlFormSrc(src, source)}
@@ -106,10 +157,12 @@ const GhlFormEmbed = ({
         data-deactivation-type="neverDeactivate"
         data-deactivation-value=""
         data-form-name={formName}
+        data-height={String(mobileFallbackHeight(initialHeight))}
         data-layout-iframe-id={iframeId}
         data-form-id={formId}
         data-initial-iframe-hidden="false"
         title={title}
+        onLoad={() => applyHeight(mobileFallbackHeight(initialHeight))}
       />
     </div>
   );
