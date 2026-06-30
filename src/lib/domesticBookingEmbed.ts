@@ -4,7 +4,6 @@ export const domesticBookingEmbed = {
   iframeId: "jQ4b0DvP1o4PaGcUsxOT_1782828410773",
   scriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
   title: "Book a free quote visit",
-  minHeightClassName: "min-h-[960px]",
 } as const;
 
 export const domesticBookingDefaults = {
