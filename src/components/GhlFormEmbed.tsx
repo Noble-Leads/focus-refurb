@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
-import { useGhlEmbedResize } from "@/lib/ghlEmbedResize";
+import {
+  GHL_COMMERCIAL_MIN_HEIGHT,
+  GHL_FORM_MIN_HEIGHT,
+  ghlEmbedInlineStyle,
+  useGhlEmbedResize,
+} from "@/lib/ghlEmbedResize";
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
@@ -17,8 +22,8 @@ const ensureGhlEmbedScripts = () => {
   }
 };
 
-const parseIframeHeight = (iframeHeight: string, fallback: number) => {
-  const parsed = Number.parseInt(iframeHeight, 10);
+const parseMinHeight = (iframeHeight: string | undefined, fallback: number) => {
+  const parsed = Number.parseInt(iframeHeight ?? "", 10);
   return parsed > 0 ? parsed : fallback;
 };
 
@@ -43,18 +48,20 @@ const GhlFormEmbed = ({
   formName,
   formId,
   source,
-  iframeHeight = "1100px",
+  iframeHeight,
   wrapperClassName = "",
   autoResize = true,
 }: GhlFormEmbedProps) => {
-  const initialHeight = parseIframeHeight(iframeHeight, 1100);
-  const variant = initialHeight >= 1000 ? "commercial" : "form";
+  const defaultMin =
+    iframeHeight && Number.parseInt(iframeHeight, 10) >= 1000
+      ? GHL_COMMERCIAL_MIN_HEIGHT
+      : GHL_FORM_MIN_HEIGHT;
+  const minHeight = parseMinHeight(iframeHeight, defaultMin);
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId: formId,
-    initialHeight,
+    minHeight,
     enabled: autoResize,
-    variant,
   });
 
   useEffect(() => {
@@ -65,8 +72,9 @@ const GhlFormEmbed = ({
     <iframe
       ref={iframeRef}
       src={ghlFormSrc(src, source)}
-      className="ghl-embed-iframe block w-full max-w-full border-0 bg-transparent"
-      scrolling="auto"
+      className="ghl-embed-iframe ghl-embed-iframe--form"
+      style={ghlEmbedInlineStyle(minHeight)}
+      scrolling="yes"
       id={iframeId}
       data-layout='{"id":"INLINE"}'
       data-trigger-type="alwaysShow"
@@ -76,7 +84,7 @@ const GhlFormEmbed = ({
       data-deactivation-type="neverDeactivate"
       data-deactivation-value=""
       data-form-name={formName}
-      data-height={String(initialHeight)}
+      data-height={String(minHeight)}
       data-layout-iframe-id={iframeId}
       data-form-id={formId}
       data-initial-iframe-hidden="false"

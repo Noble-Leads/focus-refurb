@@ -1,17 +1,21 @@
 import { useEffect } from "react";
 import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
-import { parseWidgetId, useGhlEmbedResize } from "@/lib/ghlEmbedResize";
+import {
+  GHL_BOOKING_MIN_HEIGHT,
+  ghlEmbedInlineStyle,
+  parseWidgetId,
+  useGhlEmbedResize,
+} from "@/lib/ghlEmbedResize";
 
 type GhlBookingEmbedProps = {
   src?: string;
   iframeId?: string;
   title?: string;
-  initialHeight?: number;
+  minHeight?: number;
 };
 
 const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
-const DEFAULT_HEIGHT = domesticBookingEmbed.initialHeight;
 
 const ensureGhlEmbedScripts = () => {
   for (const scriptSrc of [GHL_SCRIPT, GHL_SCRIPT_LEGACY]) {
@@ -28,14 +32,13 @@ const GhlBookingEmbed = ({
   src = domesticBookingEmbed.src,
   iframeId = domesticBookingEmbed.iframeId,
   title = domesticBookingEmbed.title,
-  initialHeight = DEFAULT_HEIGHT,
+  minHeight = GHL_BOOKING_MIN_HEIGHT,
 }: GhlBookingEmbedProps) => {
   const widgetId = parseWidgetId(src) ?? domesticBookingEmbed.bookingId;
   const { iframeRef } = useGhlEmbedResize({
     iframeId,
     widgetId,
-    initialHeight,
-    variant: "booking",
+    minHeight,
   });
 
   useEffect(() => {
@@ -48,8 +51,9 @@ const GhlBookingEmbed = ({
       src={src}
       id={iframeId}
       title={title}
-      className="ghl-embed-iframe block w-full max-w-full border-0 bg-transparent"
-      scrolling="auto"
+      className="ghl-embed-iframe ghl-embed-iframe--booking"
+      style={ghlEmbedInlineStyle(minHeight)}
+      scrolling="yes"
       data-initial-iframe-hidden="false"
       data-ghl-embed="true"
       data-layout='{"id":"INLINE"}'
@@ -59,7 +63,7 @@ const GhlBookingEmbed = ({
       data-activation-value=""
       data-deactivation-type="neverDeactivate"
       data-deactivation-value=""
-      data-height={String(initialHeight)}
+      data-height={String(minHeight)}
       data-layout-iframe-id={iframeId}
       data-form-id={widgetId}
     />

@@ -201,24 +201,20 @@
     content-visibility: visible;
   }
 
-  /* GHL embeds must stay measurable — height is set imperatively, not via React */
+  /* GHL embeds on custom sites: min-height + scrolling=yes (see ghlEmbedResize.ts) */
   .ghl-embed-iframe,
   iframe[data-ghl-embed="true"] {
     content-visibility: visible;
-    border: 0;
     width: 100%;
     max-width: 100%;
     display: block;
+    border: none;
     background: transparent;
     box-shadow: none;
-    overflow: auto !important;
+    transition: height 0.2s ease;
   }
 
-  .ghl-embed-iframe[data-ghl-tall="true"] {
-    overflow: auto;
-  }
-
-  /* GHL's embed script wraps iframes — don't clip resized calendar/forms */
+  /* GHL embed script wrapper — don't clip */
   .ep-wrapper,
   [id$="-wrapper"] {
     overflow: visible !important;

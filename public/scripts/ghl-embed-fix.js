@@ -1,107 +1,44 @@
 /**
- * GHL embed iframes: grow-only height, never shrink below data-height, always scrollable.
+ * GHL embed sizing for custom sites (per GHL guidance):
+ * - min-height on iframe so steps don't clip
+ * - scrolling="yes" as fallback
+ * - postMessage height updates from GHL domains
  */
 (function () {
-  var FORM_BUFFER = 80;
-  var BOOKING_BUFFER = 200;
-  var COLLAPSE_FLOOR = 280;
-  var peaks = typeof WeakMap !== "undefined" ? new WeakMap() : null;
-  var guarded = typeof WeakSet !== "undefined" ? new WeakSet() : null;
+  var BUFFER = 48;
+  var TRUSTED = [
+    "msgsndr.com",
+    "leadconnectorhq.com",
+    "gohighlevel.com",
+    "focusrefurbishmentltd.com",
+    "nobleleads.uk",
+  ];
 
-  function readConfiguredHeight(iframe) {
+  function isTrustedOrigin(origin) {
+    for (var i = 0; i < TRUSTED.length; i++) {
+      if (origin.indexOf(TRUSTED[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function readMinHeight(iframe) {
     var dataHeight = parseInt(iframe.getAttribute("data-height") || "", 10);
-    return isNaN(dataHeight) || dataHeight <= 0 ? COLLAPSE_FLOOR : dataHeight;
+    return isNaN(dataHeight) || dataHeight <= 0 ? 900 : dataHeight;
   }
 
-  function bufferFor(iframe) {
-    var src = iframe.getAttribute("src") || "";
-    return src.indexOf("/widget/booking/") !== -1 ? BOOKING_BUFFER : FORM_BUFFER;
-  }
-
-  function readHeight(iframe) {
-    var inline = parseInt(iframe.style.height, 10);
-    var attr = parseInt(iframe.getAttribute("height"), 10);
-    return Math.max(isNaN(inline) ? 0 : inline, isNaN(attr) ? 0 : attr);
-  }
-
-  function getPeak(iframe, minFloor) {
-    if (peaks && peaks.has(iframe)) return peaks.get(iframe);
-    return minFloor;
-  }
-
-  function setPeak(iframe, value) {
-    if (peaks) peaks.set(iframe, value);
-  }
-
-  function setHeight(iframe, height, minFloor) {
-    var floor = minFloor || COLLAPSE_FLOOR;
-    var resolved = Math.max(height, floor, COLLAPSE_FLOOR);
-    setPeak(iframe, resolved);
-
+  function applyHeight(iframe, height) {
+    var minHeight = readMinHeight(iframe);
+    var resolved = Math.max(height + BUFFER, minHeight);
+    iframe.style.width = "100%";
+    iframe.style.minHeight = minHeight + "px";
     iframe.style.height = resolved + "px";
-    iframe.style.minHeight = floor + "px";
-    iframe.style.maxHeight = "none";
+    iframe.style.border = "none";
+    iframe.style.background = "transparent";
+    iframe.style.transition = "height 0.2s ease";
     iframe.setAttribute("height", String(resolved));
     iframe.setAttribute("data-initial-iframe-hidden", "false");
     iframe.style.opacity = "1";
     iframe.style.visibility = "visible";
-    iframe.style.background = "transparent";
-    iframe.style.overflow = "auto";
-    iframe.scrolling = "auto";
-  }
-
-  function enforceHeight(iframe, rawHeight) {
-    var minFloor = readConfiguredHeight(iframe);
-    var target = Math.max(getPeak(iframe, minFloor), rawHeight + bufferFor(iframe), minFloor);
-    setHeight(iframe, target, minFloor);
-
-    window.requestAnimationFrame(function () {
-      setHeight(iframe, target, minFloor);
-    });
-    window.setTimeout(function () {
-      setHeight(iframe, target, minFloor);
-    }, 50);
-    window.setTimeout(function () {
-      setHeight(iframe, target, minFloor);
-    }, 250);
-    window.setTimeout(function () {
-      setHeight(iframe, target, minFloor);
-    }, 1000);
-  }
-
-  function guardIframe(iframe) {
-    if (guarded && guarded.has(iframe)) return;
-    if (guarded) guarded.add(iframe);
-
-    var minFloor = readConfiguredHeight(iframe);
-    setPeak(iframe, minFloor);
-
-    function applyGuard() {
-      var minFloor = readConfiguredHeight(iframe);
-      var peak = getPeak(iframe, minFloor);
-      var current = readHeight(iframe);
-      var target = Math.max(peak, minFloor, current);
-
-      if (current < target) {
-        setHeight(iframe, target, minFloor);
-      }
-
-      if (iframe.style.overflow === "hidden") {
-        iframe.style.overflow = "auto";
-      }
-      if (iframe.getAttribute("scrolling") === "no") {
-        iframe.setAttribute("scrolling", "auto");
-      }
-    }
-
-    applyGuard();
-
-    if (typeof MutationObserver !== "undefined") {
-      var observer = new MutationObserver(applyGuard);
-      observer.observe(iframe, { attributes: true, attributeFilter: ["style", "height"] });
-    }
-
-    window.setInterval(applyGuard, 250);
   }
 
   function findIframeByMessageId(id) {
@@ -126,40 +63,45 @@
     return null;
   }
 
-  function fixAll() {
+  function initIframe(iframe) {
+    applyHeight(iframe, readMinHeight(iframe));
+  }
+
+  function initAll() {
     var iframes = document.querySelectorAll(
       'iframe[src*="/widget/form/"], iframe[src*="/widget/booking/"]',
     );
     for (var i = 0; i < iframes.length; i++) {
-      var iframe = iframes[i];
-      guardIframe(iframe);
-      var minFloor = readConfiguredHeight(iframe);
-      var current = readHeight(iframe);
-      if (current < minFloor) {
-        enforceHeight(iframe, minFloor);
-      }
+      initIframe(iframes[i]);
     }
   }
 
-  function growFromMessage(data) {
-    if (typeof data !== "string" || data.indexOf("[iFrameSizer]") !== 0) return;
-    var parts = data.slice(13).split(":");
-    var id = parts[0];
-    var height = parseInt(parts[1], 10);
-    if (!id || isNaN(height) || height <= 0) return;
+  function handleMessage(event) {
+    if (!isTrustedOrigin(event.origin)) return;
 
-    var iframe = findIframeByMessageId(id);
-    if (!(iframe instanceof HTMLIFrameElement)) return;
+    if (typeof event.data === "string" && event.data.indexOf("[iFrameSizer]") === 0) {
+      var parts = event.data.slice(13).split(":");
+      var id = parts[0];
+      var height = parseInt(parts[1], 10);
+      if (!id || isNaN(height) || height <= 0) return;
+      var iframe = findIframeByMessageId(id);
+      if (iframe) applyHeight(iframe, height);
+      return;
+    }
 
-    enforceHeight(iframe, height);
+    if (event.data && typeof event.data === "object" && event.data.height) {
+      var h = parseInt(event.data.height, 10);
+      if (isNaN(h) || h <= 0) return;
+      var target = null;
+      if (event.data.id) target = findIframeByMessageId(String(event.data.id));
+      if (!target) {
+        target = document.querySelector('iframe[data-ghl-embed="true"]');
+      }
+      if (target) applyHeight(target, h);
+    }
   }
 
-  window.addEventListener("message", function (event) {
-    growFromMessage(event.data);
-  });
-
-  window.setInterval(fixAll, 400);
-
-  document.addEventListener("DOMContentLoaded", fixAll);
-  window.addEventListener("load", fixAll);
+  window.addEventListener("message", handleMessage, false);
+  document.addEventListener("DOMContentLoaded", initAll);
+  window.addEventListener("load", initAll);
 })();
