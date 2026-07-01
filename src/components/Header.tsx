@@ -283,9 +283,11 @@ const Header = () => {
   const lastScrolledRef = useRef(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLElement>(null);
-  const [pathname, setPathname] = useState(() =>
-    typeof window !== "undefined" ? window.location.pathname : ""
-  );
+  const [pathname, setPathname] = useState("");
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
 
   const closeMobileMenu = useCallback(() => {
     setMobileOpen(false);

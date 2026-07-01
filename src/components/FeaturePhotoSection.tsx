@@ -24,7 +24,7 @@ const FeaturePhotoSection = ({
 }: FeaturePhotoSectionProps) => (
   <section
     id={anchorId}
-    className={`py-10 md:py-14 bg-background content-auto${anchorId ? " scroll-mt-32 md:scroll-mt-36" : ""}`}
+    className={`py-10 md:py-14 bg-background content-auto${anchorId ? " scroll-target scroll-mt-32 md:scroll-mt-36" : ""}`}
   >
     <div className="container max-w-6xl">
       <div

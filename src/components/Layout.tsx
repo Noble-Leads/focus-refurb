@@ -6,9 +6,7 @@ import CookieConsent from "./CookieConsent";
 import { scrollToHashOnLoad } from "@/lib/scrollToAnchor";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const [pathname, setPathname] = useState(() =>
-    typeof window !== "undefined" ? window.location.pathname : ""
-  );
+  const [pathname, setPathname] = useState("");
 
   useEffect(() => {
     setPathname(window.location.pathname);

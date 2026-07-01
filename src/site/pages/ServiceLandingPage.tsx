@@ -396,7 +396,7 @@ const CaseStudiesSection = ({
   return (
     <section
       id={sectionId}
-      className={`${LANDING_SECTION} bg-secondary content-auto scroll-mt-32 md:scroll-mt-36`}
+      className={`${LANDING_SECTION} bg-secondary content-auto scroll-target scroll-mt-32 md:scroll-mt-36`}
     >
       <div className="container max-w-6xl">
         <ScrollReveal>
@@ -452,7 +452,7 @@ const CaseStudySection = ({
   return (
     <section
       id={caseStudy.anchorId}
-      className={`${LANDING_SECTION} bg-secondary content-auto scroll-mt-32 md:scroll-mt-36`}
+      className={`${LANDING_SECTION} bg-secondary content-auto scroll-target scroll-mt-32 md:scroll-mt-36`}
     >
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
