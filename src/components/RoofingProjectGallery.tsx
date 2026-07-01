@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type TouchEvent as ReactTouchEvent } from "react";
 import { createPortal } from "react-dom";
-import { ArrowRight, ZoomIn, X } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, ZoomIn, X } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
@@ -68,27 +68,67 @@ const parapetPhotos: GalleryImage[] = [
 ];
 
 type ImageLightboxProps = {
-  image: GalleryImage | null;
+  images: GalleryImage[];
+  index: number | null;
+  onNavigate: (index: number) => void;
   onClose: () => void;
 };
 
-const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => {
+const SWIPE_THRESHOLD_PX = 40;
+
+const ImageLightbox = ({ images, index, onNavigate, onClose }: ImageLightboxProps) => {
   const [mounted, setMounted] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const isOpen = index !== null;
+  const image = isOpen ? images[index] : null;
+
+  const goTo = useCallback(
+    (nextIndex: number) => {
+      if (images.length === 0) return;
+      onNavigate((nextIndex + images.length) % images.length);
+    },
+    [images.length, onNavigate],
+  );
+
   useEffect(() => {
-    if (!image) return;
+    if (!isOpen || index === null) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") goTo(index + 1);
+      if (event.key === "ArrowLeft") goTo(index - 1);
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [image, onClose]);
+  }, [isOpen, index, goTo, onClose]);
 
-  if (!image || !mounted) return null;
+  if (!isOpen || !image || index === null || !mounted) return null;
+
+  const showNav = images.length > 1;
+
+  const handleTouchStart = (event: ReactTouchEvent) => {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: ReactTouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD_PX || Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+    event.preventDefault();
+    goTo(deltaX < 0 ? index + 1 : index - 1);
+  };
 
   return createPortal(
     <div
@@ -97,6 +137,8 @@ const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => {
       aria-modal="true"
       aria-label="Enlarged project photo"
       onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       <button
         type="button"
@@ -106,12 +148,47 @@ const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => {
       >
         <X className="h-5 w-5" />
       </button>
+
+      {showNav && (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            goTo(index - 1);
+          }}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/15 p-2 text-white hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          aria-label="Previous photo"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+      )}
+
       <img
         src={image.src}
         alt={image.alt}
-        className="max-h-[90vh] max-w-[min(95vw,1200px)] rounded-lg object-contain"
+        className="max-h-[90vh] max-w-[min(95vw,1200px)] touch-pan-y select-none rounded-lg object-contain"
         onClick={(event) => event.stopPropagation()}
       />
+
+      {showNav && (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            goTo(index + 1);
+          }}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/15 p-2 text-white hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          aria-label="Next photo"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
+      )}
+
+      {showNav && (
+        <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/70">
+          {index + 1} / {images.length}
+        </p>
+      )}
     </div>,
     document.body,
   );
@@ -124,18 +201,14 @@ type PhotoPanelProps = {
 
 const PhotoPanel = ({ caption, images }: PhotoPanelProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const activeImage = images[activeIndex] ?? images[0];
-
-  const openLightbox = (image: GalleryImage) => {
-    setLightboxImage(image);
-  };
 
   return (
     <div>
       <button
         type="button"
-        onClick={() => openLightbox(activeImage)}
+        onClick={() => setLightboxOpen(true)}
         className="group relative mb-3 w-full cursor-pointer overflow-hidden rounded-lg border border-border shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
         aria-label="View larger image"
       >
@@ -168,7 +241,7 @@ const PhotoPanel = ({ caption, images }: PhotoPanelProps) => {
             type="button"
             onClick={() => {
               setActiveIndex(index);
-              openLightbox(image);
+              setLightboxOpen(true);
             }}
             className={cn(
               "relative cursor-pointer overflow-hidden rounded border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
@@ -194,7 +267,12 @@ const PhotoPanel = ({ caption, images }: PhotoPanelProps) => {
         ))}
       </div>
 
-      <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
+      <ImageLightbox
+        images={images}
+        index={lightboxOpen ? activeIndex : null}
+        onNavigate={setActiveIndex}
+        onClose={() => setLightboxOpen(false)}
+      />
     </div>
   );
 };
@@ -288,18 +366,18 @@ export const RoofingStreathamCaseStudy = ({ formAnchorId = "roofing-enquiry-form
 };
 
 export const RoofingParapetCaseStudy = () => {
-  const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
     <section className={`${LANDING_SECTION} border-t border-border bg-secondary [content-visibility:visible]`}>
       <div className="container max-w-6xl">
         <article className="grid items-center gap-8 md:grid-cols-2 lg:gap-12">
           <div className="order-2 grid grid-cols-2 gap-3 md:order-1">
-            {parapetPhotos.map((image) => (
+            {parapetPhotos.map((image, index) => (
               <button
                 key={image.src}
                 type="button"
-                onClick={() => setLightboxImage(image)}
+                onClick={() => setLightboxIndex(index)}
                 className="group relative cursor-pointer overflow-hidden rounded-lg border border-border shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 aria-label={`View larger: ${image.alt}`}
               >
@@ -346,7 +424,12 @@ export const RoofingParapetCaseStudy = () => {
         </article>
       </div>
 
-      <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
+      <ImageLightbox
+        images={parapetPhotos}
+        index={lightboxIndex}
+        onNavigate={setLightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+      />
     </section>
   );
 };
