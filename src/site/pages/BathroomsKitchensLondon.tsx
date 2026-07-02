@@ -78,7 +78,7 @@ const bathroomsKitchensConfig: ServiceLandingConfig = {
     { icon: Home, title: "Landlord Void Refits", subtitle: "Fast turnaround between lets" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "bathrooms-kitchens" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",

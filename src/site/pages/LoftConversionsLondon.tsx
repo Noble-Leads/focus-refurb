@@ -78,7 +78,7 @@ const loftConversionsConfig: ServiceLandingConfig = {
     { icon: PenTool, title: "Full Design & Planning Support", subtitle: "Layouts, specs and building regs" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "loft-conversions" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",

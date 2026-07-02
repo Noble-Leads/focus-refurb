@@ -78,7 +78,7 @@ const gardenRoomsConfig: ServiceLandingConfig = {
     { icon: PenTool, title: "Planning Advice", subtitle: "Permitted development guidance" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "summer-houses-annexes" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",

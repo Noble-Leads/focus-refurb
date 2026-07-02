@@ -47,7 +47,7 @@ const DomesticBookingSection = ({
       </ScrollReveal>
 
       <ScrollReveal>
-        <GhlBookingEmbed />
+        <GhlBookingEmbed src={`${domesticBookingEmbed.src}?utm_source=domestic-hub`} />
         <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">
           Prefer to call?{" "}
           <a href="tel:02046340020" className="text-gold font-semibold hover:underline">

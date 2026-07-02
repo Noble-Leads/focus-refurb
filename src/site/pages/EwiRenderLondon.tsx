@@ -78,7 +78,7 @@ const ewiRenderConfig: ServiceLandingConfig = {
     { icon: Shield, title: "Landlord Exterior Upgrades", subtitle: "Portfolio properties" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "ewi-render" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",

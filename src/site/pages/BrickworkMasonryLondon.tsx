@@ -78,7 +78,7 @@ const brickworkConfig: ServiceLandingConfig = {
     { icon: Shield, title: "Landlord Portfolio Work", subtitle: "Multiple properties" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "brickwork-masonry" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",

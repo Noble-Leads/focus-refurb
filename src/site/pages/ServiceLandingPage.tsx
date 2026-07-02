@@ -149,6 +149,8 @@ export type ServiceLandingConfig = {
     anchorId?: string;
     heading?: string;
     subheading?: string;
+    /** Appended as ?utm_source= so GHL logs which service page the booking came from */
+    utmSource?: string;
   };
 };
 
@@ -175,6 +177,7 @@ const HeroFormCard = ({
   heroFormSubtitle,
   formEmbed,
   useBooking = false,
+  bookingSrc = domesticBookingEmbed.src,
   iframeIdSuffix = "",
 }: {
   formAnchorId: string;
@@ -182,6 +185,7 @@ const HeroFormCard = ({
   heroFormSubtitle: string;
   formEmbed?: HeroFormEmbedConfig;
   useBooking?: boolean;
+  bookingSrc?: string;
   iframeIdSuffix?: string;
 }) => (
   <div
@@ -194,7 +198,7 @@ const HeroFormCard = ({
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
 
     {useBooking ? (
-      <GhlBookingEmbed iframeId={`${domesticBookingEmbed.iframeId}${iframeIdSuffix}`} />
+      <GhlBookingEmbed src={bookingSrc} iframeId={`${domesticBookingEmbed.iframeId}${iframeIdSuffix}`} />
     ) : formEmbed ? (
       <GhlFormEmbed
         src={formEmbed.src}
@@ -611,6 +615,9 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   const heroCardTitle = bookingConfig?.heading ?? heroFormTitle;
   const heroCardSubtitle = bookingConfig?.subheading ?? heroFormSubtitle;
   const heroCardAnchorId = bookingConfig?.anchorId ?? formAnchorId;
+  const bookingSrc = bookingConfig && "utmSource" in bookingConfig && bookingConfig.utmSource
+    ? `${domesticBookingEmbed.src}?utm_source=${encodeURIComponent(bookingConfig.utmSource)}`
+    : domesticBookingEmbed.src;
   const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
   const caseStudyAfterValueCards = caseStudy?.placement === "afterValueCards";
   const stackedHeroForm = heroFormLayout === "stacked" || (heroFormLayout !== "split" && isTallHeroForm(formEmbed));
@@ -682,6 +689,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                   heroFormSubtitle={heroCardSubtitle}
                   formEmbed={bookingConfig ? undefined : formEmbed}
                   useBooking={!!bookingConfig}
+                  bookingSrc={bookingSrc}
                 />
               </ScrollReveal>
             </div>

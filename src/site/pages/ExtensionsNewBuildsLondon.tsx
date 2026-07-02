@@ -78,7 +78,7 @@ const extensionsConfig: ServiceLandingConfig = {
     { icon: PenTool, title: "Design & Planning Support", subtitle: "Layouts, drawings and applications" },
   ],
   showVideoSection: false,
-  domesticBooking: true,
+  domesticBooking: { utmSource: "extensions-new-builds" },
   featurePhoto: {
     placement: "afterValueCards",
     eyebrow: "Our work",
