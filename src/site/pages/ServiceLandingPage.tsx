@@ -105,6 +105,8 @@ export type ServiceLandingConfig = {
   showBottomStrip?: boolean;
   /** Link to the equivalent page for the other audience (commercial ↔ domestic) */
   audienceAltLink?: { prefix: string; label: string; href: string };
+  /** Also surface audienceAltLink as a subtle link in the hero, for visitors who landed on the wrong audience's page */
+  heroAudienceAltLink?: boolean;
   positiveProblemBullets?: boolean;
   caseStudy?: {
     label: string;
@@ -304,6 +306,7 @@ const HeroCopyBlock = ({
   heroCtaLabel,
   heroCtaTarget,
   stacked = false,
+  audienceAltLink,
 }: {
   heroEyebrow: string;
   heroHeadline: string;
@@ -314,6 +317,7 @@ const HeroCopyBlock = ({
   heroCtaLabel: string;
   heroCtaTarget: string;
   stacked?: boolean;
+  audienceAltLink?: { prefix: string; label: string; href: string };
 }) => (
   <div
     className={
@@ -379,6 +383,18 @@ const HeroCopyBlock = ({
     >
       {heroCtaLabel} <ArrowRight className="w-5 h-5 shrink-0" />
     </Button>
+
+    {audienceAltLink && (
+      <p className="mt-4 text-xs sm:text-sm text-hero-muted/80">
+        {audienceAltLink.prefix}{" "}
+        <a
+          href={audienceAltLink.href}
+          className="text-hero-muted underline underline-offset-2 hover:text-gold"
+        >
+          {audienceAltLink.label}
+        </a>
+      </p>
+    )}
   </div>
 );
 
@@ -566,6 +582,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
     bottomStrip,
     showBottomStrip = true,
     audienceAltLink,
+    heroAudienceAltLink = false,
     positiveProblemBullets = false,
     caseStudy,
     roofingProjectGallery,
@@ -640,6 +657,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                 heroCtaLabel={heroCtaLabel}
                 heroCtaTarget={heroCtaTarget}
                 stacked
+                audienceAltLink={heroAudienceAltLink ? audienceAltLink : undefined}
               />
             </ScrollReveal>
           ) : (
@@ -654,6 +672,7 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                   heroBullets={heroBullets}
                   heroCtaLabel={heroCtaLabel}
                   heroCtaTarget={heroCtaTarget}
+                  audienceAltLink={heroAudienceAltLink ? audienceAltLink : undefined}
                 />
               </ScrollReveal>
               <ScrollReveal instant className="lg:col-span-6 min-w-0 max-w-full overflow-visible">

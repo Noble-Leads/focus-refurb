@@ -168,6 +168,7 @@ const commercialPaintingConfig: ServiceLandingConfig = {
     label: "See domestic painting & decorating →",
     href: "/domestic/painting-decorating-london",
   },
+  heroAudienceAltLink: true,
 };
 
 const CommercialPaintingDecoratingLondonPage = () => (

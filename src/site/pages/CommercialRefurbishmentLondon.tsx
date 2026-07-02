@@ -170,6 +170,7 @@ const commercialRefurbishmentConfig: ServiceLandingConfig = {
     label: "See domestic refurbishment →",
     href: "/domestic/refurbishment-london",
   },
+  heroAudienceAltLink: true,
 };
 
 const CommercialRefurbishmentLondonPage = () => (
