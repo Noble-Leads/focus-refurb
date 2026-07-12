@@ -5,6 +5,11 @@ import ServiceLandingPage, { type ServiceLandingConfig } from "./ServiceLandingP
 const domesticPaintingConfig: ServiceLandingConfig = {
   formAnchorId: "book-quote-visit",
   mobileOptimizations: true,
+  heroImage: {
+    src: "/images/hero-painting-decorating.png",
+    alt: "Focus Refurbishment painters decorating a bright interior — roller and detail brush work in progress",
+    objectPosition: "object-[center_40%]",
+  },
   heroEyebrow: "Painting & Decorating London",
   heroHeadline: "Painting & Decorating London — Interior & Exterior for Homes Across London & Kent",
   heroHeadlineMobile: "Painting & Decorating London",

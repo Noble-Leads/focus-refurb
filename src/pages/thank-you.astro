@@ -35,16 +35,19 @@ import ThankYouPage from "../site/pages/ThankYou";
         window.gtag("event", "generate_lead", {
           source: "website_enquiry_form",
         });
-
-        // Conversion is imported from GA4 — no direct Google Ads tag needed.
-        // Google Ads picks up form_submission automatically via the GA4 import.
       }
 
-      // GTM loads async — wait for it if not ready yet
-      if (typeof window.gtag === "function") {
+      // Fire only after gtag.js has fully loaded and configured GA4/Ads.
+      // The stub (window.gtag) exists immediately but events sent before
+      // gtag("config") runs are not attributed to any property.
+      if (window.__gtagLoaded) {
         fireConversions();
       } else {
-        window.addEventListener("load", fireConversions);
+        window.addEventListener("gtag:loaded", fireConversions, { once: true });
+        // Fallback: if the script loaded before this listener registered
+        window.addEventListener("load", function () {
+          if (window.__gtagLoaded) fireConversions();
+        }, { once: true });
       }
     })();
   </script>

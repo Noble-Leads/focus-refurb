@@ -14,6 +14,11 @@ const commercialPaintingConfig: ServiceLandingConfig = {
   formAnchorId: "commercial-painting-enquiry-form",
   mobileOptimizations: true,
   heroFormLayout: "stacked",
+  heroImage: {
+    src: "/images/hero-painting-decorating.png",
+    alt: "Focus Refurbishment team painting and decorating a commercial interior in London",
+    objectPosition: "object-[center_40%]",
+  },
   heroEyebrow: "Commercial Painting London",
   heroHeadline: "Commercial Painting London — Voids, HMOs, Portfolios & Communal Areas",
   heroSubheading:
