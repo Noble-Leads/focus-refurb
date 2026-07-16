@@ -10,7 +10,7 @@ const CTA_DISPLAY = LANDLINE_DISPLAY;
 const CTA_TEL = LANDLINE_TEL;
 
 const heroPoints = [
-  "FD30 & FD60 supply, installation & replacement",
+  "Internal & external FD30 & FD60 supply & installation",
   "Fire door surveys, maintenance & remedial works",
   "Intumescent strips, smoke seals & door-set hardware",
   "Compliance documentation on completion",
@@ -53,6 +53,10 @@ const processSteps = [
 ];
 
 const faqs = [
+  {
+    q: "Do you install internal and external fire doors?",
+    a: "Yes. We supply and fit both internal fire doors (flat entrance, common-part and room doors) and external fire-rated doorsets across London and the M25. Every door is installed to FD30 or FD60 standard with the correct intumescent strips, smoke seals, closers and frames, and you receive full compliance documentation on completion.",
+  },
   {
     q: "Do you offer fire door inspection in London?",
     a: "Yes. We carry out fire door surveys for landlords, agents and commercial property owners — checking gaps, hinges, frames, closers, intumescent strips and signage. For residential buildings over 11 metres, London Fire Brigade guidance recommends annual checks on flat entrance doors and quarterly checks on common-part fire doors. We can carry out one-off surveys or scheduled programmes across portfolios, and we carry out remedial works and replacements where needed.",
@@ -159,7 +163,7 @@ const FireDoorInstallationPage = () => {
                 Fire Door Installers London
               </p>
               <h1 className="font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl break-words text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-                Fire Door Installers London — Supply, Installation & Compliance
+                Fire Door Installation London — Internal &amp; External FD30 &amp; FD60
               </h1>
               <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-5 md:mb-6 max-w-xl">
                 Experienced fire door installers for landlords, estate agents and commercial clients across London and the M25 — FD30 and FD60 supply, installation, surveys, maintenance and replacement with compliance documentation on completion.
