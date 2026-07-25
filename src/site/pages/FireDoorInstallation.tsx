@@ -228,6 +228,38 @@ const FireDoorInstallationPage = () => {
         </div>
       </section>
 
+      <section className="py-12 md:py-16 bg-secondary">
+        <div className="container max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <ScrollReveal>
+              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
+                Approved installers
+              </p>
+              <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-foreground mb-3">
+                Compliant Fire Doors for Landlords & Property Managers
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                FD30 and FD60 supply, installation and certification — with documentation provided on completion for your compliance records.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal>
+              <div className="rounded-lg border border-border overflow-hidden shadow-md">
+                <img
+                  src="/images/service-firedoors.png"
+                  alt="Fire door installation by Focus Refurbishment in London"
+                  width={800}
+                  height={600}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-background">
         <div className="container">
           <ScrollReveal>
@@ -304,38 +336,6 @@ const FireDoorInstallationPage = () => {
                 </div>
               </ScrollReveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 bg-secondary">
-        <div className="container max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <ScrollReveal>
-              <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">
-                Approved installers
-              </p>
-              <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-foreground mb-3">
-                Compliant Fire Doors for Landlords & Property Managers
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                FD30 and FD60 supply, installation and certification — with documentation provided on completion for your compliance records.
-              </p>
-            </ScrollReveal>
-            <ScrollReveal>
-              <div className="rounded-lg border border-border overflow-hidden shadow-md">
-                <img
-                  src="/images/service-firedoors.png"
-                  alt="Fire door installation by Focus Refurbishment in London"
-                  width={800}
-                  height={600}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="w-full aspect-[4/3] object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
