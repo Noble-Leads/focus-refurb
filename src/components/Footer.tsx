@@ -3,6 +3,7 @@ import { openCookiePreferences } from "./CookieConsent";
 
 const serviceLinks = [
   { label: "Fire Door Installation", path: "/fire-door-installation-london" },
+  { label: "Fire Stopping", path: "/fire-stopping-london" },
   { label: "Roof Repair & Replacement", path: "/roofing-london" },
   { label: "Full Refurbishment", path: "/domestic/refurbishment-london" },
   { label: "Painting & Decorating", path: "/domestic/painting-decorating-london" },

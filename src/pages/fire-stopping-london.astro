@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageShell from "../components/PageShell";
+import FireStoppingPage from "../site/pages/FireStopping";
+
+const fireStoppingJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Fire Stopping & Passive Fire Protection London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "02046340020",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "South West London", "Central London", "Kent"],
+    description:
+      "Fire stopping and passive fire protection across London and the M25. Penetration sealing, fire batts, collars, compartmentation surveys and FRA remedial works with documentation on completion.",
+    serviceType: "Fire Stopping",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is fire stopping?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Fire stopping is the sealing of gaps, joints and service penetrations in fire-rated walls and floors so a building's compartmentation works as designed. When pipes, cables or ducts pass through a compartment wall, the hole around them must be sealed with a tested fire stopping system — otherwise smoke and fire can spread between compartments long before the wall itself fails.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is passive fire protection?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Passive fire protection is the built-in fabric of a building that contains fire without any moving parts or activation — compartment walls and floors, fire doors, fire stopping and dampers. It works alongside active measures like alarms and sprinklers. Fire stopping and fire doors are the two passive measures most commonly flagged in fire risk assessments, and we carry out both.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you carry out compartmentation surveys?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We survey walls, floors, risers, ceiling voids and service routes to identify breaches in compartmentation, and provide a documented schedule of what needs sealing. We can survey a single property or run programmes across blocks and portfolios.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can you carry out the remedial works from our fire risk assessment?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes — FRA remedial works are a core part of what we do. Send us the relevant actions from your fire risk assessment and we'll quote for closing them out, including penetration sealing, fire batts, collars and associated fire door works if flagged.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What do you seal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Typical works include pipe and cable penetrations, cable tray routes, duct penetrations, gaps around steelwork, linear joints, service riser openings and holes left by removed services — in fire-rated walls, floors and ceilings. Every seal uses a tested system appropriate to the substrate, the service and the fire rating required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you also install fire doors?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes — fire door installation, surveys and remedial works are one of our core services. Fire doors and fire stopping together cover most of the passive fire protection actions raised in a fire risk assessment, and we can handle both under one contract.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What documentation do I receive?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You receive records of the works completed — what was sealed, where, and with what system — suitable as evidence for your fire risk assessment, compliance file and building safety records.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What areas do you cover?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We cover London and the South East, including all areas within the M25.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is there a minimum job size?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Our minimum call-out is £300. For surveys and multi-property programmes, we'll agree scope and pricing up front.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Fire Stopping London | Passive Fire Protection & Compartmentation"
+  description="Fire stopping in London — penetration sealing, fire batts, collars, compartmentation surveys and FRA remedial works for landlords, housing associations and facilities managers. Documentation on completion."
+  canonicalUrl="https://focusrefurbishmentltd.com/fire-stopping-london"
+  ogTitle="Fire Stopping London | Passive Fire Protection & Compartmentation"
+  ogDescription="Fire stopping in London — penetration sealing, fire batts, collars, compartmentation surveys and FRA remedial works for landlords, housing associations and facilities managers. Documentation on completion."
+  ogUrl="https://focusrefurbishmentltd.com/fire-stopping-london"
+  extraJsonLd={fireStoppingJsonLd}
+  preconnectOrigins={["https://link.nobleleads.uk"]}
+>
+  <PageShell client:load>
+    <FireStoppingPage client:load />
+  </PageShell>
+</Layout>

@@ -69,7 +69,7 @@ const faqs = [
   },
   {
     q: "Do you provide compartmentation fire stopping?",
-    a: "Our work focuses on fire door supply, installation and door-set sealing — intumescent strips, smoke seals, closers and hardware. Specialist passive fire stopping around pipes, cables and service penetrations in walls and floors is a separate discipline. If your project needs that scope, tell us when you enquire and we can advise or coordinate with the right specialists.",
+    a: "Yes. Alongside fire doors we carry out fire stopping — sealing pipe, cable and duct penetrations, fire batts, collars and compartmentation surveys — so most passive fire protection actions on a fire risk assessment can be handled under one contract. See our fire stopping page for full details.",
   },
   {
     q: "Do you replace existing fire doors?",
@@ -462,6 +462,10 @@ const FireDoorInstallationPage = () => {
       </section>
       <section className="bg-background py-8">
         <div className="container text-center">
+          <a href="/fire-stopping-london" className="text-gold font-semibold hover:underline">
+            Fire stopping &amp; compartmentation →
+          </a>
+          <span className="mx-3 text-muted-foreground">·</span>
           <a href="/building-maintenance-london" className="text-gold font-semibold hover:underline">
             Need ongoing property maintenance too? See our maintenance services →
           </a>
