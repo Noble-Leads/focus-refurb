@@ -3,6 +3,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
 import HeroBackdrop from "@/components/HeroBackdrop";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const LANDLINE_DISPLAY = "020 4634 0020";
 const LANDLINE_TEL = "02046340020";
@@ -406,16 +412,20 @@ const FireDoorInstallationPage = () => {
               Frequently Asked Questions
             </h2>
           </ScrollReveal>
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <ScrollReveal key={faq.q}>
-                <div className="bg-card rounded-lg border border-border p-6">
-                  <h3 className="font-heading font-bold text-foreground mb-2">{faq.q}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
+          <ScrollReveal>
+            <Accordion type="single" collapsible className="bg-card rounded-lg border border-border px-6">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.q} value={`faq-${index}`} className="border-border">
+                  <AccordionTrigger className="text-left font-heading font-bold text-foreground hover:no-underline gap-3 py-5">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </ScrollReveal>
         </div>
       </section>
 
