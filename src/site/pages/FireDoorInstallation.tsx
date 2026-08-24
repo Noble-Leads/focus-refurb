@@ -9,9 +9,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { FIRE_DOOR_PHONE_DISPLAY, FIRE_DOOR_PHONE_TEL } from "@/lib/navigation";
 
-const LANDLINE_DISPLAY = "020 4634 0020";
-const LANDLINE_TEL = "02046340020";
+const LANDLINE_DISPLAY = FIRE_DOOR_PHONE_DISPLAY;
+const LANDLINE_TEL = FIRE_DOOR_PHONE_TEL;
 const CTA_DISPLAY = LANDLINE_DISPLAY;
 const CTA_TEL = LANDLINE_TEL;
 
@@ -171,8 +172,15 @@ const FireDoorInstallationPage = () => {
               <h1 className="font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl break-words text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
                 Fire Door Installation London — Internal &amp; External FD30 &amp; FD60
               </h1>
-              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-5 md:mb-6 max-w-xl">
+              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-2 max-w-xl">
                 Experienced fire door installers for landlords, estate agents and commercial clients across London and the M25 — FD30 and FD60 supply, installation, surveys, maintenance and replacement with compliance documentation on completion.
+              </p>
+              <p className="text-hero-muted/70 text-xs sm:text-sm mb-5 md:mb-6 max-w-xl">
+                Only need 1-3 doors done? Get a{" "}
+                <a href="/domestic/fire-door-replacement-flats-london" className="text-gold underline hover:no-underline">
+                  fixed price from a photo
+                </a>{" "}
+                instead.
               </p>
 
               <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-5 md:mb-6">
@@ -462,6 +470,10 @@ const FireDoorInstallationPage = () => {
       </section>
       <section className="bg-background py-8">
         <div className="container text-center">
+          <a href="/domestic/fire-door-replacement-flats-london" className="text-gold font-semibold hover:underline">
+            Only need 1-3 doors done? Get a fixed price from a photo →
+          </a>
+          <span className="mx-3 text-muted-foreground">·</span>
           <a href="/fire-stopping-london" className="text-gold font-semibold hover:underline">
             Fire stopping &amp; compartmentation →
           </a>

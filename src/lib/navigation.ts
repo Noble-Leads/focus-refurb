@@ -15,6 +15,7 @@ export const commercialServices: NavLink[] = [
 export const domesticServices: NavLink[] = [
   { label: "Extensions & New Builds", path: getServiceLearnMoreHref("Extensions & New Builds"), description: "Rear, side and wrap-around extensions" },
   { label: "Loft Conversions", path: getServiceLearnMoreHref("Loft Conversions"), description: "Extra bedrooms, offices and living space" },
+  { label: "Fire Doors", path: "/domestic/fire-door-replacement-flats-london", description: "Fixed price, same-day quote, no site visit" },
   { label: "Full Refurbishment", path: "/domestic/refurbishment-london", description: "Whole-home renovations and upgrades" },
   { label: "Bathrooms & Kitchens", path: getServiceLearnMoreHref("Bathrooms & Kitchens"), description: "Bespoke design and installation" },
   { label: "Roofing", path: "/roofing-london", description: "Repairs and full replacements" },
@@ -45,3 +46,11 @@ export const isCommercialPath = (pathname: string) =>
 
 export const isDomesticPath = (pathname: string) =>
   pathname === "/domestic" || pathname.startsWith("/domestic/");
+
+/** Dedicated call-tracking line — shown instead of the main office numbers on fire door pages. */
+export const FIRE_DOOR_PHONE_DISPLAY = "07426 474899";
+export const FIRE_DOOR_PHONE_TEL = "07426474899";
+
+export const isFireDoorPath = (pathname: string) =>
+  pathname === "/fire-door-installation-london" ||
+  pathname === "/domestic/fire-door-replacement-flats-london";

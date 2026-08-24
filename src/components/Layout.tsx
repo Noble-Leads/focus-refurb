@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import CookieConsent from "./CookieConsent";
 import { scrollToHashOnLoad } from "@/lib/scrollToAnchor";
+import { isFireDoorPath, FIRE_DOOR_PHONE_TEL } from "@/lib/navigation";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const [pathname, setPathname] = useState("");
@@ -31,6 +32,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
     pathname === "/brickwork-masonry-london" ||
     pathname === "/ewi-render-london" ||
     pathname === "/building-maintenance-london";
+
+  const fireDoorActive = isFireDoorPath(pathname);
+  const stickyCallTel = fireDoorActive ? FIRE_DOOR_PHONE_TEL : "02046340020";
 
   return (
     <div className="min-h-screen flex flex-col relative max-w-full">
@@ -61,7 +65,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <div className="container py-3">
           <div className={`grid gap-3 ${isFormPage ? "grid-cols-1" : "grid-cols-2"}`}>
             <a
-              href="tel:02046340020"
+              href={`tel:${stickyCallTel}`}
               className="inline-flex items-center justify-center rounded-md bg-gold px-4 py-2.5 text-sm font-semibold text-section-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <Phone className="mr-1.5 h-4 w-4 shrink-0" aria-hidden="true" />

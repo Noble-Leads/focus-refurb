@@ -148,7 +148,7 @@ const buildingMaintenanceConfig: ServiceLandingConfig = {
     },
     {
       q: "Do you offer 24-hour emergency maintenance?",
-      a: "Yes. We operate 24-hour emergency callouts for urgent issues — active leaks, storm damage, security problems and tenant safety concerns. Call 020 4634 0020 or 07888 863670 for emergencies.",
+      a: "Yes. We operate 24-hour emergency callouts for urgent issues — active leaks, storm damage, security problems and tenant safety concerns. Call 020 4634 0020 or 07778 737653 for emergencies.",
     },
     {
       q: "Who do you provide property maintenance for?",

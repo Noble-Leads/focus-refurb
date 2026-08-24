@@ -65,8 +65,8 @@ const ContactPage = () => {
                 <div className="mt-6 rounded-lg border border-amber-300 bg-amber-100/60 p-5">
                   <p className="text-amber-900 font-medium">
                     Need an emergency callout? We operate 24/7. Call{" "}
-                    <a href="tel:07888863670" className="underline font-semibold">
-                      07888 863670
+                    <a href="tel:07778737653" className="underline font-semibold">
+                      07778 737653
                     </a>
                   </p>
                 </div>

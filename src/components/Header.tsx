@@ -8,6 +8,9 @@ import {
   domesticServices,
   isCommercialPath,
   isDomesticPath,
+  isFireDoorPath,
+  FIRE_DOOR_PHONE_DISPLAY,
+  FIRE_DOOR_PHONE_TEL,
 } from "@/lib/navigation";
 import { navigateToHref } from "@/lib/scrollToAnchor";
 
@@ -349,6 +352,7 @@ const Header = () => {
 
   const commercialActive = isCommercialPath(pathname);
   const domesticActive = isDomesticPath(pathname);
+  const fireDoorActive = isFireDoorPath(pathname);
 
   return (
     <header
@@ -361,13 +365,22 @@ const Header = () => {
         <div className="container flex items-center justify-between py-2 text-sm text-hero-muted">
           <p className="m-0">London & South East — Commercial & Domestic Contractors</p>
           <div className="flex items-center gap-6" role="group" aria-label="Office contact details">
-            <a href="tel:02046340020" className="flex items-center gap-1.5 hover:text-gold transition-colors">
-              <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-              020 4634 0020
-            </a>
-            <a href="tel:07888863670" className="hover:text-gold transition-colors">
-              07888 863670
-            </a>
+            {fireDoorActive ? (
+              <a href={`tel:${FIRE_DOOR_PHONE_TEL}`} className="flex items-center gap-1.5 hover:text-gold transition-colors">
+                <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                {FIRE_DOOR_PHONE_DISPLAY}
+              </a>
+            ) : (
+              <>
+                <a href="tel:02046340020" className="flex items-center gap-1.5 hover:text-gold transition-colors">
+                  <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  020 4634 0020
+                </a>
+                <a href="tel:07778737653" className="hover:text-gold transition-colors">
+                  07778 737653
+                </a>
+              </>
+            )}
             <a href="mailto:office@focusrefurbishmentltd.com" className="hover:text-gold transition-colors">
               office@focusrefurbishmentltd.com
             </a>

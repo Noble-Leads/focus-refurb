@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 import { openCookiePreferences } from "./CookieConsent";
+import { isFireDoorPath, FIRE_DOOR_PHONE_DISPLAY, FIRE_DOOR_PHONE_TEL } from "@/lib/navigation";
 
 const serviceLinks = [
   { label: "Fire Door Installation", path: "/fire-door-installation-london" },
@@ -27,6 +29,14 @@ const legalLinks = [
 ];
 
 const Footer = () => {
+  const [pathname, setPathname] = useState("");
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
+  const fireDoorActive = isFireDoorPath(pathname);
+
   return (
     <footer className="section-dark">
       <div className="container max-w-7xl py-14 md:py-16">
@@ -106,12 +116,20 @@ const Footer = () => {
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-gold shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <a href="tel:02046340020" className="block hover:text-gold transition-colors">
-                    020 4634 0020
-                  </a>
-                  <a href="tel:07888863670" className="block hover:text-gold transition-colors">
-                    07888 863670
-                  </a>
+                  {fireDoorActive ? (
+                    <a href={`tel:${FIRE_DOOR_PHONE_TEL}`} className="block hover:text-gold transition-colors">
+                      {FIRE_DOOR_PHONE_DISPLAY}
+                    </a>
+                  ) : (
+                    <>
+                      <a href="tel:02046340020" className="block hover:text-gold transition-colors">
+                        020 4634 0020
+                      </a>
+                      <a href="tel:07778737653" className="block hover:text-gold transition-colors">
+                        07778 737653
+                      </a>
+                    </>
+                  )}
                 </div>
               </li>
               <li className="flex items-start gap-2">

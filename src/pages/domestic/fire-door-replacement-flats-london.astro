@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageShell from "../../components/PageShell";
+import FireDoorReplacementFlatsPage from "../../site/pages/FireDoorReplacementFlats";
+
+const fireDoorFlatsJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Domestic Fire Doors, London",
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: "Focus Refurbishment Ltd",
+      url: "https://focusrefurbishmentltd.com",
+      telephone: "07426474899",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "144 Hurst Road",
+        addressLocality: "Sidcup",
+        addressRegion: "Kent",
+        postalCode: "DA15 9AF",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: ["London", "South East London", "South West London", "Central London", "Kent"],
+    description:
+      "Fire door replacement, repairs and smaller jobs (seals, hinges, signage) quoted from photos for homeowners, leaseholders and landlords across London and the M25. Fixed price the same day, FD30 certification and compliance documentation on completion. Covers jobs of up to 3 doors.",
+    serviceType: "Fire Door Replacement and Repair",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What photos do you need to quote my fire door?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Two photos: the front of your door and the back, both taken straight-on with the door closed, plus your postcode. That's normally all we need to give you a fixed price.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you only quote full door replacements?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. We can also quote repairs and smaller jobs from your photos, like hinges, seals, closers and signage. Just tell us what you need when you get in touch.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How quickly will I get my quote?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "In most cases the same day.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Will the price change once you arrive?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. Once you've accepted your quote, that's the price. If we spot anything extra needed on the day, we'll always tell you and agree it with you first. Nothing added without your say-so.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this for homeowners, leaseholders or landlords?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All three. We work with homeowners, individual leaseholders and landlords with a single property. If you manage multiple properties, see our commercial fire door service instead.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What's included in the price?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "For a full door replacement: a fully fitted FD30 certified fire door set, correctly fitted with intumescent strips, seals, closer and hardware, plus compliance documentation on completion. Repairs and smaller jobs are priced individually based on what's needed.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What if I need more than 3 fire doors replaced?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Our photo-quote service covers jobs of up to 3 doors. For 4 or more doors we offer a discounted rate, but need to arrange a quick survey rather than quoting from photos. Call us and we'll sort it.",
+        },
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Domestic Fire Doors London | Quotes From a Photo, Same Day"
+  description="Domestic fire door replacement and repairs for homes and flats across London. Upload photos and get a fixed price the same day, no site visit needed. FD30 certified, for homeowners, leaseholders & landlords."
+  canonicalUrl="https://focusrefurbishmentltd.com/domestic/fire-door-replacement-flats-london"
+  ogTitle="Domestic Fire Doors London | Quotes From a Photo, Same Day"
+  ogDescription="Domestic fire door replacement and repairs for homes and flats across London. Upload photos and get a fixed price the same day, no site visit needed. FD30 certified, for homeowners, leaseholders & landlords."
+  ogUrl="https://focusrefurbishmentltd.com/domestic/fire-door-replacement-flats-london"
+  extraJsonLd={fireDoorFlatsJsonLd}
+  preconnectOrigins={["https://app.focusrefurbishmentltd.com"]}
+>
+  <PageShell client:load>
+    <FireDoorReplacementFlatsPage client:load />
+  </PageShell>
+</Layout>
