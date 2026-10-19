@@ -1,8 +1,10 @@
-/** Shared domestic enquiry form — swap for GHL calendar embed when ready */
+/** Shared domestic enquiry form — Contact form on Focus GHL */
 export const domesticFormEmbed = {
-  src: "https://link.nobleleads.uk/widget/form/MxMXNy7f1GiZCyhTuq2p",
-  title: "FR- Website Contact Us",
-  formName: "FR- Website Contact Us",
-  formId: "MxMXNy7f1GiZCyhTuq2p",
-  iframeHeight: "900px",
+  src: "https://app.focusrefurbishmentltd.com/widget/form/xShr7a5F4R13BPXXPGz4",
+  title: "Contact",
+  formName: "Contact",
+  formId: "xShr7a5F4R13BPXXPGz4",
+  iframeId: "inline-xShr7a5F4R13BPXXPGz4",
+  iframeHeight: "620px",
+  scriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
 } as const;

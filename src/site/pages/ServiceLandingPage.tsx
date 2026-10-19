@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import BrandPattern from "@/components/BrandPattern";
 import GhlFormEmbed from "@/components/GhlFormEmbed";
-import GhlBookingEmbed from "@/components/GhlBookingEmbed";
 import BeforeAfterSection, { type BeforeAfterPair } from "@/components/BeforeAfterSection";
 import FeaturePhotoSection from "@/components/FeaturePhotoSection";
-import { domesticBookingDefaults, domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
+import { domesticBookingDefaults } from "@/lib/domesticBookingEmbed";
+import { domesticFormEmbed } from "@/lib/domesticFormEmbed";
 import { RoofingParapetCaseStudy, RoofingStreathamCaseStudy } from "@/components/RoofingProjectGallery";
 import {
   Accordion,
@@ -144,12 +144,12 @@ export type ServiceLandingConfig = {
     placement?: "afterValueCards" | "afterFormBand";
     anchorId?: string;
   };
-  /** GHL booking calendar for domestic quote visits */
+  /** Domestic contact form in the hero (replaces calendar booking) */
   domesticBooking?: boolean | {
     anchorId?: string;
     heading?: string;
     subheading?: string;
-    /** Appended as ?utm_source= so GHL logs which service page the booking came from */
+    /** Maps to GHL Source field via ?source= so leads show which page they came from */
     utmSource?: string;
   };
 };
@@ -176,29 +176,38 @@ const HeroFormCard = ({
   heroFormTitle,
   heroFormSubtitle,
   formEmbed,
-  useBooking = false,
-  bookingSrc = domesticBookingEmbed.src,
+  useDomesticForm = false,
+  domesticFormSource,
   iframeIdSuffix = "",
 }: {
   formAnchorId: string;
   heroFormTitle: string;
   heroFormSubtitle: string;
   formEmbed?: HeroFormEmbedConfig;
-  useBooking?: boolean;
-  bookingSrc?: string;
+  useDomesticForm?: boolean;
+  domesticFormSource?: string;
   iframeIdSuffix?: string;
 }) => (
   <div
     id={formAnchorId}
     className={`scroll-target w-full max-w-full min-w-0 lg:max-w-[800px] lg:ml-auto scroll-mt-28 md:scroll-mt-32 overflow-visible ${
-      useBooking ? "hero-with-embed" : ""
+      useDomesticForm ? "hero-with-embed" : ""
     }`}
   >
     <h2 className="font-heading font-bold text-foreground text-xl sm:text-2xl mb-1 break-words">{heroFormTitle}</h2>
     <p className="text-muted-foreground text-sm mb-4">{heroFormSubtitle}</p>
 
-    {useBooking ? (
-      <GhlBookingEmbed src={bookingSrc} iframeId={`${domesticBookingEmbed.iframeId}${iframeIdSuffix}`} />
+    {useDomesticForm ? (
+      <GhlFormEmbed
+        src={domesticFormEmbed.src}
+        title={domesticFormEmbed.title}
+        iframeId={`${domesticFormEmbed.iframeId}${iframeIdSuffix}`}
+        formName={domesticFormEmbed.formName}
+        formId={domesticFormEmbed.formId}
+        source={domesticFormSource}
+        iframeHeight={domesticFormEmbed.iframeHeight}
+        autoResize
+      />
     ) : formEmbed ? (
       <GhlFormEmbed
         src={formEmbed.src}
@@ -615,9 +624,12 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
   const heroCardTitle = bookingConfig?.heading ?? heroFormTitle;
   const heroCardSubtitle = bookingConfig?.subheading ?? heroFormSubtitle;
   const heroCardAnchorId = bookingConfig?.anchorId ?? formAnchorId;
-  const bookingSrc = bookingConfig && "utmSource" in bookingConfig && bookingConfig.utmSource
-    ? `${domesticBookingEmbed.src}?utm_source=${encodeURIComponent(bookingConfig.utmSource)}`
-    : domesticBookingEmbed.src;
+  const domesticFormSource =
+    bookingConfig && "utmSource" in bookingConfig && bookingConfig.utmSource
+      ? bookingConfig.utmSource
+      : bookingConfig
+        ? "domestic"
+        : undefined;
   const caseStudiesAfterValueCards = caseStudies?.placement === "afterValueCards";
   const caseStudyAfterValueCards = caseStudy?.placement === "afterValueCards";
   const stackedHeroForm = heroFormLayout === "stacked" || (heroFormLayout !== "split" && isTallHeroForm(formEmbed));
@@ -688,8 +700,8 @@ const ServiceLandingPage = ({ config }: ServiceLandingPageProps) => {
                   heroFormTitle={heroCardTitle}
                   heroFormSubtitle={heroCardSubtitle}
                   formEmbed={bookingConfig ? undefined : formEmbed}
-                  useBooking={!!bookingConfig}
-                  bookingSrc={bookingSrc}
+                  useDomesticForm={!!bookingConfig}
+                  domesticFormSource={domesticFormSource}
                 />
               </ScrollReveal>
             </div>

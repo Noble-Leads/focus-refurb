@@ -1,21 +1,7 @@
-/** GHL booking widget — free quote / site visit scheduling for domestic enquiries */
-export const domesticBookingEmbed = {
-  src: "https://app.focusrefurbishmentltd.com/widget/booking/jQ4b0DvP1o4PaGcUsxOT",
-  bookingId: "jQ4b0DvP1o4PaGcUsxOT",
-  iframeId: "jQ4b0DvP1o4PaGcUsxOT_1782828410773",
-  scriptSrc: "https://app.focusrefurbishmentltd.com/js/form_embed.js",
-  title: "Book a free quote visit",
-  /** Starting height before iFrameSizer (Google recommends ~650px). */
-  initialHeight: 650,
-  /** CSS + resize floor (Google min 600px). */
-  collapseFloor: 600,
-  /** Cap dead space; taller steps scroll inside iframe (Google max 850px). */
-  maxHeight: 850,
-} as const;
-
+/** Domestic hero enquiry defaults — contact form (calendar retired) */
 export const domesticBookingDefaults = {
   anchorId: "book-quote-visit",
-  heading: "Book Your Free Quote Visit",
+  heading: "Get Your Free Quote",
   subheading:
-    "Pick a date and time that suits you — we will send someone out to survey your property and provide a no-obligation quote.",
+    "Tell us about your project and we'll get back to you within 24 hours with a detailed, no-obligation quote.",
 } as const;

@@ -1,7 +1,8 @@
-import { CalendarCheck } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import GhlBookingEmbed from "@/components/GhlBookingEmbed";
-import { domesticBookingDefaults, domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
+import GhlFormEmbed from "@/components/GhlFormEmbed";
+import { domesticBookingDefaults } from "@/lib/domesticBookingEmbed";
+import { domesticFormEmbed } from "@/lib/domesticFormEmbed";
 
 type DomesticBookingSectionProps = {
   anchorId?: string;
@@ -24,10 +25,10 @@ const DomesticBookingSection = ({
       <ScrollReveal>
         <div className="text-center mb-6 md:mb-8">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gold/15 mb-4">
-            <CalendarCheck className="w-6 h-6 text-gold" aria-hidden="true" />
+            <MessageSquare className="w-6 h-6 text-gold" aria-hidden="true" />
           </div>
           <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-2">
-            Book straight in
+            Free quote
           </p>
           <h2
             className={`font-heading font-extrabold text-foreground mb-3 ${
@@ -47,7 +48,16 @@ const DomesticBookingSection = ({
       </ScrollReveal>
 
       <ScrollReveal>
-        <GhlBookingEmbed src={`${domesticBookingEmbed.src}?utm_source=domestic-hub`} />
+        <GhlFormEmbed
+          src={domesticFormEmbed.src}
+          title={domesticFormEmbed.title}
+          iframeId={`${domesticFormEmbed.iframeId}-hub`}
+          formName={domesticFormEmbed.formName}
+          formId={domesticFormEmbed.formId}
+          source="domestic-hub"
+          iframeHeight={domesticFormEmbed.iframeHeight}
+          autoResize
+        />
         <p className="text-center text-muted-foreground text-xs sm:text-sm mt-4">
           Prefer to call?{" "}
           <a href="tel:02046340020" className="text-gold font-semibold hover:underline">

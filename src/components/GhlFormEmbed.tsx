@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ghlFormSrc } from "@/lib/ghlForm";
-import { domesticBookingEmbed } from "@/lib/domesticBookingEmbed";
+import { domesticFormEmbed } from "@/lib/domesticFormEmbed";
 import {
   GHL_COLLAPSE_FLOOR,
   GHL_COMMERCIAL_INITIAL_HEIGHT,
@@ -10,7 +10,7 @@ import {
   useGhlEmbedResize,
 } from "@/lib/ghlEmbedResize";
 
-const GHL_SCRIPT = domesticBookingEmbed.scriptSrc;
+const GHL_SCRIPT = domesticFormEmbed.scriptSrc;
 const GHL_SCRIPT_LEGACY = "https://link.nobleleads.uk/js/form_embed.js";
 
 const ensureGhlEmbedScripts = () => {
