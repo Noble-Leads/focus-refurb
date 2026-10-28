@@ -4,7 +4,8 @@ import { openCookiePreferences } from "./CookieConsent";
 import { isFireDoorPath, FIRE_DOOR_PHONE_DISPLAY, FIRE_DOOR_PHONE_TEL } from "@/lib/navigation";
 
 const serviceLinks = [
-  { label: "Fire Door Installation", path: "/fire-door-installation-london" },
+  { label: "Fire Doors (Commercial)", path: "/fire-door-installation-london" },
+  { label: "Fire Doors (Homes & Flats)", path: "/domestic/fire-door-replacement-flats-london" },
   { label: "Fire Stopping", path: "/fire-stopping-london" },
   { label: "Roof Repair & Replacement", path: "/roofing-london" },
   { label: "Full Refurbishment", path: "/domestic/refurbishment-london" },

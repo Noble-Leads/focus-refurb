@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageShell from "../components/PageShell";
-import FireDoorInstallationPage from "../site/pages/FireDoorInstallation";
+import FireDoorInstallationPage, { fireDoorFaqs } from "../site/pages/FireDoorInstallation";
 
 const fireDoorJsonLd = [
   {
@@ -24,69 +24,32 @@ const fireDoorJsonLd = [
     },
     areaServed: ["London", "South East London", "South West London", "Central London", "Kent"],
     description:
-      "Internal and external fire door installation across London and the M25. FD30 and FD60 supply, installation, surveys, maintenance and replacement with compliance documentation on completion.",
+      "Commercial fire door surveys, installation and remedial works across London and the M25. FD30 and FD60 doorsets supplied and fitted from £1,750, free door-by-door surveys and compliance documentation on completion.",
     serviceType: "Fire Door Installation",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Do you install internal and external fire doors?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. We supply and fit both internal fire doors (flat entrance, common-part and room doors) and external fire-rated doorsets across London and the M25. Every door is installed to FD30 or FD60 standard with the correct intumescent strips, smoke seals, closers and frames, and you receive full compliance documentation on completion.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Do you offer fire door inspection in London?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Focus Refurbishment carries out fire door surveys for landlords and agents, checking gaps, hinges, closers, seals and signage. Remedial works and replacements are carried out where needed.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Do you provide compartmentation fire stopping?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Alongside fire doors, Focus Refurbishment carries out fire stopping — sealing pipe, cable and duct penetrations, fire batts, collars and compartmentation surveys — so most passive fire protection actions on a fire risk assessment can be handled under one contract.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How quickly can you carry out a survey?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We aim to carry out surveys within the week of your enquiry.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What documentation do I receive after installation?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You receive compliance documentation including installer certificates and product data sheets.",
-        },
-      },
-    ],
+    mainEntity: fireDoorFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: { "@type": "Answer", text: faq.a },
+    })),
   },
 ];
 ---
 
 <Layout
   title="Fire Door Installation London | Internal & External FD30 & FD60"
-  description="Internal & external fire door installation in London — FD30 & FD60 supply, fitting, surveys and replacement for landlords, agents and commercial clients. Full compliance documentation on completion."
+  description="Fire door installation in London for managing agents, facilities managers and landlords. FD30 & FD60 doorsets fitted from £1,750, free door-by-door survey, fixed quote and compliance documentation."
   canonicalUrl="https://focusrefurbishmentltd.com/fire-door-installation-london"
   ogTitle="Fire Door Installation London | Internal & External FD30 & FD60"
-  ogDescription="Internal & external fire door installation in London — FD30 & FD60 supply, fitting, surveys and replacement for landlords, agents and commercial clients. Full compliance documentation on completion."
+  ogDescription="Fire door installation in London for managing agents, facilities managers and landlords. FD30 & FD60 doorsets fitted from £1,750, free door-by-door survey, fixed quote and compliance documentation."
   ogUrl="https://focusrefurbishmentltd.com/fire-door-installation-london"
   extraJsonLd={fireDoorJsonLd}
   preconnectOrigins={["https://link.nobleleads.uk"]}
 >
-  <PageShell client:load>
-    <FireDoorInstallationPage client:load />
+  <PageShell client:idle>
+    <FireDoorInstallationPage client:idle />
   </PageShell>
 </Layout>

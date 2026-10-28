@@ -1,9 +1,11 @@
-import { ArrowDown, ArrowRight, Camera, CheckCircle2, Clock, PoundSterling, Phone, Quote, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, Phone, Quote, ShieldCheck, Star } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
-import GhlFormEmbed from "@/components/GhlFormEmbed";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import OptimizedImage from "@/components/OptimizedImage";
+import FireDoorAudienceSwitch from "@/components/FireDoorAudienceSwitch";
+import FireDoorDomesticPrequalifier from "@/components/FireDoorDomesticPrequalifier";
 import {
   Accordion,
   AccordionContent,
@@ -11,18 +13,19 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FIRE_DOOR_PHONE_DISPLAY, FIRE_DOOR_PHONE_TEL } from "@/lib/navigation";
+import { FIRE_DOOR_PRICES, FIRE_DOOR_REPAIR_PRICES } from "@/lib/fireDoorPricing";
 
-const FIRE_DOOR_DISPLAY = FIRE_DOOR_PHONE_DISPLAY;
-const FIRE_DOOR_TEL = FIRE_DOOR_PHONE_TEL;
+const FORM_ANCHOR = "#fire-door-quote-form";
 
-const heroPoints = [
-  "Send photos, no site visit needed",
-  "Fixed price quote, same day",
-  "Replacement, repairs & parts quoted",
-  "FD30 certified & compliant work",
-  "For homeowners, leaseholders & landlords",
-  "London & M25 coverage",
-];
+const domesticForm = {
+  src: "https://app.focusrefurbishmentltd.com/widget/form/P7ZjtR3PGqVPyPRTclIu",
+  title: "Fire Doors - Domestic",
+  iframeId: "inline-P7ZjtR3PGqVPyPRTclIu",
+  formName: "Fire Doors - Domestic",
+  formId: "P7ZjtR3PGqVPyPRTclIu",
+  source: "fire-door-replacement-flats-london",
+  iframeHeight: "720",
+};
 
 const trustStats = [
   { value: "25+", label: "Years Trading" },
@@ -30,27 +33,6 @@ const trustStats = [
   { value: "Same-Day", label: "Quotes" },
   { value: "FD30", label: "Certified" },
   { value: "M25", label: "Coverage" },
-];
-
-const quoteSteps = [
-  {
-    number: "1",
-    icon: Camera,
-    title: "Send Your Photos",
-    desc: "Front and back of your door, closed, plus your postcode. No site visit needed. Covers jobs of up to 3 doors.",
-  },
-  {
-    number: "2",
-    icon: PoundSterling,
-    title: "Get Your Fixed Price",
-    desc: "We quote from your photos and get back to you the same day. If anything extra is needed, we tell you before you book. Never after.",
-  },
-  {
-    number: "3",
-    icon: Clock,
-    title: "Book Your Day",
-    desc: "Happy with the price? Accept the quote and we send you a booking link to pick a day. Most jobs are completed in a single visit.",
-  },
 ];
 
 const chooseCards = [
@@ -72,7 +54,11 @@ const chooseCards = [
   },
 ];
 
-const faqs = [
+export const fireDoorDomesticFaqs = [
+  {
+    q: "How much does a domestic fire door cost?",
+    a: `A full FD30 door replacement starts from ${FIRE_DOOR_PRICES.domesticDoorset} per door, fully fitted and certified. So two doors start from £2,700 and three from £4,050. Repairs and smaller jobs start from ${FIRE_DOOR_PRICES.minimumCallout} (minimum call-out). Individual parts such as seals, hinges and closers are priced within that. Your exact fixed price comes back the same day from your photos.`,
+  },
   {
     q: "What photos do you need to quote my fire door?",
     a: "Two photos: the front of your door and the back, both taken straight-on with the door closed, plus your postcode. That's normally all we need to give you a fixed price.",
@@ -95,7 +81,7 @@ const faqs = [
   },
   {
     q: "What's included in the price?",
-    a: "For a full door replacement: a fully fitted FD30 certified fire door set, correctly fitted with intumescent strips, seals, closer and hardware, plus compliance documentation on completion. Repairs and smaller jobs are priced individually based on what's needed.",
+    a: `For a full door replacement, from ${FIRE_DOOR_PRICES.domesticDoorset} per door: a fully fitted FD30 certified fire door set, correctly fitted with intumescent strips, seals, closer and hardware, plus compliance documentation on completion. Repairs and smaller jobs start from ${FIRE_DOOR_PRICES.minimumCallout} minimum call-out and are priced from your photos.`,
   },
   {
     q: "What documentation do I get?",
@@ -111,7 +97,7 @@ const faqs = [
   },
   {
     q: "What if I need more than 3 fire doors replaced?",
-    a: "Our photo-quote service covers jobs of up to 3 doors. For 4 or more doors we offer a discounted rate, but need to arrange a quick survey rather than quoting from photos. Call us and we'll sort it.",
+    a: "Our photo-quote service covers jobs of up to 3 doors. For 4 or more doors we offer a discounted rate, but need to arrange a quick survey rather than quoting from photos. Use our commercial fire door page and we'll sort it.",
   },
 ];
 
@@ -156,65 +142,55 @@ const FireDoorReplacementFlatsPage = () => {
         <HeroBackdrop />
         <div className="container relative z-10 max-w-7xl">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            <ScrollReveal className="lg:col-span-7 min-w-0">
+            <ScrollReveal instant className="lg:col-span-7 min-w-0">
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-xs sm:text-sm mb-3">
-                Domestic Fire Doors, London
+                Domestic Fire Doors · London &amp; M25
               </p>
-              <h1 className="font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl break-words text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-                Domestic Fire Door Quotes for Flats & Homes
+              <h1 className="font-heading font-extrabold text-section-dark-foreground mb-4 max-w-2xl break-words text-[1.65rem] leading-[1.2] sm:text-3xl md:text-4xl lg:text-[2.6rem] lg:leading-tight">
+                Fire Door Quotes for Flats &amp; Homes
               </h1>
-              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-2 max-w-xl">
-                Upload photos of your fire door and we'll come back with a fixed price the same day, no site visit needed. Replacement, repairs, seals, hinges and signage all covered, for houses and flats across London and the M25.
-              </p>
-              <p className="text-hero-muted/70 text-xs sm:text-sm mb-5 md:mb-6 max-w-xl">
-                Managing multiple properties, or need 4 or more doors? See our{" "}
-                <a href="/fire-door-installation-london" className="text-gold underline hover:no-underline">
-                  commercial fire door service
-                </a>{" "}
-                instead.
+              <p className="text-hero-muted text-sm sm:text-base md:text-lg mb-5 max-w-xl">
+                Upload photos, get a fixed price the same day. No site visit. For homeowners, leaseholders and single-property landlords.
               </p>
 
-              <div className="border border-gold/30 bg-primary/30 rounded-lg p-4 mb-5 md:mb-6">
-                <p className="text-section-dark-foreground leading-relaxed text-sm md:text-base">
-                  <strong>Full door replacement from £1,350</strong>, fully fitted and FD30 certified. Repairs and smaller jobs like seals, hinges and signage are quoted individually from your photos. Covers jobs of up to 3 doors; 4 or more gets a discounted rate via a quick survey instead.
-                </p>
-              </div>
+              <p className="text-section-dark-foreground text-sm sm:text-base mb-6 max-w-xl">
+                Full replacement from <strong>{FIRE_DOOR_PRICES.domesticDoorset} per door</strong> · Repairs from{" "}
+                <strong>{FIRE_DOOR_PRICES.minimumCallout}</strong>
+              </p>
 
-              <ul className="grid gap-x-4 gap-y-2.5 mb-6 md:mb-8 grid-cols-1 sm:grid-cols-2">
-                {heroPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-2.5 text-hero-muted text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" />
-                    <span className="leading-snug">{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="#fire-door-quote-form">
+              <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                <a href={FORM_ANCHOR}>
                   <Button variant="gold" size="xl" className="w-full sm:w-auto">
-                    Get My Quote <ArrowRight className="w-5 h-5" />
+                    Get My Fixed Price <ArrowRight className="w-5 h-5" />
                   </Button>
                 </a>
-                <a href={`tel:${FIRE_DOOR_TEL}`}>
+                <a href={`tel:${FIRE_DOOR_PHONE_TEL}`}>
                   <Button variant="hero-outline" size="xl" className="w-full sm:w-auto">
                     <Phone className="w-5 h-5" />
-                    Call {FIRE_DOOR_DISPLAY}
+                    Call {FIRE_DOOR_PHONE_DISPLAY}
                   </Button>
                 </a>
               </div>
+
+              <p className="text-hero-muted/80 text-xs sm:text-sm">
+                Block, portfolio or 4+ doors?{" "}
+                <a href="/fire-door-installation-london" className="text-gold font-semibold underline hover:no-underline">
+                  Free survey on our commercial page →
+                </a>
+              </p>
             </ScrollReveal>
 
-            <ScrollReveal className="lg:col-span-5 min-w-0">
+            <ScrollReveal instant className="lg:col-span-5 min-w-0">
               <div className="rounded-lg border border-hero-foreground/10 overflow-hidden shadow-lg bg-white max-w-[280px] mx-auto lg:max-w-none lg:mx-0">
-                <img
+                <OptimizedImage
                   src="/images/fire-door-diagram.jpg"
                   alt="Diagram of a certified FD30 fire door showing the closer, hinges, seals, glazing, ironmongery and frame that make it compliant"
-                  width={2048}
-                  height={2048}
-                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  width={900}
+                  height={900}
+                  sizes="(max-width: 1024px) 280px, 40vw"
                   className="w-full aspect-square object-contain"
                   loading="eager"
-                  decoding="async"
+                  fetchPriority="high"
                 />
               </div>
             </ScrollReveal>
@@ -235,7 +211,18 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className="py-10 md:py-12 bg-secondary border-b border-border">
+        <div className="container max-w-4xl">
+          <ScrollReveal>
+            <p className="text-muted-foreground text-center text-sm mb-5">
+              Not sure which service you need?
+            </p>
+            <FireDoorAudienceSwitch current="domestic" variant="cards" />
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-20 bg-background">
         <div className="container">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
@@ -253,11 +240,57 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section className="section-dark py-20">
+      <section className="py-16 md:py-20 bg-secondary">
+        <div className="container max-w-4xl">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-3">
+              Clear Starting Prices
+            </h2>
+            <p className="text-muted-foreground text-center text-lg mb-10">
+              Your exact fixed price comes back the same day from your photos.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div className="bg-card border border-border rounded-lg p-5 md:p-6 shadow-sm">
+              <div className="flex items-baseline justify-between gap-3 border-b border-border pb-4 mb-2">
+                <p className="font-heading font-bold text-foreground">Full FD30 door replacement</p>
+                <p className="font-heading font-extrabold text-foreground text-xl whitespace-nowrap text-right">
+                  <span className="text-sm font-semibold text-muted-foreground">from </span>
+                  {FIRE_DOOR_PRICES.domesticDoorset}
+                  <span className="block text-xs font-semibold text-muted-foreground">per door</span>
+                </p>
+              </div>
+              <ul className="grid sm:grid-cols-2 gap-x-8">
+                {FIRE_DOOR_REPAIR_PRICES.map((row) => (
+                  <li key={row.item} className="flex items-baseline justify-between gap-3 border-b border-border py-2.5 text-sm">
+                    <span className="text-muted-foreground">
+                      {row.item}
+                      {row.note && <span className="block text-xs text-muted-foreground/80">{row.note}</span>}
+                    </span>
+                    <span className="text-foreground font-semibold whitespace-nowrap">from {row.price}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-muted-foreground text-xs mt-3">
+                Repair jobs start from {FIRE_DOOR_PRICES.minimumCallout} minimum call-out. Glazing is quoted after inspection. Doors with moisture damage usually need replacing. Covers jobs of up to 3 doors.
+              </p>
+            </div>
+          </ScrollReveal>
+          <div className="text-center mt-8">
+            <a href={FORM_ANCHOR}>
+              <Button variant="gold" size="xl" className="w-full sm:w-auto">
+                Get My Fixed Price <ArrowRight className="w-5 h-5" />
+              </Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-dark py-16 md:py-20">
         <div className="container">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-section-dark-foreground text-center mb-12">
-              Why Homeowners & Landlords Choose Us
+              Why Homeowners &amp; Landlords Choose Us
             </h2>
           </ScrollReveal>
           <div className="grid md:grid-cols-2 gap-6">
@@ -273,7 +306,29 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-secondary">
+      <section id="fire-door-quote-form" className="scroll-target scroll-mt-28 md:scroll-mt-32 bg-accent py-16 md:py-20">
+        <div className="container max-w-3xl">
+          <ScrollReveal>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white mb-3">
+                Get Your Same-Day Quote
+              </h2>
+              <p className="text-white/85 text-lg">
+                Three quick questions, then photos. Fixed price, no site visit.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal>
+            <FireDoorDomesticPrequalifier
+              form={domesticForm}
+              phoneDisplay={FIRE_DOOR_PHONE_DISPLAY}
+              phoneTel={FIRE_DOOR_PHONE_TEL}
+            />
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 bg-background">
         <div className="container max-w-6xl">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <ScrollReveal>
@@ -290,15 +345,13 @@ const FireDoorReplacementFlatsPage = () => {
             </ScrollReveal>
             <ScrollReveal>
               <div className="rounded-lg border border-border overflow-hidden shadow-md">
-                <img
+                <OptimizedImage
                   src="/images/service-firedoors.png"
                   alt="Fire door replacement by Focus Refurbishment in London"
                   width={800}
                   height={600}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="w-full aspect-[4/3] object-cover"
-                  loading="lazy"
-                  decoding="async"
                 />
               </div>
             </ScrollReveal>
@@ -306,11 +359,11 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-secondary">
+      <section className="py-16 md:py-20 bg-secondary">
         <div className="container max-w-7xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-12">
-              Trusted by Homeowners & Landlords
+              Trusted by Homeowners &amp; Landlords
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 lg:gap-8 items-stretch">
@@ -333,7 +386,7 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className="py-16 md:py-20 bg-background">
         <div className="container max-w-4xl">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-foreground text-center mb-10">
@@ -342,7 +395,7 @@ const FireDoorReplacementFlatsPage = () => {
           </ScrollReveal>
           <ScrollReveal>
             <Accordion type="single" collapsible className="bg-card rounded-lg border border-border px-6">
-              {faqs.map((faq, index) => (
+              {fireDoorDomesticFaqs.map((faq, index) => (
                 <AccordionItem key={faq.q} value={`faq-${index}`} className="border-border">
                   <AccordionTrigger className="text-left font-heading font-bold text-foreground hover:no-underline gap-3 py-5">
                     {faq.q}
@@ -357,61 +410,27 @@ const FireDoorReplacementFlatsPage = () => {
         </div>
       </section>
 
-      <section id="fire-door-quote-form" className="scroll-target scroll-mt-28 md:scroll-mt-32 bg-accent py-20">
-        <div className="container max-w-3xl">
+      <section className="bg-accent py-16 md:py-20">
+        <div className="container text-center max-w-4xl">
           <ScrollReveal>
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white mb-3">
-                Get Your Same-Day Quote
-              </h2>
-              <p className="text-white/85 text-lg">
-                No survey, no waiting around. Just photos, a price, and a booking.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2 mb-10">
-              {quoteSteps.map((step, index) => (
-                <div key={step.number} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
-                  <div className="flex flex-col items-center text-center w-44">
-                    <div className="mx-auto mb-3 w-12 h-12 rounded-full border-2 border-gold text-white flex items-center justify-center bg-white/5">
-                      <step.icon className="w-5 h-5" />
-                    </div>
-                    <p className="text-white font-heading font-bold text-sm mb-1">
-                      {step.number}. {step.title}
-                    </p>
-                    <p className="text-white/70 text-xs leading-relaxed">{step.desc}</p>
-                  </div>
-                  {index < quoteSteps.length - 1 && (
-                    <>
-                      <ArrowDown className="w-5 h-5 text-gold/50 shrink-0 sm:hidden" aria-hidden="true" />
-                      <ArrowRight className="w-5 h-5 text-gold/50 shrink-0 hidden sm:block" aria-hidden="true" />
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal>
-            <div className="bg-background rounded-lg p-5 md:p-8 shadow-lg">
-              <GhlFormEmbed
-                src="https://app.focusrefurbishmentltd.com/widget/form/P7ZjtR3PGqVPyPRTclIu"
-                title="Fire Doors - Domestic"
-                iframeId="inline-P7ZjtR3PGqVPyPRTclIu"
-                formName="Fire Doors - Domestic"
-                formId="P7ZjtR3PGqVPyPRTclIu"
-                source="fire-door-replacement-flats-london"
-                iframeHeight="720"
-              />
-
-              <p className="mt-1 text-center text-xs text-muted-foreground">
-                Or call us:{" "}
-                <a href={`tel:${FIRE_DOOR_TEL}`} className="text-gold font-semibold hover:underline">
-                  {FIRE_DOOR_DISPLAY}
-                </a>
-              </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white mb-4">
+              Ready for Your Fixed Price?
+            </h2>
+            <p className="text-white/85 text-lg mb-8">
+              Three quick questions, send your photos, same-day quote.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <a href={FORM_ANCHOR}>
+                <Button variant="gold" size="xl" className="w-full sm:w-auto">
+                  Get My Price <ArrowRight className="w-5 h-5" />
+                </Button>
+              </a>
+              <a href={`tel:${FIRE_DOOR_PHONE_TEL}`}>
+                <Button variant="hero-outline" size="xl" className="w-full sm:w-auto">
+                  <Phone className="w-5 h-5" />
+                  Call {FIRE_DOOR_PHONE_DISPLAY}
+                </Button>
+              </a>
             </div>
           </ScrollReveal>
         </div>
@@ -419,13 +438,13 @@ const FireDoorReplacementFlatsPage = () => {
 
       <section className="bg-gold/15 py-4 border-t border-gold/30">
         <div className="container text-center text-foreground font-heading font-semibold tracking-wide">
-          Fire door replacement, repairs & compliance work. Fixed price from a photo. London & M25.
+          Fire door replacement, repairs &amp; compliance. Fixed price from a photo. London &amp; M25.
         </div>
       </section>
       <section className="bg-background py-8">
         <div className="container text-center">
           <a href="/fire-door-installation-london" className="text-gold font-semibold hover:underline">
-            Managing multiple properties or need a site survey instead? See our commercial fire door service →
+            Block, portfolio or 4+ doors? Free survey on our commercial page →
           </a>
           <span className="mx-3 text-muted-foreground">·</span>
           <a href="/building-maintenance-london" className="text-gold font-semibold hover:underline">

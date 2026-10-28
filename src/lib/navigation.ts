@@ -4,7 +4,7 @@ export type NavLink = { label: string; path: string; description?: string };
 
 export const commercialServices: NavLink[] = [
   { label: "Building Maintenance", path: "/building-maintenance-london", description: "Planned and reactive maintenance contracts" },
-  { label: "Fire Door Installation", path: "/fire-door-installation-london", description: "Approved installers, full compliance" },
+  { label: "Fire Door Installation", path: "/fire-door-installation-london", description: "Surveys, FD30/FD60 from £1,750" },
   { label: "Fire Stopping", path: "/fire-stopping-london", description: "Penetration sealing, surveys & FRA remedials" },
   { label: "Full Refurbishment", path: "/commercial/refurbishment-london", description: "Void turns, fit-outs and restorations" },
   { label: "Roofing", path: "/roofing-london", description: "Repairs, replacements and flat roofs" },
