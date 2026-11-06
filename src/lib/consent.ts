@@ -10,9 +10,8 @@
  *                  (security, navigation, form submission). No tracking.
  *  - analytics   : Google Analytics 4 (G-5Y4789V5YK). Used to understand
  *                  aggregated site usage.
- *  - marketing   : Google Ads (AW-18087305153) and the LeadConnector chat
- *                  widget. Used for advertising measurement / conversions
- *                  and for the live chat feature.
+ *  - marketing   : Google Ads (AW-18087305153). Used for advertising
+ *                  measurement and conversions.
  */
 
 export const CONSENT_STORAGE_KEY = "focus-cookie-consent-v1";

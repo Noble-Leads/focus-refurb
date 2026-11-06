@@ -70,8 +70,8 @@ const PrivacyPage = () => {
             <p>We collect personal data in three main ways:</p>
             <h3>a. Information you give us</h3>
             <p>
-              When you submit our contact / quote form, email us, call us or
-              engage our live chat, you may share:
+              When you submit our contact / quote form, email us or call us,
+              you may share:
             </p>
             <ul>
               <li>name;</li>
@@ -168,9 +168,9 @@ const PrivacyPage = () => {
             <ul>
               <li>
                 <strong>LeadConnector / GoHighLevel</strong> — hosts our
-                website contact form and live chat. Servers in the United
-                States, transfers protected by the UK Addendum to the EU
-                Standard Contractual Clauses.
+                website contact form. Servers in the United States, transfers
+                protected by the UK Addendum to the EU Standard Contractual
+                Clauses.
               </li>
               <li>
                 <strong>Google LLC (Analytics &amp; Ads)</strong> —
@@ -283,10 +283,10 @@ const PrivacyPage = () => {
             <h2>9. Cookies and tracking</h2>
             <p>
               We use a small number of cookies and similar technologies. Non-
-              essential cookies (analytics, advertising and the live chat
-              widget) only run if you accept them in our consent banner. See
-              the <a href="/cookie-policy">Cookie Policy</a> for the full
-              list and how to change your settings.
+              essential cookies (analytics and advertising) only run if you
+              accept them in our consent banner. See the{" "}
+              <a href="/cookie-policy">Cookie Policy</a> for the full list
+              and how to change your settings.
             </p>
             <div className="not-prose mt-4">
               <Button

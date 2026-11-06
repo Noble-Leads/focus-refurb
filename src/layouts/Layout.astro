@@ -261,40 +261,11 @@ const jsonLd = {
         // compatibility with applyAndLoad calls below.
       }
 
-      var loadedScripts = {};
-      function loadThirdPartyScript(key, src, attrs) {
-        if (loadedScripts[key]) return;
-        loadedScripts[key] = true;
-        var script = document.createElement("script");
-        script.src = src;
-        script.defer = true;
-        if (attrs) {
-          Object.keys(attrs).forEach(function (k) {
-            script.setAttribute(k, String(attrs[k]));
-          });
-        }
-        document.body.appendChild(script);
-      }
-
-      function loadChatWidget() {
-        loadThirdPartyScript(
-          "ghl-chat",
-          "https://beta.leadconnectorhq.com/loader.js",
-          {
-            "data-resources-url": "https://beta.leadconnectorhq.com/chat-widget/loader.js",
-            "data-widget-id": "699f1d835fe82b2a9d31b403",
-          }
-        );
-      }
-
       function applyAndLoad(consent) {
         if (!consent) return;
         applyConsentSignal(consent);
         if (consent.analytics || consent.marketing) {
           scheduleGtag();
-        }
-        if (consent.marketing) {
-          loadChatWidget();
         }
       }
 

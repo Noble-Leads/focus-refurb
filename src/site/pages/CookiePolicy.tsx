@@ -45,14 +45,6 @@ const cookies: CookieRow[] = [
     expiry: "90 days",
     category: "Marketing",
   },
-  {
-    name: "LeadConnector chat session cookies",
-    provider: "leadconnectorhq.com",
-    purpose:
-      "Maintains your live chat session and remembers chat preferences while you browse.",
-    expiry: "Session / up to 12 months",
-    category: "Marketing",
-  },
 ];
 
 const categoryStyles: Record<CookieRow["category"], string> = {

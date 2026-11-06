@@ -159,7 +159,7 @@ const CookieConsent = () => {
             />
             <CategoryRow
               title="Marketing"
-              description="Google Ads conversion tracking and our LeadConnector live chat widget. Used to measure campaigns and offer chat support."
+              description="Google Ads conversion tracking. Used to measure campaigns and attribute enquiries to ads."
               checked={marketingOn}
               onChange={setMarketingOn}
             />
