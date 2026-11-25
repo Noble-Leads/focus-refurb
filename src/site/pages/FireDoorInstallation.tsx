@@ -41,6 +41,11 @@ const commercialForm = {
   iframeHeight: "720px",
 };
 
+const qMarkCertificates = [
+  { scheme: "Q-Mark Fire Door Installation", standard: "STD052", expiry: "04/10/2029" },
+  { scheme: "Q-Mark Fire Door Maintenance", standard: "STD058", expiry: "04/10/2029" },
+];
+
 const trustStats = [
   { value: "Q-Mark", label: "BM TRADA" },
   { value: "25+", label: "Years Trading" },
@@ -220,9 +225,17 @@ const FireDoorInstallationPage = () => {
                 </a>
               </p>
 
-              <p className="inline-flex items-center gap-2 text-xs sm:text-sm text-hero-muted">
-                <BadgeCheck className="w-4 h-4 text-gold shrink-0" />
-                BM TRADA Q-Mark — installation, inspection &amp; fire stopping
+              <p className="inline-flex items-center gap-3 text-xs sm:text-sm text-hero-muted">
+                <span className="inline-flex shrink-0 rounded bg-white p-1">
+                  <img
+                    src="/images/bmtrada-q-mark.png"
+                    alt="BM TRADA Q-Mark certified"
+                    width={240}
+                    height={222}
+                    className="h-7 w-auto"
+                  />
+                </span>
+                <span>Cert. 4816 · installation, inspection &amp; fire stopping</span>
               </p>
             </ScrollReveal>
 
@@ -428,6 +441,14 @@ const FireDoorInstallationPage = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center mb-10">
             <ScrollReveal>
               <p className="text-gold font-heading font-semibold uppercase tracking-widest text-sm mb-3">Compliance, handled</p>
+              <img
+                src="/images/bmtrada-q-mark.png"
+                alt="BM TRADA Q-Mark certification logo"
+                width={240}
+                height={222}
+                loading="lazy"
+                className="w-20 h-auto mb-4"
+              />
               <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-foreground mb-3 flex items-center gap-2">
                 <BadgeCheck className="w-6 h-6 text-gold shrink-0" />
                 BM TRADA Q-Mark
@@ -435,6 +456,20 @@ const FireDoorInstallationPage = () => {
               <p className="text-muted-foreground leading-relaxed">
                 Independently certified under the BM TRADA Q-Mark scheme for fire door installation, fire door inspection and fire stopping. Third-party audited work so the evidence you hand to your assessor, insurer or freeholder stands up.
               </p>
+              <div className="mt-5 rounded-lg border border-border bg-card overflow-hidden">
+                <div className="px-4 py-3 border-b border-border">
+                  <p className="font-heading font-bold text-foreground">Focus Refurbishment Ltd</p>
+                  <p className="text-sm text-muted-foreground">144 Hurst Road, Sidcup, DA15 9AF · Certificate no. 4816</p>
+                </div>
+                {qMarkCertificates.map((cert) => (
+                  <div key={cert.scheme} className="px-4 py-3 border-b border-border last:border-b-0 text-sm">
+                    <p className="font-semibold text-foreground">{cert.scheme}</p>
+                    <p className="text-muted-foreground">
+                      Standard {cert.standard} · <span className="text-green-700 font-semibold">Certified</span> · Expires {cert.expiry}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </ScrollReveal>
             <ScrollReveal>
               <div className="rounded-lg border border-border overflow-hidden shadow-md">
