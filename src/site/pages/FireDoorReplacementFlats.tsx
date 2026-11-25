@@ -446,10 +446,6 @@ const FireDoorReplacementFlatsPage = () => {
           <a href="/fire-door-installation-london" className="text-gold font-semibold hover:underline">
             Block, portfolio or 4+ doors? Free survey on our commercial page →
           </a>
-          <span className="mx-3 text-muted-foreground">·</span>
-          <a href="/building-maintenance-london" className="text-gold font-semibold hover:underline">
-            Need ongoing property maintenance too? →
-          </a>
         </div>
       </section>
     </div>

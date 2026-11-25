@@ -661,18 +661,6 @@ const FireDoorInstallationPage = () => {
           <a href="/domestic/fire-door-replacement-flats-london" className="text-gold font-semibold hover:underline">
             Home, flat or 1–3 doors? Fixed price from a photo →
           </a>
-          <span className="mx-3 text-muted-foreground">·</span>
-          <a href="/fire-stopping-london" className="text-gold font-semibold hover:underline">
-            Fire stopping &amp; compartmentation →
-          </a>
-          <span className="mx-3 text-muted-foreground">·</span>
-          <a href="/building-maintenance-london" className="text-gold font-semibold hover:underline">
-            Need ongoing property maintenance too? →
-          </a>
-          <span className="mx-3 text-muted-foreground">·</span>
-          <a href="/commercial-enquiries" className="text-gold font-semibold hover:underline">
-            Commercial portfolio enquiry →
-          </a>
         </div>
       </section>
     </div>

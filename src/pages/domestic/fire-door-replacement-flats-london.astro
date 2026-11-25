@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PageShell from "../../components/PageShell";
+import LandingPageShell from "../../components/LandingPageShell";
+import { FIRE_DOOR_PHONE_DISPLAY, FIRE_DOOR_PHONE_TEL } from "../../lib/navigation";
 import FireDoorReplacementFlatsPage, { fireDoorDomesticFaqs } from "../../site/pages/FireDoorReplacementFlats";
 
 const fireDoorFlatsJsonLd = [
@@ -49,7 +50,13 @@ const fireDoorFlatsJsonLd = [
   extraJsonLd={fireDoorFlatsJsonLd}
   preconnectOrigins={["https://app.focusrefurbishmentltd.com"]}
 >
-  <PageShell client:idle>
+  <LandingPageShell
+    client:idle
+    phoneDisplay={FIRE_DOOR_PHONE_DISPLAY}
+    phoneTel={FIRE_DOOR_PHONE_TEL}
+    ctaHref="#fire-door-quote-form"
+    ctaLabel="Get a quote"
+  >
     <FireDoorReplacementFlatsPage client:idle />
-  </PageShell>
+  </LandingPageShell>
 </Layout>

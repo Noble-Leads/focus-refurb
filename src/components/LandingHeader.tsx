@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Phone } from "lucide-react";
 
-const LANDLINE_DISPLAY = "020 4634 0020";
-const LANDLINE_TEL = "02046340020";
+type LandingHeaderProps = {
+  phoneDisplay: string;
+  phoneTel: string;
+  /** In-page anchor for the primary enquiry form (shown on larger screens). */
+  ctaHref?: string;
+  ctaLabel?: string;
+};
 
-const LandingHeader = () => {
+const LandingHeader = ({ phoneDisplay, phoneTel, ctaHref, ctaLabel = "Get a Quote" }: LandingHeaderProps) => {
   const [scrolled, setScrolled] = useState(false);
   const tickingRef = useRef(false);
   const lastScrolledRef = useRef(false);
@@ -38,6 +43,7 @@ const LandingHeader = () => {
       }`}
     >
       <div className="container flex items-center justify-between py-4">
+        {/* Logo is deliberately not a link: landers keep visitors on the page. */}
         <div className="flex items-center" aria-label="Focus Refurbishment">
           <img
             src="/images/logo.png"
@@ -49,14 +55,24 @@ const LandingHeader = () => {
             className="h-10 w-auto"
           />
         </div>
-        <a
-          href={`tel:${LANDLINE_TEL}`}
-          className="inline-flex items-center gap-2 rounded-md bg-gold px-4 py-2.5 text-sm font-semibold text-section-dark hover:bg-gold-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-section-dark"
-        >
-          <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
-          <span className="hidden sm:inline">{LANDLINE_DISPLAY}</span>
-          <span className="sm:hidden">Call Now</span>
-        </a>
+        <div className="flex items-center gap-3">
+          {ctaHref && (
+            <a
+              href={ctaHref}
+              className="hidden md:inline-flex items-center rounded-md border border-gold px-4 py-2.5 text-sm font-semibold text-gold hover:bg-gold/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-section-dark"
+            >
+              {ctaLabel}
+            </a>
+          )}
+          <a
+            href={`tel:${phoneTel}`}
+            className="inline-flex items-center gap-2 rounded-md bg-gold px-4 py-2.5 text-sm font-semibold text-section-dark hover:bg-gold-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-section-dark"
+          >
+            <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span className="hidden sm:inline">{phoneDisplay}</span>
+            <span className="sm:hidden">Call Now</span>
+          </a>
+        </div>
       </div>
     </header>
   );
